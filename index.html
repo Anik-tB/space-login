@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Space Login - Enter the Cosmos</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  </head>
+  <body>
+    <canvas id="portalCanvas"></canvas>
+    <div class="centered-card">
+      <h2 class="neon-flicker">Login</h2>
+      <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" required />
+        <label>Password:</label>
+        <input type="password" id="password" required />
+        <button type="submit">Login with Email</button>
+      </form>
+      <div class="social-login">
+        <span class="social-login__label">Or continue with</span>
+        <div class="social-login__buttons">
+          <button
+            id="googleLoginBtn"
+            class="social-btn social-btn--google"
+            type="button"
+            aria-label="Sign in with Google"
+          >
+            <svg width="28" height="28" viewBox="0 0 48 48">
+              <g>
+                <path
+                  fill="#4285F4"
+                  d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.3-5.7 7-11.3 7-6.6 0-12-5.4-12-12s5.4-12 12-12c2.7 0 5.2.9 7.2 2.4l6-6C34.1 5.1 29.3 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.3-4z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M6.3 14.7l6.6 4.8C14.3 16.1 18.7 13 24 13c2.7 0 5.2.9 7.2 2.4l6-6C34.1 5.1 29.3 3 24 3 15.6 3 8.1 8.6 6.3 14.7z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M24 43c5.3 0 10.1-1.8 13.8-4.9l-6.4-5.2C29.2 34.7 26.7 35.5 24 35.5c-5.5 0-10.1-3.7-11.7-8.7l-6.6 5.1C8.1 39.4 15.6 43 24 43z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M43.6 20.5h-1.9V20H24v8h11.3c-1.1 3-3.7 5.2-7.3 5.2-2.2 0-4.2-.7-5.7-2l-6.6 5.1C15.6 39.4 19.6 43 24 43c6.6 0 12-5.4 12-12 0-.8-.1-1.6-.2-2.5z"
+                />
+              </g>
+            </svg>
+          </button>
+          <button
+            id="facebookLoginBtn"
+            class="social-btn social-btn--facebook"
+            type="button"
+            aria-label="Sign in with Facebook"
+          >
+            <svg width="28" height="28" viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="16" fill="#1877f3" />
+              <path
+                d="M21.5 16H18v8h-3v-8h-2v-3h2v-1.7C15 9.6 16.2 8.5 18.1 8.5c.8 0 1.6.1 1.9.1v2.7h-1.3c-.7 0-.7.3-.7.7V13h2.7l-.2 3z"
+                fill="#fff"
+              />
+            </svg>
+          </button>
+          <button
+            id="githubLoginBtn"
+            class="social-btn social-btn--github"
+            type="button"
+            aria-label="Sign in with GitHub"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.262.82-.582 0-.288-.012-1.243-.017-2.252-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.606-2.665-.304-5.466-1.332-5.466-5.931 0-1.31.468-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 3.003-.404c1.02.005 2.047.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.803 5.625-5.475 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.218.699.825.58C20.565 21.796 24 17.297 24 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="support-links">
+        <a class="back-link" href="register.html">Create an account</a>
+        <a class="back-link" id="forgotPasswordLink" href="forgot_password.html"
+          >Forgot Password?</a
+        >
+      </div>
+    </div>
+    <div
+      class="cyber-particle"
+      style="
+        top: 20%;
+        left: 10%;
+        width: 18px;
+        height: 18px;
+        animation-delay: 0s;
+      "
+    ></div>
+    <div
+      class="cyber-particle"
+      style="
+        top: 60%;
+        left: 80%;
+        width: 12px;
+        height: 12px;
+        animation-delay: 2s;
+      "
+    ></div>
+    <div
+      class="cyber-particle"
+      style="
+        top: 80%;
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        animation-delay: 1s;
+      "
+    ></div>
+    <script src="portal-effect.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: 'AIzaSyAjkHWsT9fxdbeQa-Udfu8KZxUjRA5EC4k',
+        authDomain: 'space-21c7e.firebaseapp.com',
+        projectId: 'space-21c7e',
+        storageBucket: 'space-21c7e.firebasestorage.app',
+        messagingSenderId: '980510379589',
+        appId: '1:980510379589:web:a65a6ffd4a97b62282dd2c',
+        measurementId: 'G-EPV8W821GK',
+      };
+      firebase.initializeApp(firebaseConfig);
+      document
+        .getElementById('loginForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              // Sync with MySQL
+              fetch('firebase_login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  displayName: user.displayName || '',
+                  uid: user.uid,
+                  provider: user.providerData[0]?.providerId || 'firebase',
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = 'dashboard.php';
+                  } else {
+                    alert('MySQL sync failed: ' + data.message);
+                  }
+                });
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        });
+      document
+        .getElementById('googleLoginBtn')
+        .addEventListener('click', function () {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+              const user = result.user;
+              // Sync with MySQL
+              fetch('firebase_login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  displayName: user.displayName || '',
+                  uid: user.uid,
+                  provider: user.providerData[0]?.providerId || 'google',
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = 'dashboard.php';
+                  } else {
+                    alert('MySQL sync failed: ' + data.message);
+                  }
+                });
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        });
+      document
+        .getElementById('facebookLoginBtn')
+        .addEventListener('click', function () {
+          const provider = new firebase.auth.FacebookAuthProvider();
+          firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+              const user = result.user;
+              // Sync with MySQL
+              fetch('firebase_login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  displayName: user.displayName || '',
+                  uid: user.uid,
+                  provider: user.providerData[0]?.providerId || 'facebook',
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = 'dashboard.php';
+                  } else {
+                    alert('MySQL sync failed: ' + data.message);
+                  }
+                });
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        });
+      document
+        .getElementById('githubLoginBtn')
+        .addEventListener('click', function () {
+          const provider = new firebase.auth.GithubAuthProvider();
+          firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+              const user = result.user;
+              // Sync with MySQL
+              fetch('firebase_login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  displayName: user.displayName || '',
+                  uid: user.uid,
+                  provider: user.providerData[0]?.providerId || 'github',
+                }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = 'dashboard.php';
+                  } else {
+                    alert('MySQL sync failed: ' + data.message);
+                  }
+                });
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        });
+      document
+        .getElementById('forgotPasswordLink')
+        .addEventListener('click', function (e) {
+          // Redirect to the dedicated forgot password page
+          window.location.href = 'forgot_password.html';
+        });
+    </script>
+  </body>
+</html>
