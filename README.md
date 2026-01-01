@@ -1,4 +1,4 @@
-# SafeSpace - Public Safety & Incident Reporting Platform 🛡️
+# SafeSpace - Women's Safety Platform 🛡️
 
 A comprehensive web-based safety platform designed to empower women and public communities through incident reporting, real-time alerts, community support, and emergency response features.
 
