@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2025 at 04:45 AM
+-- Generation Time: Jan 01, 2026 at 01:19 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -300,7 +300,8 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `table_name`, `record_id`, 
 (109, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-08 06:34:25'),
 (110, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-08 12:47:23'),
 (111, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:24:41'),
-(112, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:25:30');
+(112, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:25:30'),
+(113, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-30 08:14:15');
 
 -- --------------------------------------------------------
 
@@ -1364,7 +1365,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `display_name`, `firebase_uid`, `provider`, `email_verified`, `is_admin`, `verification_token`, `password_reset_token`, `reset_token_expires`, `status`, `is_active`, `created_at`, `last_login`, `updated_at`, `nid_number`, `nid_front_photo`, `nid_back_photo`, `face_verified`, `nid_verified`, `verification_status`) VALUES
-(1, NULL, 'mdabusayumanik123@gmail.com', '+8801871745957', 'I am a Student', '$2y$10$Fg97eJDVI9xJiNdV3Js5POtKt4BMooAPk.s5eTGmzE.Rv0LaEEe4u', 'Sayum', 'DYdgxZf7gpXXNRWEaquyoTuqedh2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-12 18:52:03', '2025-12-15 05:24:41', '2025-12-15 05:24:41', '4222776215', 'uploads/nid/nid_4222776215_front_1762951923_691482f325b0d.jpg', 'uploads/nid/nid_4222776215_back_1762951923_691482f326b51.jpg', 0, 0, 'pending'),
+(1, NULL, 'mdabusayumanik123@gmail.com', '+8801871745957', 'I am a Student', '$2y$10$Fg97eJDVI9xJiNdV3Js5POtKt4BMooAPk.s5eTGmzE.Rv0LaEEe4u', 'Sayum', 'DYdgxZf7gpXXNRWEaquyoTuqedh2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-12 18:52:03', '2025-12-30 08:14:15', '2025-12-30 08:14:15', '4222776215', 'uploads/nid/nid_4222776215_front_1762951923_691482f325b0d.jpg', 'uploads/nid/nid_4222776215_back_1762951923_691482f326b51.jpg', 0, 0, 'pending'),
 (2, NULL, 'manik2330217@bscse.uiu.ac.bd', '+8801871745958', '', '$2y$10$tMgm7ALjgLHzXrvHVmga1e/24EmigJr.IJDsZnXl0z.ar/KSB26zK', '', 'ZOYOmrnoxwX0XnhSmNiA87wSn0l1', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-13 16:47:05', '2025-11-18 20:20:33', '2025-11-18 20:20:33', '4222776225', 'uploads/nid/nid_4222776225_front_1763030825_6915b7290cac7.jpeg', 'uploads/nid/nid_4222776225_back_1763030825_6915b7290e8b2.jpeg', 0, 0, 'pending'),
 (3, NULL, 'admin@test.com', NULL, NULL, NULL, 'admin', NULL, 'local', 1, 0, NULL, NULL, NULL, 'active', 1, '2025-11-23 18:23:13', '2025-11-23 18:23:13', '2025-11-23 18:23:13', NULL, NULL, NULL, 0, 0, 'pending'),
 (4, NULL, 'admin@safespace.com', NULL, NULL, '$2y$10$lHSheUwrpDNu76L3SxxxhOlW2weHx9fZWo47BT3BV3ibmySaORkkG', 'System Administrator', NULL, 'local', 1, 1, NULL, NULL, NULL, 'active', 1, '2025-11-23 19:31:48', '2025-11-24 08:02:09', '2025-11-24 08:02:09', NULL, NULL, NULL, 0, 0, 'pending');
@@ -1519,7 +1520,8 @@ INSERT INTO `user_sessions` (`id`, `user_id`, `session_token`, `ip_address`, `us
 (34, 1, 'ad8eeeeaa3f6e07cdfa9c756408cae6a6f283d5053cc794461f8fdc1fcb2ea1d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-06 09:23:03', '2025-12-06 09:23:03', 1),
 (35, 1, 'ca94a2f5b9bd7a9af660527c7cb26a83630293262d8a8e8dc7fe265e35896e21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 06:34:25', '2025-12-08 06:34:25', 1),
 (36, 1, '993edf1270d5e64a498706f34d8f961b4671f7881781e134444c4601800c751f', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 12:47:23', '2025-12-08 12:47:23', 1),
-(37, 1, '07a928fe4d97c4c9ab3d9f3d5077fdecb28d706dd91934932fb6e3be42797272', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-15 05:24:41', '2025-12-15 05:24:41', 1);
+(37, 1, '07a928fe4d97c4c9ab3d9f3d5077fdecb28d706dd91934932fb6e3be42797272', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-15 05:24:41', '2025-12-15 05:24:41', 1),
+(38, 1, '71d716085fc33e88cdd4772641ec65a862093281621fb746fd8918ef69460b83', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-30 08:14:15', '2025-12-30 08:14:15', 1);
 
 -- --------------------------------------------------------
 
@@ -1976,7 +1978,7 @@ ALTER TABLE `area_safety_scores`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `certificates`
@@ -2168,7 +2170,7 @@ ALTER TABLE `user_preferences`
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `walk_sessions`
