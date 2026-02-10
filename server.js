@@ -489,7 +489,7 @@ app.get('/api/leafnodes/:id', async (req, res) => {
 
 /**
  * POST /api/safe-zones
- * Create a new safe zone polygon
+ * Create a new safe space for admin approval
  */
 app.post('/api/safe-zones', async (req, res) => {
   try {
@@ -500,29 +500,39 @@ app.post('/api/safe-zones', async (req, res) => {
       return res.status(400).json({ error: 'Invalid safe zone data' });
     }
 
-    // Close the polygon if not already closed
-    const coords = [...coordinates];
-    if (
-      coords[0][0] !== coords[coords.length - 1][0] ||
-      coords[0][1] !== coords[coords.length - 1][1]
-    ) {
-      coords.push(coords[0]);
-    }
+    // Calculate center point of the polygon for lat/lng
+    const lats = coordinates.map(c => c[1]);
+    const lngs = coordinates.map(c => c[0]);
+    const centerLat = lats.reduce((a, b) => a + b, 0) / lats.length;
+    const centerLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
 
-    // Create WKT polygon string
-    const wkt = `POLYGON((${coords.map((c) => `${c[0]} ${c[1]}`).join(', ')}))`;
+    // Determine category based on safety_level
+    const category = safety_level === 'high' ? 'community_center' :
+                     safety_level === 'medium' ? 'business' : 'other';
 
+    // Insert into safe_spaces table with pending_verification status
     const query = `
-            INSERT INTO safe_zones (name, description, boundary, safety_level, created_by)
-            VALUES (?, ?, ST_GeomFromText(?, 4326), ?, ?)
+            INSERT INTO safe_spaces
+            (name, description, category, address, latitude, longitude,
+             status, created_by, features)
+            VALUES (?, ?, ?, ?, ?, ?, 'pending_verification', ?, ?)
         `;
+
+    const features = JSON.stringify({
+      safety_level: safety_level || 'medium',
+      polygon_coordinates: coordinates,
+      type: 'user_drawn_zone'
+    });
 
     const [result] = await pool.execute(query, [
       name,
-      description || '',
-      wkt,
-      safety_level || 'medium',
+      description || 'User-drawn safe space',
+      category,
+      'User-defined area', // address
+      centerLat,
+      centerLng,
       created_by || null,
+      features
     ]);
 
     // Clear cache
@@ -530,10 +540,11 @@ app.post('/api/safe-zones', async (req, res) => {
 
     res.json({
       id: result.insertId,
-      message: 'Safe zone created successfully',
+      message: 'Safe space submitted for approval',
+      status: 'pending_verification'
     });
   } catch (error) {
-    console.error('Error creating safe zone:', error);
+    console.error('Error creating safe space:', error);
     res
       .status(500)
       .json({ error: 'Internal server error', details: error.message });
@@ -542,7 +553,7 @@ app.post('/api/safe-zones', async (req, res) => {
 
 /**
  * GET /api/safe-zones
- * Get all safe zones
+ * Get all approved safe spaces
  */
 app.get('/api/safe-zones', async (req, res) => {
   try {
@@ -551,11 +562,14 @@ app.get('/api/safe-zones', async (req, res) => {
                 id,
                 name,
                 description,
-                ST_AsText(boundary) as boundary_wkt,
-                safety_level,
+                category,
+                latitude,
+                longitude,
+                features,
                 created_by,
                 created_at
-            FROM safe_zones
+            FROM safe_spaces
+            WHERE status = 'active'
             ORDER BY created_at DESC
         `;
 
@@ -564,28 +578,56 @@ app.get('/api/safe-zones', async (req, res) => {
     // Convert to GeoJSON
     const features = rows
       .map((row) => {
-        // Parse WKT polygon to coordinates
-        const wkt = row.boundary_wkt;
-        const coordsMatch = wkt.match(/POLYGON\(\((.*?)\)\)/);
-        if (!coordsMatch) return null;
+        let polygonCoords = null;
+        let safetyLevel = 'medium';
 
-        const coords = coordsMatch[1].split(',').map((c) => {
-          const [lng, lat] = c.trim().split(' ');
-          return [parseFloat(lng), parseFloat(lat)];
-        });
+        // Parse features JSON if it exists
+        if (row.features) {
+          try {
+            const featuresObj = typeof row.features === 'string'
+              ? JSON.parse(row.features)
+              : row.features;
+            polygonCoords = featuresObj.polygon_coordinates;
+            safetyLevel = featuresObj.safety_level || 'medium';
+          } catch (e) {
+            console.error('Error parsing features:', e);
+          }
+        }
 
+        // If we have polygon coordinates, create a Polygon feature
+        if (polygonCoords && Array.isArray(polygonCoords)) {
+          return {
+            type: 'Feature',
+            id: row.id,
+            geometry: {
+              type: 'Polygon',
+              coordinates: [polygonCoords],
+            },
+            properties: {
+              id: row.id,
+              name: row.name,
+              description: row.description,
+              safety_level: safetyLevel,
+              created_by: row.created_by,
+              created_at: row.created_at,
+            },
+          };
+        }
+
+        // Otherwise, create a Point feature
         return {
           type: 'Feature',
           id: row.id,
           geometry: {
-            type: 'Polygon',
-            coordinates: [coords],
+            type: 'Point',
+            coordinates: [parseFloat(row.longitude), parseFloat(row.latitude)],
           },
           properties: {
             id: row.id,
             name: row.name,
             description: row.description,
-            safety_level: row.safety_level,
+            category: row.category,
+            safety_level: safetyLevel,
             created_by: row.created_by,
             created_at: row.created_at,
           },
@@ -598,7 +640,7 @@ app.get('/api/safe-zones', async (req, res) => {
       features: features,
     });
   } catch (error) {
-    console.error('Error fetching safe zones:', error);
+    console.error('Error fetching safe spaces:', error);
     res
       .status(500)
       .json({ error: 'Internal server error', details: error.message });

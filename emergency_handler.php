@@ -32,6 +32,99 @@ switch ($action) {
         $alertId = $models->createPanicAlert($data);
 
         if ($alertId) {
+            // Get the panic alert details
+            $panicAlert = $models->getPanicAlertById($alertId);
+
+            // Notify community members within 5km radius if location is available
+            if ($panicAlert && $panicAlert['latitude'] && $panicAlert['longitude']) {
+                try {
+                    error_log("=== PANIC ALERT COMMUNITY NOTIFICATION START ===");
+                    error_log("Panic Alert ID: " . $alertId);
+                    error_log("Location: " . $panicAlert['latitude'] . ", " . $panicAlert['longitude']);
+
+                    // Find nearby users within 5km (5000 meters)
+                    $nearbyUsers = $database->fetchAll(
+                        "CALL find_nearby_users(?, ?, ?, ?)",
+                        [
+                            $panicAlert['latitude'],
+                            $panicAlert['longitude'],
+                            5000, // 5km radius in meters
+                            $userId // Exclude the user who triggered the alert
+                        ]
+                    );
+
+                    error_log("Nearby users found: " . count($nearbyUsers));
+
+                    // Create a community alert for this panic event
+                    $communityAlertId = $models->createAlert([
+                        'title' => '🚨 Emergency Alert Nearby',
+                        'description' => 'Someone in your area needs immediate help! This is an emergency panic alert.',
+                        'type' => 'emergency',
+                        'severity' => 'critical',
+                        'location_name' => $panicAlert['location_name'] ?? 'Unknown Location',
+                        'latitude' => $panicAlert['latitude'],
+                        'longitude' => $panicAlert['longitude'],
+                        'radius_km' => 5.0,
+                        'source_type' => 'community',
+                        'source_user_id' => $userId,
+                        'related_report_id' => null
+                    ]);
+
+                    // Broadcast panic alert to nearby users via WebSocket
+                    require_once __DIR__ . '/includes/broadcast_map_update.php';
+
+                    $broadcastData = [
+                        'id' => $alertId,
+                        'community_alert_id' => $communityAlertId,
+                        'title' => '🚨 Emergency Alert Nearby',
+                        'description' => 'Someone needs immediate help!',
+                        'latitude' => $panicAlert['latitude'],
+                        'longitude' => $panicAlert['longitude'],
+                        'location_name' => $panicAlert['location_name'] ?? 'Unknown Location',
+                        'severity' => 'critical',
+                        'type' => 'emergency',
+                        'triggered_at' => $panicAlert['triggered_at'],
+                        'nearby_users_count' => is_array($nearbyUsers) ? count($nearbyUsers) : 0
+                    ];
+
+                    error_log("Broadcasting panic alert: " . json_encode($broadcastData));
+
+                    if (function_exists('broadcastPanicAlert')) {
+                        $broadcastResult = broadcastPanicAlert($broadcastData);
+                        error_log("Broadcast result: " . ($broadcastResult ? 'SUCCESS' : 'FAILED'));
+                    } else {
+                        // Fallback to regular broadcast
+                        $broadcastResult = broadcastMapUpdate('panic_alert', $broadcastData);
+                        error_log("Broadcast result (fallback): " . ($broadcastResult ? 'SUCCESS' : 'FAILED'));
+                    }
+
+                    // Log community notification in audit logs
+                    $database->insert(
+                        "INSERT INTO audit_logs (user_id, action, table_name, record_id, new_values, created_at)
+                         VALUES (?, ?, ?, ?, ?, NOW())",
+                        [
+                            $userId,
+                            'community_alert_broadcast',
+                            'panic_alerts',
+                            $alertId,
+                            json_encode([
+                                'broadcast_radius' => 5000,
+                                'nearby_users_count' => is_array($nearbyUsers) ? count($nearbyUsers) : 0,
+                                'community_alert_id' => $communityAlertId
+                            ])
+                        ]
+                    );
+
+                    error_log("=== PANIC ALERT COMMUNITY NOTIFICATION END ===");
+
+                } catch (Exception $e) {
+                    error_log("PANIC ALERT ERROR: " . $e->getMessage());
+                    error_log("Stack trace: " . $e->getTraceAsString());
+                }
+            } else {
+                error_log("PANIC ALERT: No location data available for alert ID: " . $alertId);
+            }
+
             header('Location: panic_button.php?success=1');
             exit;
         } else {

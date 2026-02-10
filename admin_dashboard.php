@@ -868,6 +868,7 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
         });
     </script>
     <script src="admin-dashboard.js" defer></script>
+    <script src="js/admin-alert-management.js" defer></script>
 </head>
 <body class="admin-body" id="adminBody">
 <div class="dashboard-shell">
@@ -1054,6 +1055,19 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
+            </article>
+
+            <!-- Alert Management Panel -->
+            <article class="panel">
+                <header style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>🚨 Alert Management</h2>
+                    <button onclick="openCreateAlertModal()" class="ghost-btn" style="padding: 10px 20px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);">
+                        ➕ Create New Alert
+                    </button>
+                </header>
+                <div id="alertManagementContainer" style="margin-top: 16px;">
+                    <p style="text-align: center; color: #94a3b8; padding: 20px;">Loading alerts...</p>
+                </div>
             </article>
         </section>
 

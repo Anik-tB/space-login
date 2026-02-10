@@ -19,6 +19,11 @@ if (!$userId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safe Space Map - Dhaka City</title>
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -27,6 +32,251 @@ if (!$userId) {
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="map-styles.css">
+
+    <!-- Professional Enhancements -->
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Animated Gradient Header */
+        .map-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f64f59 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .map-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        /* Enhanced Header Buttons */
+        .header-controls .btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 0.7rem 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .header-controls .btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header-controls .btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Enhanced Sidebar */
+        .map-sidebar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.75rem;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* Enhanced Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Enhanced Legend */
+        .legend-section {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .legend-section h3 {
+            color: white;
+        }
+
+        .legend-item {
+            color: rgba(255,255,255,0.8);
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Enhanced Toggle Button */
+        .toggle-sidebar-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px 0 0 12px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            box-shadow: -4px 0 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: linear-gradient(135deg, #5a71e0 0%, #6a4190 100%);
+            right: 22px;
+        }
+
+        /* Enhanced Modal */
+        .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group label {
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Enhanced Filter Section */
+        .filter-section h3 {
+            font-weight: 700;
+            color: white;
+        }
+
+        .filter-section select {
+            background: rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+
+        .filter-section select option {
+            background: #1e293b;
+            color: white;
+        }
+
+        /* Enhanced Loading */
+        .loading-indicator {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 16px;
+        }
+
+        .spinner {
+            border-top-color: #667eea;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 0.75rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .quick-action-btn {
+            padding: 0.75rem 1.25rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .quick-action-btn.danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .quick-action-btn.danger:hover {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
 </head>
 <body data-user-id="<?php echo htmlspecialchars($userId); ?>">
     <div class="map-container">
@@ -174,6 +424,26 @@ if (!$userId) {
         <div id="loadingIndicator" class="loading-indicator">
             <div class="spinner"></div>
             <p>Loading map data...</p>
+        </div>
+
+        <!-- Quick Actions Bar -->
+        <div class="quick-actions">
+            <a href="dashboard.php" class="quick-action-btn">
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="report_incident.php" class="quick-action-btn">
+                <span>📝</span>
+                <span>Report</span>
+            </a>
+            <a href="community_alerts.php" class="quick-action-btn">
+                <span>🔔</span>
+                <span>Alerts</span>
+            </a>
+            <a href="panic_button.php" class="quick-action-btn danger">
+                <span>🚨</span>
+                <span>SOS</span>
+            </a>
         </div>
     </div>
 

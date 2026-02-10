@@ -110,3 +110,27 @@ if (!function_exists('broadcastZoneUpdate')) {
         ]);
     }
 }
+
+// Prevent redeclaration - Broadcast panic alert
+if (!function_exists('broadcastPanicAlert')) {
+    /**
+     * Broadcast panic alert to nearby community members
+     * This is a specialized broadcast for emergency panic alerts
+     */
+    function broadcastPanicAlert($alertData) {
+        return broadcastMapUpdate('panic_alert', [
+            'id' => $alertData['id'],
+            'community_alert_id' => $alertData['community_alert_id'] ?? null,
+            'title' => $alertData['title'],
+            'description' => $alertData['description'] ?? '',
+            'latitude' => $alertData['latitude'],
+            'longitude' => $alertData['longitude'],
+            'location_name' => $alertData['location_name'] ?? '',
+            'severity' => 'critical',
+            'type' => 'emergency',
+            'triggered_at' => $alertData['triggered_at'] ?? date('Y-m-d H:i:s'),
+            'nearby_users_count' => $alertData['nearby_users_count'] ?? 0,
+            'is_panic_alert' => true
+        ]);
+    }
+}

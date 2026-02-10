@@ -31,10 +31,12 @@ if (!$report) {
 }
 
 // Check if user owns this report or is admin
-if ($report['user_id'] != $userId) {
-    // For now, allow viewing (you might want to restrict this)
-    // header('Location: my_reports.php');
-    // exit;
+$isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === true;
+
+if ($report['user_id'] != $userId && !$isAdmin) {
+    // User doesn't own this report and is not an admin - redirect
+    header('Location: my_reports.php');
+    exit;
 }
 
 $message = '';
@@ -62,7 +64,25 @@ $disputes = $models->getDisputesByReportId($reportId);
 // Parse evidence files if they exist
 $evidenceFiles = [];
 if (!empty($report['evidence_files'])) {
-    $evidenceFiles = json_decode($report['evidence_files'], true) ?: [];
+    $parsed = json_decode($report['evidence_files'], true);
+    if ($parsed && is_array($parsed)) {
+        // Handle both old format (array of strings) and new format (array of objects)
+        foreach ($parsed as $item) {
+            if (is_array($item) && isset($item['path'])) {
+                // New format: object with path, name, type, size, extension
+                $evidenceFiles[] = $item;
+            } elseif (is_string($item)) {
+                // Old format: just the path string
+                $evidenceFiles[] = [
+                    'path' => $item,
+                    'name' => basename($item),
+                    'type' => mime_content_type($item) ?? 'application/octet-stream',
+                    'size' => file_exists($item) ? filesize($item) : 0,
+                    'extension' => pathinfo($item, PATHINFO_EXTENSION)
+                ];
+            }
+        }
+    }
 }
 
 // Get category and severity colors
@@ -597,7 +617,7 @@ function getStatusColor($status) {
                                                 <?= htmlspecialchars($report['description']) ?>
                                             </p>
                                         </div>
-                                       
+
                                     </div>
 
                                     <!-- Categories and Severity -->
@@ -741,18 +761,41 @@ function getStatusColor($status) {
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <?php foreach ($evidenceFiles as $file): ?>
+                                        <?php
+                                        $filePath = is_array($file) ? $file['path'] : $file;
+                                        $fileName = is_array($file) ? $file['name'] : basename($file);
+                                        $fileType = is_array($file) ? ($file['type'] ?? 'unknown') : 'unknown';
+                                        $fileSize = is_array($file) ? ($file['size'] ?? 0) : 0;
+                                        $fileExt = is_array($file) ? ($file['extension'] ?? '') : pathinfo($file, PATHINFO_EXTENSION);
+
+                                        // Format file size
+                                        $fileSizeFormatted = $fileSize > 0 ? number_format($fileSize / 1024, 2) . ' KB' : 'Unknown';
+
+                                        // Check if file is an image
+                                        $isImage = in_array(strtolower($fileExt), ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp']);
+                                        ?>
                                         <div class="bg-white/5 rounded-lg p-4 border border-white/10 evidence-file">
+                                            <?php if ($isImage && file_exists($filePath)): ?>
+                                                <!-- Display image preview -->
+                                                <div class="mb-3">
+                                                    <img src="<?= htmlspecialchars($filePath) ?>"
+                                                         alt="<?= htmlspecialchars($fileName) ?>"
+                                                         class="w-full h-auto rounded-lg"
+                                                         style="max-height: 300px; object-fit: contain;">
+                                                </div>
+                                            <?php endif; ?>
+
                                             <div class="flex items-center space-x-3">
-                                                <i data-lucide="file" class="w-8 h-8 text-blue-400 icon-animate"></i>
+                                                <i data-lucide="<?= $isImage ? 'image' : 'file' ?>" class="w-8 h-8 text-blue-400 icon-animate"></i>
                                                 <div class="flex-1">
                                                     <p class="font-medium" style="color: var(--text-primary);">
-                                                        <?= basename($file) ?>
+                                                        <?= htmlspecialchars($fileName) ?>
                                                     </p>
                                                     <p class="text-sm" style="color: var(--text-tertiary);">
-                                                        Evidence file
+                                                        <?= htmlspecialchars($fileType) ?> • <?= $fileSizeFormatted ?>
                                                     </p>
                                                 </div>
-                                                <a href="<?= $file ?>" target="_blank" class="btn btn-sm btn-outline btn-animate">
+                                                <a href="<?= htmlspecialchars($filePath) ?>" target="_blank" class="btn btn-sm btn-outline btn-animate">
                                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                                 </a>
                                             </div>

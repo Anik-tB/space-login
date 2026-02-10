@@ -918,6 +918,12 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
                         </div>
                         <span class="nav-label text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors duration-300 whitespace-nowrap">Reports</span>
                     </a>
+                    <a href="emergency_services.php" class="nav-item relative flex flex-col items-center justify-center transition-all duration-300 group" data-nav="emergency">
+                        <div class="nav-icon-wrapper relative z-10 flex items-center justify-center transition-all duration-300">
+                            <i data-lucide="siren" class="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                        <span class="nav-label text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors duration-300 whitespace-nowrap">Emergency</span>
+                    </a>
                     <a href="#alerts" class="nav-item relative flex flex-col items-center justify-center transition-all duration-300 group" data-nav="alerts">
                         <div class="nav-icon-wrapper relative z-10 flex items-center justify-center transition-all duration-300">
                             <i data-lucide="bell" class="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300"></i>
@@ -1752,6 +1758,27 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
                                     <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
                                 </div>
                                 <div class="text-xs px-2 py-1 bg-purple-500/20 text-purple-400 rounded-full">24/7 Support</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Services -->
+                    <div class="card card-glass card-hover group cursor-pointer animate-on-scroll" onclick="window.location.href='emergency_services.php'" data-tooltip="Find nearby police, hospitals, and emergency services">
+                        <div class="card-body p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200 card-icon">
+                                    <i data-lucide="siren" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="status-online w-3 h-3 rounded-full"></div>
+                            </div>
+                            <h3 class="heading-4 mb-2" style="color: var(--text-primary);">Emergency Services</h3>
+                            <p class="body-small mb-4" style="color: var(--text-secondary);">Find nearby police stations, hospitals, and women's helpdesks.</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-orange-400 text-sm font-medium">
+                                    <span>Find Nearby</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
+                                </div>
+                                <div class="text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded-full">🚨 Emergency</div>
                             </div>
                         </div>
                     </div>

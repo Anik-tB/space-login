@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2026 at 01:19 AM
+-- Generation Time: Feb 09, 2026 at 04:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -25,6 +25,35 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `find_nearby_users` (IN `alert_lat` DECIMAL(10,8), IN `alert_lng` DECIMAL(11,8), IN `radius_meters` INT, IN `exclude_user_id` INT)   BEGIN
+    SELECT
+        u.id,
+        u.email,
+        u.display_name,
+        u.current_latitude,
+        u.current_longitude,
+        ST_Distance_Sphere(
+            POINT(u.current_longitude, u.current_latitude),
+            POINT(alert_lng, alert_lat)
+        ) as distance_meters,
+        uas.notify_push,
+        uas.notify_sound,
+        uas.notify_email
+    FROM users u
+    LEFT JOIN user_alert_settings uas ON u.id = uas.user_id
+    WHERE u.is_online = TRUE
+      AND u.current_latitude IS NOT NULL
+      AND u.current_longitude IS NOT NULL
+      AND u.id != exclude_user_id
+      AND (uas.allow_community_alerts IS NULL OR uas.allow_community_alerts = TRUE)
+      AND ST_Distance_Sphere(
+          POINT(u.current_longitude, u.current_latitude),
+          POINT(alert_lng, alert_lat)
+      ) <= radius_meters
+    ORDER BY distance_meters ASC
+    LIMIT 100;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_incident_zone` (IN `p_zone_name` VARCHAR(255), IN `p_area_name` VARCHAR(255), IN `p_latitude` DECIMAL(10,8), IN `p_longitude` DECIMAL(11,8), IN `p_incident_date` DATETIME)   BEGIN
     DECLARE v_count INT DEFAULT 0;
     DECLARE v_status ENUM('safe', 'moderate', 'unsafe');
@@ -100,6 +129,27 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `active_users_with_location`
+-- (See below for the actual view)
+--
+CREATE TABLE `active_users_with_location` (
+`id` int(11)
+,`email` varchar(100)
+,`display_name` varchar(100)
+,`current_latitude` decimal(10,8)
+,`current_longitude` decimal(11,8)
+,`is_online` tinyint(1)
+,`last_seen` timestamp
+,`allow_community_alerts` tinyint(1)
+,`alert_radius` int(11)
+,`notify_push` tinyint(1)
+,`notify_sound` tinyint(1)
+,`notify_email` tinyint(1)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `alerts`
 --
 
@@ -122,6 +172,67 @@ CREATE TABLE `alerts` (
   `views_count` int(11) DEFAULT 0,
   `acknowledgments_count` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `alerts`
+--
+
+INSERT INTO `alerts` (`id`, `title`, `description`, `type`, `severity`, `location_name`, `latitude`, `longitude`, `radius_km`, `start_time`, `end_time`, `is_active`, `source_type`, `source_user_id`, `related_report_id`, `views_count`, `acknowledgments_count`) VALUES
+(5, 'সন্দেহজনক কার্যকলাপ সতর্কতা', 'মহাখালী বাস স্ট্যান্ড এলাকায় সন্দেহজনক ব্যক্তিদের দেখা গেছে। সতর্ক থাকুন এবং রাতে একা চলাচল এড়িয়ে চলুন।', 'warning', 'high', 'মহাখালী বাস স্ট্যান্ড', 23.78010000, 90.40530000, 1.50, '2026-01-24 14:00:00', '2026-01-26 14:00:00', 1, 'community', 5, NULL, 0, 0),
+(6, 'জরুরি: ট্রাফিক দুর্ঘটনা', 'ফার্মগেট মোড়ে বড় ধরনের ট্রাফিক দুর্ঘটনা ঘটেছে। রাস্তা সম্পূর্ণ বন্ধ। বিকল্প পথ ব্যবহার করুন।', 'emergency', 'critical', 'ফার্মগেট মোড়', 23.75750000, 90.38890000, 2.00, '2026-01-24 13:30:00', '2026-01-24 18:00:00', 1, 'police', 6, NULL, 0, 0),
+(7, 'hulaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'ddddddddddddddddddddddddddddddd', 'warning', 'medium', 'dfdsfsdfdf', -0.00000100, 0.00000100, 1.20, '2026-02-09 19:35:54', '2026-02-08 19:35:00', 1, 'admin', 4, NULL, 0, 0),
+(8, '🚨 Emergency Alert Nearby', 'Someone in your area needs immediate help! This is an emergency panic alert.', 'emergency', 'critical', '23.81444352890792, 90.38659543342219', 23.81444353, 90.38659543, 5.00, '2026-02-09 20:12:45', NULL, 1, 'community', 4, NULL, 0, 0),
+(9, '🚨 Emergency Alert Nearby', 'Someone in your area needs immediate help! This is an emergency panic alert.', 'emergency', 'critical', '23.814424411656717, 90.38656005061553', 23.81442441, 90.38656005, 5.00, '2026-02-09 20:12:54', NULL, 1, 'community', 4, NULL, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alert_responses`
+--
+
+CREATE TABLE `alert_responses` (
+  `id` int(11) NOT NULL,
+  `alert_id` int(11) NOT NULL,
+  `responder_id` int(11) NOT NULL,
+  `response_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `current_latitude` decimal(10,8) DEFAULT NULL,
+  `current_longitude` decimal(11,8) DEFAULT NULL,
+  `eta_minutes` int(11) DEFAULT NULL,
+  `status` enum('responding','arrived','cancelled') DEFAULT 'responding',
+  `message` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Triggers `alert_responses`
+--
+DELIMITER $$
+CREATE TRIGGER `update_responders_count_insert` AFTER INSERT ON `alert_responses` FOR EACH ROW BEGIN
+    UPDATE panic_alerts
+    SET responders_count = (
+        SELECT COUNT(*)
+        FROM alert_responses
+        WHERE alert_id = NEW.alert_id
+          AND status = 'responding'
+    )
+    WHERE id = NEW.alert_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_responders_count_update` AFTER UPDATE ON `alert_responses` FOR EACH ROW BEGIN
+    UPDATE panic_alerts
+    SET responders_count = (
+        SELECT COUNT(*)
+        FROM alert_responses
+        WHERE alert_id = NEW.alert_id
+          AND status = 'responding'
+    )
+    WHERE id = NEW.alert_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -156,13 +267,13 @@ CREATE TABLE `area_safety_scores` (
 --
 
 INSERT INTO `area_safety_scores` (`id`, `area_name`, `ward_number`, `union_name`, `division_id`, `district_id`, `upazila_id`, `safety_score`, `incident_rate_score`, `resolution_rate_score`, `response_time_score`, `user_ratings_score`, `critical_incidents_score`, `total_incidents`, `resolved_incidents`, `critical_incidents`, `response_time_avg_hours`, `last_updated`, `created_at`) VALUES
-(1, 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 3.73, 4.20, 4.48, 0.00, 5.00, 6.00, 29, 13, 12, 161.65, '2025-11-20 18:23:31', '2025-11-16 14:35:50'),
-(2, 'Gulshan', '19', 'Gulshan', 1, 1, 2, 3.45, 5.00, 2.00, 0.00, 5.00, 7.00, 25, 5, 9, 82.60, '2025-11-16 14:55:20', '2025-11-16 14:35:50'),
-(3, 'Mirpur', '10', 'Mirpur', 1, 1, 3, 4.68, 6.20, 2.63, 0.00, 10.00, 6.67, 19, 5, 10, 85.68, '2025-11-16 14:55:38', '2025-11-16 14:35:50'),
-(4, 'Uttara', '1', 'Uttara', 1, 1, 4, 3.05, 4.60, 2.22, 0.00, 5.00, 3.67, 27, 6, 19, 132.58, '2025-11-16 14:55:20', '2025-11-16 14:35:50'),
-(5, 'Banani', '18', 'Banani', 1, 1, 5, 3.45, 5.00, 2.00, 0.00, 5.00, 7.00, 25, 5, 9, 82.60, '2025-11-16 14:55:06', '2025-11-16 14:35:50'),
-(6, 'Wari', '15', 'Wari', 1, 1, 6, 9.38, 10.00, 7.50, 10.00, 10.00, 10.00, 0, 0, 0, 0.00, '2025-11-22 21:02:59', '2025-11-16 14:35:50'),
-(7, 'Motijheel', '12', 'Motijheel', 1, 1, 7, 8.63, 10.00, 7.50, 10.00, 5.00, 10.00, 0, 0, 0, 0.00, '2025-11-16 14:55:20', '2025-11-16 14:35:50');
+(1, 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 5.47, 10.00, 4.48, 0.00, 5.00, 6.00, 29, 13, 12, 161.65, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
+(2, 'Gulshan', '19', 'Gulshan', 1, 1, 2, 4.91, 10.00, 1.85, 0.00, 5.00, 7.00, 27, 5, 9, 82.60, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
+(3, 'Mirpur', '10', 'Mirpur', 1, 1, 3, 5.55, 10.00, 2.08, 0.00, 10.00, 5.33, 24, 5, 14, 85.68, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
+(4, 'Uttara', '1', 'Uttara', 1, 1, 4, 4.67, 10.00, 2.22, 0.00, 5.00, 3.67, 27, 6, 19, 132.58, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
+(5, 'Banani', '18', 'Banani', 1, 1, 5, 8.63, 10.00, 7.50, 10.00, 5.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
+(6, 'Wari', '15', 'Wari', 1, 1, 6, 9.38, 10.00, 7.50, 10.00, 10.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
+(7, 'Motijheel', '12', 'Motijheel', 1, 1, 7, 8.63, 10.00, 7.50, 10.00, 5.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:33', '2025-11-16 14:35:50');
 
 -- --------------------------------------------------------
 
@@ -301,7 +412,59 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `table_name`, `record_id`, 
 (110, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-08 12:47:23'),
 (111, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:24:41'),
 (112, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:25:30'),
-(113, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-30 08:14:15');
+(113, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-30 08:14:15'),
+(114, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-17 17:40:08'),
+(115, 1, 'INSERT', 'incident_reports', 115, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-01-17 17:45:09'),
+(116, 5, 'INSERT', 'users', 5, NULL, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:35:36'),
+(117, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:35:45'),
+(118, 6, 'INSERT', 'users', 6, NULL, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:42:18'),
+(119, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:42:26'),
+(120, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:12:55'),
+(121, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:13:12'),
+(122, 6, 'panic_alert_from_walk', 'walk_sessions', 3, NULL, '{\"panic_alert_id\":5,\"walk_session_token\":\"58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\"}', NULL, NULL, NULL, '2026-01-24 09:16:22'),
+(123, 6, 'sos_alert', 'walk_sessions', 3, NULL, '{\"session_token\":\"58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":5}', NULL, NULL, NULL, '2026-01-24 09:16:22'),
+(124, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:58:34'),
+(125, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:58:58'),
+(126, 6, 'panic_alert_from_walk', 'walk_sessions', 4, NULL, '{\"panic_alert_id\":6,\"walk_session_token\":\"6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\"}', NULL, NULL, NULL, '2026-01-24 09:59:30'),
+(127, 6, 'sos_alert', 'walk_sessions', 4, NULL, '{\"session_token\":\"6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":6}', NULL, NULL, NULL, '2026-01-24 09:59:30'),
+(128, 6, 'panic_alert_from_walk', 'walk_sessions', 5, NULL, '{\"panic_alert_id\":7,\"walk_session_token\":\"7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\"}', NULL, NULL, NULL, '2026-01-24 10:02:51'),
+(129, 6, 'sos_alert', 'walk_sessions', 5, NULL, '{\"session_token\":\"7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":7}', NULL, NULL, NULL, '2026-01-24 10:02:51'),
+(130, 6, 'community_alert_broadcast', 'panic_alerts', 8, NULL, '{\"panic_alert_id\":8,\"nearby_users_notified\":0,\"broadcast_radius\":5000,\"walk_session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\"}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
+(131, 6, 'panic_alert_from_walk', 'walk_sessions', 6, NULL, '{\"panic_alert_id\":8,\"walk_session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\"}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
+(132, 6, 'sos_alert', 'walk_sessions', 6, NULL, '{\"session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":8,\"community_users_notified\":0}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
+(133, 5, 'community_alert_broadcast', 'panic_alerts', 9, NULL, '{\"panic_alert_id\":9,\"nearby_users_notified\":0,\"broadcast_radius\":5000,\"walk_session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\"}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
+(134, 5, 'panic_alert_from_walk', 'walk_sessions', 7, NULL, '{\"panic_alert_id\":9,\"walk_session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\"}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
+(135, 5, 'sos_alert', 'walk_sessions', 7, NULL, '{\"session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":9,\"community_users_notified\":0}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
+(136, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 11:58:05'),
+(137, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 12:01:00'),
+(138, 5, 'INSERT', 'incident_reports', 116, NULL, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-01-24 12:14:54'),
+(139, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 12:16:41'),
+(140, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-01-24 07:16:41\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-01-24 12:16:41'),
+(141, 4, 'panic_alert_from_walk', 'walk_sessions', 8, NULL, '{\"panic_alert_id\":10,\"walk_session_token\":\"21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7\"}', NULL, NULL, NULL, '2026-01-24 12:55:11'),
+(142, 4, 'sos_alert', 'walk_sessions', 8, NULL, '{\"session_token\":\"21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":10}', NULL, NULL, NULL, '2026-01-24 12:55:11'),
+(143, 4, 'admin_approval', 'safe_space', 1, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"safe_space\",\"notes\":\"\"}', NULL, NULL, NULL, '2026-01-24 13:07:49'),
+(144, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 13:45:11'),
+(145, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 13:48:30'),
+(146, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-01-24 08:48:30\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-01-24 13:48:30'),
+(147, 4, 'panic_alert_from_walk', 'walk_sessions', 9, NULL, '{\"panic_alert_id\":11,\"walk_session_token\":\"1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656\"}', NULL, NULL, NULL, '2026-01-24 14:41:28'),
+(148, 4, 'sos_alert', 'walk_sessions', 9, NULL, '{\"session_token\":\"1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":11}', NULL, NULL, NULL, '2026-01-24 14:41:28'),
+(149, 4, 'panic_alert_from_walk', 'walk_sessions', 10, NULL, '{\"panic_alert_id\":12,\"walk_session_token\":\"3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066\"}', NULL, NULL, NULL, '2026-01-24 14:53:00'),
+(150, 4, 'sos_alert', 'walk_sessions', 10, NULL, '{\"session_token\":\"3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":12}', NULL, NULL, NULL, '2026-01-24 14:53:00'),
+(151, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-26 03:58:48'),
+(152, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-26 12:27:58'),
+(153, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:15:30'),
+(154, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:34:33'),
+(155, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-02-09 14:34:34\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-09 19:34:34'),
+(156, 4, 'admin_create_alert', 'alerts', 7, NULL, '{\"title\":\"hulaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"severity\":\"medium\",\"type\":\"warning\",\"location\":\"dfdsfsdfdf\"}', NULL, NULL, NULL, '2026-02-09 19:35:54'),
+(157, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:58:27'),
+(158, 6, 'panic_alert_from_walk', 'walk_sessions', 11, NULL, '{\"panic_alert_id\":13,\"walk_session_token\":\"0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\"}', NULL, NULL, NULL, '2026-02-09 19:58:54'),
+(159, 6, 'sos_alert', 'walk_sessions', 11, NULL, '{\"session_token\":\"0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":13}', NULL, NULL, NULL, '2026-02-09 19:58:54'),
+(160, 4, 'panic_alert_from_walk', 'walk_sessions', 12, NULL, '{\"panic_alert_id\":15,\"walk_session_token\":\"79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb\"}', NULL, NULL, NULL, '2026-02-09 20:01:23'),
+(161, 4, 'sos_alert', 'walk_sessions', 12, NULL, '{\"session_token\":\"79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":15}', NULL, NULL, NULL, '2026-02-09 20:01:23'),
+(162, 4, 'community_alert_broadcast', 'panic_alerts', 16, NULL, '{\"broadcast_radius\":5000,\"nearby_users_count\":0,\"community_alert_id\":8}', NULL, NULL, NULL, '2026-02-09 20:12:45'),
+(163, 4, 'community_alert_broadcast', 'panic_alerts', 17, NULL, '{\"broadcast_radius\":5000,\"nearby_users_count\":0,\"community_alert_id\":9}', NULL, NULL, NULL, '2026-02-09 20:12:54'),
+(164, 4, 'panic_alert_from_walk', 'walk_sessions', 13, NULL, '{\"panic_alert_id\":18,\"walk_session_token\":\"d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9\"}', NULL, NULL, NULL, '2026-02-09 20:13:01'),
+(165, 4, 'sos_alert', 'walk_sessions', 13, NULL, '{\"session_token\":\"d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":18}', NULL, NULL, NULL, '2026-02-09 20:13:01');
 
 -- --------------------------------------------------------
 
@@ -441,7 +604,78 @@ CREATE TABLE `emergency_contacts` (
 --
 
 INSERT INTO `emergency_contacts` (`id`, `user_id`, `contact_name`, `phone_number`, `relationship`, `priority`, `is_verified`, `notification_methods`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Anik', '01871745957', 'Brother', 1, 0, 'sms', 1, '2025-11-24 00:08:39', '2025-11-24 00:08:39');
+(1, 1, 'Anik', '01871745957', 'Brother', 1, 0, 'sms', 1, '2025-11-24 00:08:39', '2025-11-24 00:08:39'),
+(2, 6, 'Anik', '01871745957', 'Brother', 1, 0, 'sms,call', 1, '2026-01-24 09:14:29', '2026-01-24 09:14:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emergency_services`
+--
+
+CREATE TABLE `emergency_services` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `name_bn` varchar(255) DEFAULT NULL COMMENT 'Bangla name',
+  `type` enum('police_station','hospital','fire_station','womens_helpdesk','ngo') NOT NULL,
+  `address` text DEFAULT NULL,
+  `address_bn` text DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `emergency_phone` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `latitude` decimal(10,8) NOT NULL,
+  `longitude` decimal(11,8) NOT NULL,
+  `location` point NOT NULL,
+  `operating_hours` varchar(100) DEFAULT '24/7',
+  `has_womens_cell` tinyint(1) DEFAULT 0 COMMENT 'Has dedicated women support',
+  `has_emergency_unit` tinyint(1) DEFAULT 1,
+  `verified` tinyint(1) DEFAULT 0,
+  `rating` decimal(2,1) DEFAULT 0.0,
+  `total_ratings` int(11) DEFAULT 0,
+  `image_url` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `emergency_services`
+--
+
+INSERT INTO `emergency_services` (`id`, `name`, `name_bn`, `type`, `address`, `address_bn`, `phone`, `emergency_phone`, `email`, `website`, `latitude`, `longitude`, `location`, `operating_hours`, `has_womens_cell`, `has_emergency_unit`, `verified`, `rating`, `total_ratings`, `image_url`, `created_at`, `updated_at`) VALUES
+(1, 'Dhanmondi Police Station', 'ধানমন্ডি থানা', 'police_station', 'Road 27, Dhanmondi, Dhaka', NULL, '02-9116453', '999', NULL, NULL, 23.74650000, 90.37620000, 0xe6100000010100000055302aa913985640c976be9f1abf3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(2, 'Gulshan Police Station', 'গুলশান থানা', 'police_station', 'Gulshan Avenue, Gulshan, Dhaka', NULL, '02-9858008', '999', NULL, NULL, 23.79250000, 90.40780000, 0xe61000000101000000c3d32b65199a56407b14ae47e1ca3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(3, 'Banani Police Station', 'বনানী থানা', 'police_station', 'Banani, Dhaka', NULL, '02-9870011', '999', NULL, NULL, 23.79370000, 90.40660000, 0xe610000001010000006ea301bc059a5640d0d556ec2fcb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(4, 'Uttara West Police Station', 'উত্তরা পশ্চিম থানা', 'police_station', 'Sector 6, Uttara, Dhaka', NULL, '02-8931122', '999', NULL, NULL, 23.87590000, 90.37950000, 0xe610000001010000003f355eba4998564000917efb3ae03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(5, 'Uttara East Police Station', 'উত্তরা পূর্ব থানা', 'police_station', 'Sector 10, Uttara, Dhaka', NULL, '02-8954411', '999', NULL, NULL, 23.86890000, 90.40120000, 0xe61000000101000000efc9c342ad995640917efb3a70de3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(6, 'Mirpur Police Station', 'মিরপুর থানা', 'police_station', 'Mirpur-10, Dhaka', NULL, '02-9002233', '999', NULL, NULL, 23.80690000, 90.36870000, 0xe610000001010000004182e2c798975640742497ff90ce3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(7, 'Mohammadpur Police Station', 'মোহাম্মদপুর থানা', 'police_station', 'Mohammadpur, Dhaka', NULL, '02-9116789', '999', NULL, NULL, 23.76620000, 90.35890000, 0xe6100000010100000034a2b437f8965640f931e6ae25c43740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(8, 'Motijheel Police Station', 'মতিঝিল থানা', 'police_station', 'Motijheel, Dhaka', NULL, '02-9559812', '999', NULL, NULL, 23.73320000, 90.41760000, 0xe61000000101000000d0b359f5b99a56405d6dc5feb2bb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(9, 'Paltan Police Station', 'পল্টন থানা', 'police_station', 'Paltan, Dhaka', NULL, '02-9559123', '999', NULL, NULL, 23.73550000, 90.41120000, 0xe610000001010000005f07ce19519a56403f355eba49bc3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(10, 'Ramna Police Station', 'রমনা থানা', 'police_station', 'Ramna, Dhaka', NULL, '02-8317089', '999', NULL, NULL, 23.74210000, 90.40030000, 0xe61000000101000000af25e4839e995640925cfe43fabd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(11, 'Tejgaon Police Station', 'তেজগাঁও থানা', 'police_station', 'Tejgaon Industrial Area, Dhaka', NULL, '02-8871234', '999', NULL, NULL, 23.75870000, 90.39320000, 0xe61000000101000000613255302a995640a779c7293ac23740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(12, 'Badda Police Station', 'বাড্ডা থানা', 'police_station', 'Badda, Dhaka', NULL, '02-9887123', '999', NULL, NULL, 23.78090000, 90.42670000, 0xe61000000101000000014d840d4f9b56404772f90fe9c73740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(13, 'Khilgaon Police Station', 'খিলগাঁও থানা', 'police_station', 'Khilgaon, Dhaka', NULL, '02-7291234', '999', NULL, NULL, 23.75100000, 90.43320000, 0xe6100000010100000024287e8cb99b5640c74b378941c03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(14, 'Dhaka Medical College Hospital', 'ঢাকা মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Secretariat Road, Dhaka', NULL, '02-55165001', '199', NULL, NULL, 23.72570000, 90.39760000, 0xe61000000101000000ef384547729956400bb5a679c7b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(15, 'Square Hospital', 'স্কয়ার হাসপাতাল', 'hospital', '18/F Bir Uttam Qazi Nuruzzaman Sarak, Dhaka', NULL, '02-8159457', '10616', NULL, NULL, 23.75220000, 90.38780000, 0xe61000000101000000e25817b7d19856401b0de02d90c03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(16, 'United Hospital', 'ইউনাইটেড হাসপাতাল', 'hospital', 'Plot 15, Road 71, Gulshan, Dhaka', NULL, '02-8836444', '10666', NULL, NULL, 23.79560000, 90.41450000, 0xe610000001010000004a0c022b879a564096b20c71accb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(17, 'Labaid Hospital', 'ল্যাবএইড হাসপাতাল', 'hospital', 'House 1, Road 4, Dhanmondi, Dhaka', NULL, '02-9116551', '10606', NULL, NULL, 23.74120000, 90.37560000, 0xe610000001010000002b1895d40998564092cb7f48bfbd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(18, 'Apollo Hospital', 'অ্যাপোলো হাসপাতাল', 'hospital', 'Plot 81, Block E, Bashundhara, Dhaka', NULL, '02-8401661', '10678', NULL, NULL, 23.81950000, 90.43120000, 0xe610000001010000004182e2c7989b56406f1283c0cad13740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(19, 'Evercare Hospital', 'এভারকেয়ার হাসপাতাল', 'hospital', 'Plot 81, Block E, Bashundhara, Dhaka', NULL, '10678', '10678', NULL, NULL, 23.81670000, 90.42890000, 0xe610000001010000004850fc18739b5640a9a44e4013d13740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(20, 'Ibn Sina Hospital', 'ইবনে সিনা হাসপাতাল', 'hospital', 'House 48, Road 9/A, Dhanmondi, Dhaka', NULL, '02-9116910', '10656', NULL, NULL, 23.74890000, 90.37120000, 0xe610000001010000009d11a5bdc197564072f90fe9b7bf3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(21, 'Popular Medical College Hospital', 'পপুলার মেডিকেল কলেজ হাসপাতাল', 'hospital', 'House 16, Road 2, Dhanmondi, Dhaka', NULL, '02-8610610', '10636', NULL, NULL, 23.73980000, 90.38010000, 0xe610000001010000006a4df38e53985640af94658863bd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(22, 'Sir Salimullah Medical College Hospital', 'স্যার সলিমুল্লাহ মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Mitford Road, Dhaka', NULL, '02-7319002', '199', NULL, NULL, 23.70890000, 90.40120000, 0xe61000000101000000efc9c342ad99564068226c787ab53740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(23, 'Bangabandhu Sheikh Mujib Medical University', 'বঙ্গবন্ধু শেখ মুজিব মেডিকেল বিশ্ববিদ্যালয়', 'hospital', 'Shahbag, Dhaka', NULL, '02-9661051', '199', NULL, NULL, 23.73920000, 90.39540000, 0xe61000000101000000a835cd3b4e995640053411363cbd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(24, 'One Stop Crisis Centre - DMC', 'ওয়ান স্টপ ক্রাইসিস সেন্টার', 'womens_helpdesk', 'Dhaka Medical College Hospital', NULL, '02-55165088', NULL, NULL, NULL, 23.72570000, 90.39760000, 0xe61000000101000000ef384547729956400bb5a679c7b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(25, 'BRAC Women & Girls Centre', 'ব্র্যাক নারী ও কিশোরী কেন্দ্র', 'ngo', 'BRAC Centre, Mohakhali, Dhaka', NULL, '02-9881265', NULL, NULL, NULL, 23.77870000, 90.40120000, 0xe61000000101000000efc9c342ad9956402c6519e258c73740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(26, 'Nari-O-Shishu Nirjaton Protirodh Cell', 'নারী ও শিশু নির্যাতন প্রতিরোধ সেল', 'womens_helpdesk', 'Police Headquarters, Dhaka', NULL, '02-8313633', NULL, NULL, NULL, 23.73850000, 90.41000000, 0xe610000001010000000ad7a3703d9a5640931804560ebd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(27, 'Acid Survivors Foundation', 'এসিড সারভাইভারস ফাউন্ডেশন', 'ngo', 'House 12, Road 22, Gulshan 1, Dhaka', NULL, '02-8859943', NULL, NULL, NULL, 23.78450000, 90.41560000, 0xe61000000101000000ed0dbe30999a564046b6f3fdd4c83740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(28, 'Manusher Jonno Foundation', 'মানুষের জন্য ফাউন্ডেশন', 'ngo', 'House 4, Road 50, Gulshan 2, Dhaka', NULL, '02-9886472', NULL, NULL, NULL, 23.79120000, 90.40890000, 0xe6100000010100000067d5e76a2b9a56405f984c158cca3740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(29, 'Bangladesh Mahila Parishad', 'বাংলাদেশ মহিলা পরিষদ', 'ngo', '28/5 Topkhana Road, Dhaka', NULL, '02-9558673', NULL, NULL, NULL, 23.73420000, 90.40890000, 0xe6100000010100000067d5e76a2b9a564024b9fc87f4bb3740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(30, 'Dhaka Fire Station - Headquarters', 'ঢাকা ফায়ার স্টেশন - সদর দপ্তর', 'fire_station', '37 Naya Paltan, Dhaka', NULL, '02-9330088', '199', NULL, NULL, 23.73890000, 90.40980000, 0xe61000000101000000a779c7293a9a5640b003e78c28bd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(31, 'Mirpur Fire Station', 'মিরপুর ফায়ার স্টেশন', 'fire_station', 'Mirpur-10, Dhaka', NULL, '02-8031199', '199', NULL, NULL, 23.80760000, 90.36560000, 0xe61000000101000000bada8afd65975640e63fa4dfbece3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(32, 'Uttara Fire Station', 'উত্তরা ফায়ার স্টেশন', 'fire_station', 'Sector 7, Uttara, Dhaka', NULL, '02-8953199', '199', NULL, NULL, 23.87010000, 90.39120000, 0xe610000001010000007e8cb96b09995640e63fa4dfbede3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
+(33, 'Gulshan Fire Station', 'গুলশান ফায়ার স্টেশন', 'fire_station', 'Gulshan, Dhaka', NULL, '02-9856199', '199', NULL, NULL, 23.78890000, 90.41230000, 0xe6100000010100000003098a1f639a56407dd0b359f5c93740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36');
 
 -- --------------------------------------------------------
 
@@ -481,7 +715,8 @@ INSERT INTO `group_alerts` (`id`, `group_id`, `posted_by`, `alert_type`, `title`
 (7, 1, 1, 'missing_person', 'Missing Person Alert - Young Girl', 'A 12-year-old girl named Fatima has been missing since yesterday. Last seen near Dhanmondi Market. Please share and contact if you have any information.', 'Dhanmondi Market Area', 'high', 1, NULL, 0, 0, 'active', '2025-11-19 14:14:09', '2025-11-16 14:14:09'),
 (8, 2, 1, 'safety_warning', 'Road Construction Alert', 'Major road construction on Gulshan Avenue. Expect traffic delays. Drive carefully.', 'Gulshan Avenue, Block 1', 'low', 1, NULL, 0, 0, 'active', '2025-11-21 14:14:09', '2025-11-16 14:14:09'),
 (9, 2, 1, 'emergency', 'Emergency: Power Outage in Gulshan-2', 'Widespread power outage reported in Gulshan-2 area. Expected to be resolved within 2 hours. Stay safe.', 'Gulshan-2, Block 5-8', 'medium', 1, NULL, 0, 0, 'active', '2025-11-17 14:14:09', '2025-11-16 14:14:09'),
-(10, 3, 1, 'suspicious_activity', 'Unusual Activity Near Mirpur Stadium', 'Reports of unusual gathering near Mirpur Stadium. Authorities have been notified. Please avoid the area if possible.', 'Mirpur Stadium Area', 'medium', 0, NULL, 0, 0, 'active', '2025-11-18 14:14:09', '2025-11-16 14:14:09');
+(10, 3, 1, 'suspicious_activity', 'Unusual Activity Near Mirpur Stadium', 'Reports of unusual gathering near Mirpur Stadium. Authorities have been notified. Please avoid the area if possible.', 'Mirpur Stadium Area', 'medium', 0, NULL, 0, 0, 'active', '2025-11-18 14:14:09', '2025-11-16 14:14:09'),
+(11, 21, 4, 'safety_warning', 'hhhhhhhhhhhh', 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', 'Vashantek dawanpara', 'high', 0, NULL, 0, 0, 'active', '2026-01-24 14:35:00', '2026-01-24 14:35:21');
 
 -- --------------------------------------------------------
 
@@ -521,6 +756,13 @@ CREATE TABLE `group_media` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `group_media`
+--
+
+INSERT INTO `group_media` (`id`, `group_id`, `alert_id`, `uploaded_by`, `file_name`, `file_path`, `file_type`, `file_size_bytes`, `mime_type`, `thumbnail_path`, `description`, `is_public`, `views_count`, `download_count`, `status`, `created_at`) VALUES
+(1, 21, 11, 4, 'Screenshot 2025-11-14 053006.png', 'uploads/group_media/group_21_6974844943b67_1769243721_Screenshot_2025-11-14_053006.png', 'image', 12188, 'image/png', 'uploads/group_media/group_21_6974844943b67_1769243721_Screenshot_2025-11-14_053006.png', NULL, 1, 0, 0, 'active', '2026-01-24 14:35:21');
+
 -- --------------------------------------------------------
 
 --
@@ -550,7 +792,46 @@ INSERT INTO `group_members` (`id`, `group_id`, `user_id`, `role`, `joined_at`, `
 (6, 1, 2, 'member', '2025-11-16 14:03:24', 'active', 0),
 (7, 4, 2, 'member', '2025-11-16 14:04:05', 'active', 0),
 (29, 21, 2, 'founder', '2025-11-16 15:31:31', 'active', 0),
-(30, 21, 4, 'member', '2025-11-23 19:36:46', 'active', 0);
+(30, 21, 4, 'member', '2025-11-23 19:36:46', 'active', 8),
+(31, 1, 4, 'member', '2026-01-24 14:36:37', 'active', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `helpline_numbers`
+--
+
+CREATE TABLE `helpline_numbers` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `name_bn` varchar(100) DEFAULT NULL,
+  `number` varchar(20) NOT NULL,
+  `category` enum('emergency','womens_rights','domestic_violence','child_protection','legal_aid','medical','mental_health') NOT NULL,
+  `description` text DEFAULT NULL,
+  `description_bn` text DEFAULT NULL,
+  `organization` varchar(255) DEFAULT NULL,
+  `is_toll_free` tinyint(1) DEFAULT 1,
+  `operating_hours` varchar(50) DEFAULT '24/7',
+  `priority` int(11) DEFAULT 10 COMMENT 'Lower = higher priority',
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `helpline_numbers`
+--
+
+INSERT INTO `helpline_numbers` (`id`, `name`, `name_bn`, `number`, `category`, `description`, `description_bn`, `organization`, `is_toll_free`, `operating_hours`, `priority`, `is_active`, `created_at`) VALUES
+(1, 'National Emergency Service', 'জাতীয় জরুরি সেবা', '999', 'emergency', 'Police, Fire, Ambulance - All emergency services', 'পুলিশ, ফায়ার সার্ভিস, অ্যাম্বুলেন্স', 'Bangladesh Government', 1, '24/7', 1, 1, '2026-02-09 14:49:36'),
+(2, 'Women & Children Helpline', 'মহিলা ও শিশু হেল্পলাইন', '10921', 'womens_rights', 'Ministry of Women and Children Affairs helpline for women safety', 'মহিলা ও শিশু বিষয়ক মন্ত্রণালয়ের হেল্পলাইন', 'Ministry of Women and Children Affairs', 1, '24/7', 2, 1, '2026-02-09 14:49:36'),
+(3, 'Domestic Violence Helpline', 'পারিবারিক নির্যাতন হটলাইন', '109', 'domestic_violence', 'Report domestic violence and get immediate help', 'পারিবারিক নির্যাতনের রিপোর্ট করুন', 'Government of Bangladesh', 1, '24/7', 3, 1, '2026-02-09 14:49:36'),
+(4, 'Child Helpline', 'শিশু হেল্পলাইন', '1098', 'child_protection', 'Report child abuse, trafficking, or missing children', 'শিশু নির্যাতন, পাচার বা নিখোঁজ শিশুর রিপোর্ট', 'Ministry of Social Welfare', 1, '24/7', 4, 1, '2026-02-09 14:49:36'),
+(5, 'RAB Helpline', 'র‍্যাব হেল্পলাইন', '01779-529900', 'emergency', 'Rapid Action Battalion emergency contact', 'র‍্যাপিড অ্যাকশন ব্যাটালিয়ন জরুরি যোগাযোগ', 'RAB', 0, '24/7', 5, 1, '2026-02-09 14:49:36'),
+(6, 'BNWLA Legal Aid', 'বিএনডব্লিউএলএ আইনি সহায়তা', '01730017055', 'legal_aid', 'Bangladesh National Women Lawyers Association - Free legal aid for women', 'নারীদের জন্য বিনামূল্যে আইনি সহায়তা', 'BNWLA', 0, '9AM-5PM', 6, 1, '2026-02-09 14:49:36'),
+(7, 'Ain O Salish Kendra', 'আইন ও সালিশ কেন্দ্র', '01711876643', 'legal_aid', 'Human rights and legal aid organization', 'মানবাধিকার ও আইনি সহায়তা সংস্থা', 'ASK', 0, '9AM-5PM', 7, 1, '2026-02-09 14:49:36'),
+(8, 'BLAST Legal Aid', 'ব্লাস্ট আইনি সহায়তা', '01711579898', 'legal_aid', 'Bangladesh Legal Aid and Services Trust', 'বাংলাদেশ লিগ্যাল এইড অ্যান্ড সার্ভিসেস ট্রাস্ট', 'BLAST', 0, '9AM-5PM', 8, 1, '2026-02-09 14:49:36'),
+(9, 'Kaan Pete Roi', 'কান পেতে রই', '01779-554391', 'mental_health', 'Emotional support and mental health helpline', 'মানসিক সহায়তা হেল্পলাইন', 'Kaan Pete Roi', 0, '6PM-10PM', 9, 1, '2026-02-09 14:49:36'),
+(10, 'Fire Service', 'ফায়ার সার্ভিস', '199', 'emergency', 'Fire emergency and rescue services', 'অগ্নিকাণ্ড ও উদ্ধার সেবা', 'Fire Service & Civil Defence', 1, '24/7', 10, 1, '2026-02-09 14:49:36');
 
 -- --------------------------------------------------------
 
@@ -700,7 +981,9 @@ INSERT INTO `incident_reports` (`id`, `user_id`, `title`, `description`, `catego
 (111, 1, 'Test Report - Mirpur Area #4', 'Fourth test incident report for Mirpur area. Still YELLOW.', 'theft', 'high', 'under_review', 'Mirpur', 23.81800000, 90.36800000, 'Mirpur, Dhaka, Bangladesh', '2025-11-18 19:59:26', '2025-11-18 19:59:26', '2025-11-23 20:09:51', NULL, 0, 1, NULL, 0, NULL, NULL),
 (112, 1, 'Test Report - Mirpur Area #5', 'Fifth test incident report for Mirpur area. Zone should now be marked as RED (unsafe - high risk).', 'assault', 'critical', 'under_review', 'Mirpur', 23.81850000, 90.36850000, 'Mirpur, Dhaka, Bangladesh', '2025-11-20 19:59:26', '2025-11-20 19:59:26', '2025-11-23 18:39:47', NULL, 0, 1, NULL, 0, NULL, NULL),
 (113, 1, 'Test Report - Gulshan Area #1', 'First test incident report for Gulshan area. Should stay GREEN (safe).', 'vandalism', 'low', 'under_review', 'Gulshan', 23.79470000, 90.41440000, 'Gulshan, Dhaka, Bangladesh', '2025-11-15 19:59:26', '2025-11-15 19:59:26', '2025-11-23 20:09:59', NULL, 0, 1, NULL, 0, NULL, NULL),
-(114, 1, 'Test Report - Gulshan Area #2', 'Second test incident report for Gulshan area. Zone should remain GREEN (safe - 0-2 reports).', 'cyberbullying', 'low', 'under_review', 'Gulshan', 23.79500000, 90.41470000, 'Gulshan, Dhaka, Bangladesh', '2025-11-17 19:59:26', '2025-11-17 19:59:26', '2025-11-23 19:45:37', NULL, 0, 1, NULL, 0, NULL, NULL);
+(114, 1, 'Test Report - Gulshan Area #2', 'Second test incident report for Gulshan area. Zone should remain GREEN (safe - 0-2 reports).', 'cyberbullying', 'low', 'under_review', 'Gulshan', 23.79500000, 90.41470000, 'Gulshan, Dhaka, Bangladesh', '2025-11-17 19:59:26', '2025-11-17 19:59:26', '2025-11-23 19:45:37', NULL, 0, 1, NULL, 0, NULL, NULL),
+(115, 1, 'cchududhdhdhdhddhd', 'jiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisssssssssssssssssssss', 'discrimination', 'low', 'pending', '67, Changgyeonggung-ro, Euljiro-dong', 37.56820000, 126.99770000, 'Road No. 2, Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', '2026-01-14 17:43:00', '2026-01-17 17:45:09', '2026-01-17 17:45:09', NULL, 0, 1, NULL, 6, NULL, NULL),
+(116, 5, 'chor amake marse', 'chor amar theke taka newyar shomoy ami taka dei nai dekhe amake ekta thappor marse', 'theft', 'critical', 'pending', 'UIU Road, Satarkul', 23.79835915, 90.45009065, 'Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', '2026-01-23 23:11:00', '2026-01-24 12:14:54', '2026-01-24 12:14:54', NULL, 0, 1, '[{\"path\":\"uploads/evidence/6974635e99ea9_1769235294_Screenshot_2025-12-30_113043.png\",\"name\":\"Screenshot 2025-12-30 113043.png\",\"type\":\"image/png\",\"size\":798426,\"extension\":\"png\"}]', 0, NULL, NULL);
 
 --
 -- Triggers `incident_reports`
@@ -777,7 +1060,9 @@ CREATE TABLE `incident_zones` (
 INSERT INTO `incident_zones` (`id`, `zone_name`, `area_name`, `latitude`, `longitude`, `location`, `report_count`, `zone_status`, `last_incident_date`, `first_incident_date`, `created_at`, `updated_at`) VALUES
 (1, 'Dhanpara', 'Dhanpara, Dhaka, Bangladesh', 23.75000000, 90.37000000, 0xe6100000010100000039b4c876be975640c74b378941c03740, 3, 'moderate', '2025-11-21 19:59:26', '2025-11-17 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
 (4, 'Mirpur', 'Mirpur, Dhaka, Bangladesh', 23.81670000, 90.36670000, 0xe61000000101000000dd24068195975640a8c64b3789d13740, 5, 'unsafe', '2025-11-20 19:59:26', '2025-11-12 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
-(9, 'Gulshan', 'Gulshan, Dhaka, Bangladesh', 23.79470000, 90.41440000, 0xe61000000101000000ad69de718a9a5640ec51b81e85cb3740, 2, 'safe', '2025-11-17 19:59:26', '2025-11-15 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26');
+(9, 'Gulshan', 'Gulshan, Dhaka, Bangladesh', 23.79470000, 90.41440000, 0xe61000000101000000ad69de718a9a5640ec51b81e85cb3740, 2, 'safe', '2025-11-17 19:59:26', '2025-11-15 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
+(11, '67, Changgyeonggung-ro, Euljiro-dong', 'Road No. 2, Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', 37.56820000, 126.99770000, 0xe6100000010100000007ce1951dabf5f4029cb10c7bac84240, 1, 'safe', '2026-01-14 17:43:00', '2026-01-14 17:43:00', '2026-01-17 11:45:09', '2026-01-17 11:45:10'),
+(13, 'UIU Road, Satarkul', 'Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', 23.79835915, 90.45009065, 0xe61000000101000000117f0349ce9c56405db6e74361cc3740, 1, 'safe', '2026-01-23 23:11:00', '2026-01-23 23:11:00', '2026-01-24 06:14:54', '2026-01-24 06:14:55');
 
 -- --------------------------------------------------------
 
@@ -901,6 +1186,14 @@ CREATE TABLE `legal_consultations` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `legal_consultations`
+--
+
+INSERT INTO `legal_consultations` (`id`, `user_id`, `report_id`, `provider_id`, `consultation_type`, `subject`, `description`, `preferred_date`, `preferred_time`, `status`, `scheduled_at`, `completed_at`, `provider_notes`, `user_feedback`, `rating`, `cost_bdt`, `created_at`) VALUES
+(1, 4, NULL, 1, 'emergency', 'crime issue', 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', '2026-01-26', '12:46:00', 'requested', NULL, NULL, NULL, NULL, NULL, 0.00, '2026-01-24 12:46:29'),
+(2, 4, NULL, 3, 'initial', 'crime issue', 'dcndcfjsd;afj jdifjdoaif;jsdaiofdj;asifiasdifjsd;iofjiosd;fidjif', '2026-01-24', '13:38:00', 'requested', NULL, NULL, NULL, NULL, NULL, 0.00, '2026-01-24 14:38:15');
+
 -- --------------------------------------------------------
 
 --
@@ -935,7 +1228,7 @@ INSERT INTO `legal_documents` (`id`, `title`, `document_type`, `category`, `desc
 (5, 'Women\'s Rights Legal Framework', 'law_reference', 'Women Rights', 'Complete reference of laws protecting women\'s rights in Bangladesh including marriage, divorce, and inheritance.', NULL, 'https://example.com/docs/womens-rights-framework.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
 (6, 'Legal Aid Application Form', 'form', 'Legal Aid', 'Form to apply for free legal aid services from government and NGO legal aid providers.', NULL, 'https://example.com/docs/legal-aid-application.pdf', 'both', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
 (7, 'Property Dispute Template', 'template', 'Property Law', 'Template for filing property disputes including land, house, and commercial property cases.', NULL, 'https://example.com/docs/property-dispute-template.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(8, 'Human Rights Violation Report Format', 'form', 'Human Rights', 'Standard format for reporting human rights violations to relevant authorities and organizations.', NULL, 'https://example.com/docs/hr-violation-report.pdf', 'both', 0, 0, NULL, 'active', '2025-11-16 13:34:24');
+(8, 'Human Rights Violation Report Format', 'form', 'Human Rights', 'Standard format for reporting human rights violations to relevant authorities and organizations.', NULL, 'https://example.com/docs/hr-violation-report.pdf', 'both', 1, 0, NULL, 'active', '2025-11-16 13:34:24');
 
 -- --------------------------------------------------------
 
@@ -1016,7 +1309,7 @@ CREATE TABLE `neighborhood_groups` (
 --
 
 INSERT INTO `neighborhood_groups` (`id`, `group_name`, `description`, `area_name`, `ward_number`, `union_name`, `division_id`, `district_id`, `upazila_id`, `created_by`, `member_count`, `active_members`, `is_verified`, `verified_by`, `status`, `privacy_level`, `rules`, `created_at`, `updated_at`) VALUES
-(1, 'Dhanmondi Community Watch', 'Active community safety group for Dhanmondi area residents. We share safety alerts and work together to keep our neighborhood safe.', 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 1, 2, 2, 1, NULL, 'active', 'public', '1. Be respectful to all members\n2. Only post verified information\n3. No personal attacks\n4. Report false information immediately', '2025-11-16 13:52:50', '2025-11-16 14:03:24'),
+(1, 'Dhanmondi Community Watch', 'Active community safety group for Dhanmondi area residents. We share safety alerts and work together to keep our neighborhood safe.', 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 1, 3, 3, 1, NULL, 'active', 'public', '1. Be respectful to all members\n2. Only post verified information\n3. No personal attacks\n4. Report false information immediately', '2025-11-16 13:52:50', '2026-01-24 14:36:37'),
 (2, 'Gulshan Safety Network', 'Community safety network for Gulshan residents. Join us to stay informed about safety issues in our area.', 'Gulshan', '19', 'Gulshan', 1, 1, 2, 1, 32, 28, 1, NULL, 'active', 'public', '1. Respect privacy\n2. Verify before sharing\n3. Help neighbors in need', '2025-11-16 13:52:50', '2025-11-16 13:52:50'),
 (3, 'Mirpur Community Safety', 'Safety group for Mirpur area. We coordinate neighborhood watch activities and share important safety updates.', 'Mirpur', '10', 'Mirpur', 1, 1, 3, 1, 28, 22, 0, NULL, 'active', 'public', 'Community safety rules apply', '2025-11-16 13:52:50', '2025-11-16 13:52:50'),
 (4, 'Uttara Residents Safety Group', 'Uttara area residents working together for community safety and security.', 'Uttara', '1', 'Uttara', 1, 1, 4, 1, 2, 2, 1, NULL, 'active', 'public', 'Standard community safety guidelines', '2025-11-16 13:52:50', '2025-11-16 14:04:05'),
@@ -1060,7 +1353,17 @@ INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `actio
 (6, 2, 'Joined Community Group', 'You have successfully joined \"Dhanmondi Community Watch\"', 'system', 'group_detail.php?id=16', NULL, 0, 0, 0, 0, 0, '2025-11-16 14:14:51', NULL, NULL),
 (7, 2, 'Group Created Successfully', 'Your community group \"Mirpur 10\" has been created and is pending approval.', 'system', 'community_groups.php', NULL, 0, 0, 0, 0, 0, '2025-11-16 15:31:31', NULL, NULL),
 (8, 1, 'Report Submitted Successfully', 'Your incident report #104 has been submitted and is under review.', 'report_update', 'view_report.php?id=104', NULL, 0, 0, 0, 0, 0, '2025-11-20 18:23:31', NULL, NULL),
-(9, 4, 'Joined Community Group', 'You have successfully joined \"Mirpur 10\"', 'system', 'group_detail.php?id=21', NULL, 0, 0, 0, 0, 0, '2025-11-23 19:36:46', NULL, NULL);
+(9, 4, 'Joined Community Group', 'You have successfully joined \"Mirpur 10\"', 'system', 'group_detail.php?id=21', NULL, 0, 0, 0, 0, 0, '2025-11-23 19:36:46', NULL, NULL),
+(10, 1, 'Report Submitted Successfully', 'Your incident report #115 has been submitted and is under review.', 'report_update', 'view_report.php?id=115', NULL, 0, 0, 0, 0, 0, '2026-01-17 17:45:10', NULL, NULL),
+(11, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.797947456626, 90.449444430421\nMap: https://maps.google.com/?q=23.797947456626,90.449444430421\nLive Tracking: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\nTime: 2026-01-24 04:16:22\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 09:16:22', NULL, NULL),
+(12, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798447998936, 90.450098247573\nMap: https://maps.google.com/?q=23.798447998936,90.450098247573\nLive Tracking: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\nTime: 2026-01-24 04:59:30\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 09:59:30', NULL, NULL),
+(13, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798394089991, 90.450101009804\nMap: https://maps.google.com/?q=23.798394089991,90.450101009804\nLive Tracking: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\nTime: 2026-01-24 05:02:51\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 10:02:51', NULL, NULL),
+(14, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798424945568, 90.450098865706\nMap: https://maps.google.com/?q=23.798424945568,90.450098865706\nLive Tracking: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\nTime: 2026-01-24 05:17:41\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 10:17:41', NULL, NULL),
+(15, 5, 'Report Submitted Successfully', 'Your incident report #116 has been submitted and is under review.', 'report_update', 'view_report.php?id=116', NULL, 0, 0, 0, 0, 0, '2026-01-24 12:14:55', NULL, NULL),
+(16, 4, 'Consultation Request Submitted', 'Your legal consultation request #1 has been submitted. The provider will contact you within 48 hours.', 'report_update', 'my_consultations.php', NULL, 0, 0, 0, 0, 0, '2026-01-24 12:46:29', NULL, NULL),
+(17, 4, 'Joined Community Group', 'You have successfully joined \"Dhanmondi Community Watch\"', 'system', 'group_detail.php?id=1', NULL, 0, 0, 0, 0, 0, '2026-01-24 14:36:37', NULL, NULL),
+(18, 4, 'Consultation Request Submitted', 'Your legal consultation request #2 has been submitted. The provider will contact you within 48 hours.', 'report_update', 'my_consultations.php', NULL, 0, 0, 0, 0, 0, '2026-01-24 14:38:15', NULL, NULL),
+(19, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.814533786745, 90.386511085607\nMap: https://maps.google.com/?q=23.814533786745,90.386511085607\nLive Tracking: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\nTime: 2026-02-09 14:58:54\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-09 19:58:54', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1083,17 +1386,36 @@ CREATE TABLE `panic_alerts` (
   `status` enum('active','acknowledged','false_alarm','resolved') DEFAULT 'active',
   `response_time_seconds` int(11) DEFAULT NULL,
   `triggered_at` datetime DEFAULT current_timestamp(),
-  `resolved_at` datetime DEFAULT NULL
+  `resolved_at` datetime DEFAULT NULL,
+  `responders_count` int(11) DEFAULT 0 COMMENT 'Number of people responding',
+  `community_notified` tinyint(1) DEFAULT 0 COMMENT 'Whether nearby users were notified',
+  `broadcast_radius` int(11) DEFAULT 5000 COMMENT 'Radius in meters for community broadcast',
+  `nearby_users_count` int(11) DEFAULT 0 COMMENT 'Number of nearby users at time of alert'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `panic_alerts`
 --
 
-INSERT INTO `panic_alerts` (`id`, `user_id`, `trigger_method`, `location_name`, `latitude`, `longitude`, `message`, `emergency_contacts_notified`, `police_notified`, `ambulance_notified`, `fire_service_notified`, `status`, `response_time_seconds`, `triggered_at`, `resolved_at`) VALUES
-(1, 1, 'app_button', '23.814613316748986, 90.38611845264977', 23.81461332, 90.38611845, '', 0, 1, 0, 0, 'active', NULL, '2025-11-23 23:43:36', NULL),
-(2, 1, 'app_button', '23.81435478029568, 90.38679105231283', 23.81435478, 90.38679105, 'Help me', 1, 0, 0, 0, 'active', NULL, '2025-11-24 00:09:05', NULL),
-(3, 4, 'app_button', '23.797324, 90.449757', 23.79732400, 90.44975700, '', 0, 1, 0, 0, 'active', NULL, '2025-11-24 08:06:13', NULL);
+INSERT INTO `panic_alerts` (`id`, `user_id`, `trigger_method`, `location_name`, `latitude`, `longitude`, `message`, `emergency_contacts_notified`, `police_notified`, `ambulance_notified`, `fire_service_notified`, `status`, `response_time_seconds`, `triggered_at`, `resolved_at`, `responders_count`, `community_notified`, `broadcast_radius`, `nearby_users_count`) VALUES
+(1, 1, 'app_button', '23.814613316748986, 90.38611845264977', 23.81461332, 90.38611845, '', 0, 1, 0, 0, 'active', NULL, '2025-11-23 23:43:36', NULL, 0, 0, 5000, 0),
+(2, 1, 'app_button', '23.81435478029568, 90.38679105231283', 23.81435478, 90.38679105, 'Help me', 1, 0, 0, 0, 'active', NULL, '2025-11-24 00:09:05', NULL, 0, 0, 5000, 0),
+(3, 4, 'app_button', '23.797324, 90.449757', 23.79732400, 90.44975700, '', 0, 1, 0, 0, 'active', NULL, '2025-11-24 08:06:13', NULL, 0, 0, 5000, 0),
+(4, 6, 'app_button', '23.797947456625984, 90.44944443042094', 23.79794746, 90.44944443, '', 2, 0, 0, 0, 'active', NULL, '2026-01-24 09:14:56', NULL, 0, 0, 5000, 0),
+(5, 6, '', '', 23.79794746, 90.44944443, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6', 2, 1, 0, 0, 'active', NULL, '2026-01-24 09:16:22', NULL, 0, 0, 5000, 0),
+(6, 6, '', '', 23.79844800, 90.45009825, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b', 2, 1, 0, 0, 'active', NULL, '2026-01-24 09:59:30', NULL, 0, 0, 5000, 0),
+(7, 6, '', '', 23.79839409, 90.45010101, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472', 2, 1, 0, 0, 'active', NULL, '2026-01-24 10:02:51', NULL, 0, 0, 5000, 0),
+(8, 6, '', '', 23.79842495, 90.45009887, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a', 2, 1, 0, 0, 'active', NULL, '2026-01-24 10:17:41', NULL, 0, 1, 5000, 0),
+(9, 5, '', '', 23.79840436, 90.45009759, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965', 0, 1, 0, 0, 'active', NULL, '2026-01-24 10:22:47', NULL, 0, 1, 5000, 0),
+(10, 4, '', '', 23.79841092, 90.45011152, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7', 0, 1, 0, 0, 'active', NULL, '2026-01-24 12:55:11', NULL, 0, 0, 5000, 0),
+(11, 4, '', '', 23.79765900, 90.45019484, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656', 0, 1, 0, 0, 'active', NULL, '2026-01-24 14:41:28', NULL, 0, 0, 5000, 0),
+(12, 4, '', '', 23.79765900, 90.45019484, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066', 0, 1, 0, 0, 'active', NULL, '2026-01-24 14:52:59', NULL, 0, 0, 5000, 0),
+(13, 6, '', '', 23.81453379, 90.38651109, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4', 2, 1, 0, 0, 'active', NULL, '2026-02-09 19:58:54', NULL, 0, 0, 5000, 0),
+(14, 4, 'app_button', '23.814584156267806, 90.38655722500954', 23.81458416, 90.38655723, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:01:11', NULL, 0, 0, 5000, 0),
+(15, 4, '', '', 23.81458416, 90.38655723, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:01:23', NULL, 0, 0, 5000, 0),
+(16, 4, 'app_button', '23.81444352890792, 90.38659543342219', 23.81444353, 90.38659543, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:12:45', NULL, 0, 0, 5000, 0),
+(17, 4, 'app_button', '23.814424411656717, 90.38656005061553', 23.81442441, 90.38656005, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:12:53', NULL, 0, 0, 5000, 0),
+(18, 4, '', '', 23.81442441, 90.38656005, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:13:01', NULL, 0, 0, 5000, 0);
 
 -- --------------------------------------------------------
 
@@ -1120,7 +1442,19 @@ CREATE TABLE `panic_notifications` (
 --
 
 INSERT INTO `panic_notifications` (`id`, `panic_alert_id`, `contact_id`, `notification_type`, `recipient`, `message`, `created_at`, `status`, `sent_at`, `delivered_at`, `error_message`) VALUES
-(1, 2, 1, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Sayum\nLocation: https://maps.google.com/?q=23.81435478,90.38679105\nTime: 2025-11-24 00:09:05\nMessage: Help me\n\nPlease respond immediately!', '2025-11-24 00:09:05', 'failed', NULL, NULL, 'SMS service not enabled in configuration');
+(1, 2, 1, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Sayum\nLocation: https://maps.google.com/?q=23.81435478,90.38679105\nTime: 2025-11-24 00:09:05\nMessage: Help me\n\nPlease respond immediately!', '2025-11-24 00:09:05', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(2, 4, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:14:56\n\nPlease respond immediately!', '2026-01-24 09:14:56', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(3, 4, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:14:56\n\nPlease respond immediately!', '2026-01-24 09:14:56', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(4, 5, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:16:22\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\n\nPlease respond immediately!', '2026-01-24 09:16:22', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(5, 5, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:16:22\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\n\nPlease respond immediately!', '2026-01-24 09:16:22', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(6, 6, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79844800,90.45009825\nTime: 2026-01-24 09:59:30\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\n\nPlease respond immediately!', '2026-01-24 09:59:30', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(7, 6, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79844800,90.45009825\nTime: 2026-01-24 09:59:30\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\n\nPlease respond immediately!', '2026-01-24 09:59:30', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(8, 7, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79839409,90.45010101\nTime: 2026-01-24 10:02:51\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\n\nPlease respond immediately!', '2026-01-24 10:02:51', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(9, 7, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79839409,90.45010101\nTime: 2026-01-24 10:02:51\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\n\nPlease respond immediately!', '2026-01-24 10:02:51', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(10, 8, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79842495,90.45009887\nTime: 2026-01-24 10:17:41\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\n\nPlease respond immediately!', '2026-01-24 10:17:41', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(11, 8, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79842495,90.45009887\nTime: 2026-01-24 10:17:41\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\n\nPlease respond immediately!', '2026-01-24 10:17:41', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(12, 13, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.81453379,90.38651109\nTime: 2026-02-09 19:58:54\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\n\nPlease respond immediately!', '2026-02-09 19:58:54', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(13, 13, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.81453379,90.38651109\nTime: 2026-02-09 19:58:54\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\n\nPlease respond immediately!', '2026-02-09 19:58:54', 'failed', NULL, NULL, 'Call service not enabled in configuration');
 
 -- --------------------------------------------------------
 
@@ -1229,6 +1563,13 @@ CREATE TABLE `safe_spaces` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `safe_spaces`
+--
+
+INSERT INTO `safe_spaces` (`id`, `name`, `description`, `category`, `address`, `latitude`, `longitude`, `city`, `state`, `country`, `phone`, `email`, `website`, `hours_of_operation`, `is_verified`, `verified_by`, `verified_date`, `status`, `average_rating`, `review_count`, `features`, `accessibility_features`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'kuril safe ', 'safee', 'business', 'User-defined area', 23.82100957, 90.42075951, NULL, NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 0, NULL, NULL, 'active', 0.00, 0, '{\"safety_level\":\"medium\",\"polygon_coordinates\":[[90.42068242545447,23.821056832017618],[90.42071996281288,23.820948809630934],[90.42083793736793,23.820978270290755],[90.4207977187696,23.821054376964394]],\"type\":\"user_drawn_zone\"}', NULL, 4, '2026-01-24 13:07:22', '2026-01-24 13:07:49');
+
 -- --------------------------------------------------------
 
 --
@@ -1245,6 +1586,13 @@ CREATE TABLE `safe_zones` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `safe_zones`
+--
+
+INSERT INTO `safe_zones` (`id`, `name`, `description`, `boundary`, `safety_level`, `created_by`, `created_at`, `updated_at`) VALUES
+(1, 'safe space', 'a place for woman ', 0xe61000000103000000010000000500000066de4093cd9c56402c7272009dd73740dd8debfbdb9c56405d017b28abd737405541ca63dd9c5640768d693a5fd73740db911ffbce9c56401a04a23c68d7374066de4093cd9c56402c7272009dd73740, 'medium', 5, '2026-01-24 02:37:32', '2026-01-24 02:37:32');
 
 -- --------------------------------------------------------
 
@@ -1357,18 +1705,25 @@ CREATE TABLE `users` (
   `nid_back_photo` varchar(255) DEFAULT NULL,
   `face_verified` tinyint(1) DEFAULT 0,
   `nid_verified` tinyint(1) DEFAULT 0,
-  `verification_status` enum('pending','under_review','verified','rejected') DEFAULT 'pending'
+  `verification_status` enum('pending','under_review','verified','rejected') DEFAULT 'pending',
+  `current_latitude` decimal(10,8) DEFAULT NULL COMMENT 'Current GPS latitude',
+  `current_longitude` decimal(11,8) DEFAULT NULL COMMENT 'Current GPS longitude',
+  `last_location_update` timestamp NULL DEFAULT NULL COMMENT 'Last time location was updated',
+  `is_online` tinyint(1) DEFAULT 0 COMMENT 'Whether user is currently active',
+  `last_seen` timestamp NULL DEFAULT NULL COMMENT 'Last activity timestamp'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `display_name`, `firebase_uid`, `provider`, `email_verified`, `is_admin`, `verification_token`, `password_reset_token`, `reset_token_expires`, `status`, `is_active`, `created_at`, `last_login`, `updated_at`, `nid_number`, `nid_front_photo`, `nid_back_photo`, `face_verified`, `nid_verified`, `verification_status`) VALUES
-(1, NULL, 'mdabusayumanik123@gmail.com', '+8801871745957', 'I am a Student', '$2y$10$Fg97eJDVI9xJiNdV3Js5POtKt4BMooAPk.s5eTGmzE.Rv0LaEEe4u', 'Sayum', 'DYdgxZf7gpXXNRWEaquyoTuqedh2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-12 18:52:03', '2025-12-30 08:14:15', '2025-12-30 08:14:15', '4222776215', 'uploads/nid/nid_4222776215_front_1762951923_691482f325b0d.jpg', 'uploads/nid/nid_4222776215_back_1762951923_691482f326b51.jpg', 0, 0, 'pending'),
-(2, NULL, 'manik2330217@bscse.uiu.ac.bd', '+8801871745958', '', '$2y$10$tMgm7ALjgLHzXrvHVmga1e/24EmigJr.IJDsZnXl0z.ar/KSB26zK', '', 'ZOYOmrnoxwX0XnhSmNiA87wSn0l1', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-13 16:47:05', '2025-11-18 20:20:33', '2025-11-18 20:20:33', '4222776225', 'uploads/nid/nid_4222776225_front_1763030825_6915b7290cac7.jpeg', 'uploads/nid/nid_4222776225_back_1763030825_6915b7290e8b2.jpeg', 0, 0, 'pending'),
-(3, NULL, 'admin@test.com', NULL, NULL, NULL, 'admin', NULL, 'local', 1, 0, NULL, NULL, NULL, 'active', 1, '2025-11-23 18:23:13', '2025-11-23 18:23:13', '2025-11-23 18:23:13', NULL, NULL, NULL, 0, 0, 'pending'),
-(4, NULL, 'admin@safespace.com', NULL, NULL, '$2y$10$lHSheUwrpDNu76L3SxxxhOlW2weHx9fZWo47BT3BV3ibmySaORkkG', 'System Administrator', NULL, 'local', 1, 1, NULL, NULL, NULL, 'active', 1, '2025-11-23 19:31:48', '2025-11-24 08:02:09', '2025-11-24 08:02:09', NULL, NULL, NULL, 0, 0, 'pending');
+INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `display_name`, `firebase_uid`, `provider`, `email_verified`, `is_admin`, `verification_token`, `password_reset_token`, `reset_token_expires`, `status`, `is_active`, `created_at`, `last_login`, `updated_at`, `nid_number`, `nid_front_photo`, `nid_back_photo`, `face_verified`, `nid_verified`, `verification_status`, `current_latitude`, `current_longitude`, `last_location_update`, `is_online`, `last_seen`) VALUES
+(1, NULL, 'mdabusayumanik123@gmail.com', '+8801871745957', 'I am a Student', '$2y$10$Fg97eJDVI9xJiNdV3Js5POtKt4BMooAPk.s5eTGmzE.Rv0LaEEe4u', 'Sayum', 'b7bUyVB73gQhELitdXCQRLtRf3B3', 'google.com', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-12 18:52:03', '2026-01-17 17:40:08', '2026-01-17 17:40:08', '4222776215', 'uploads/nid/nid_4222776215_front_1762951923_691482f325b0d.jpg', 'uploads/nid/nid_4222776215_back_1762951923_691482f326b51.jpg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
+(2, NULL, 'manik2330217@bscse.uiu.ac.bd', '+8801871745958', '', '$2y$10$tMgm7ALjgLHzXrvHVmga1e/24EmigJr.IJDsZnXl0z.ar/KSB26zK', '', 'ZOYOmrnoxwX0XnhSmNiA87wSn0l1', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-13 16:47:05', '2025-11-18 20:20:33', '2025-11-18 20:20:33', '4222776225', 'uploads/nid/nid_4222776225_front_1763030825_6915b7290cac7.jpeg', 'uploads/nid/nid_4222776225_back_1763030825_6915b7290e8b2.jpeg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
+(3, NULL, 'admin@test.com', NULL, NULL, NULL, 'admin', NULL, 'local', 1, 0, NULL, NULL, NULL, 'active', 1, '2025-11-23 18:23:13', '2025-11-23 18:23:13', '2025-11-23 18:23:13', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
+(4, NULL, 'admin@safespace.com', NULL, NULL, '$2y$10$lHSheUwrpDNu76L3SxxxhOlW2weHx9fZWo47BT3BV3ibmySaORkkG', 'System Administrator', NULL, 'local', 1, 1, NULL, NULL, NULL, 'active', 1, '2025-11-23 19:31:48', '2026-02-09 19:34:33', '2026-02-09 19:34:33', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
+(5, NULL, 'hulahuhu152@gmail.com', '', '', '$2y$10$Q.ckFVyj/YwrKyO.QnSE6.Fb5trLsOv3i1VpvkLO6y4QHG90MnCmy', 'Hula', 'tPhuu6Y4dSWPEbJaoXSlGN4KrgH3', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-01-24 08:35:36', '2026-02-09 19:15:30', '2026-02-09 19:15:30', '0112330183', 'uploads/nid/nid_0112330183_front_1769222135_69742ff7bfdbc.jpg', 'uploads/nid/nid_0112330183_back_1769222135_69742ff7c2047.jpg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
+(6, NULL, 'mdabu018717@gmail.com', NULL, NULL, '$2y$10$TFzPGLzdJjj8GQJ7QfEt/.MuYJ5Hh6x7YFiZ7k0PCXxQqHUbIpEtC', NULL, 'UdSQDppN44PuYiHDZE07csyPur82', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-01-24 08:42:18', '2026-02-09 19:58:27', '2026-02-09 19:58:27', '4222776218', 'uploads/nid/nid_4222776218_front_1769222537_69743189cb24f.png', 'uploads/nid/nid_4222776218_back_1769222537_69743189cc4b4.png', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL);
 
 --
 -- Triggers `users`
@@ -1402,6 +1757,39 @@ CREATE TRIGGER `tr_users_after_update_audit` AFTER UPDATE ON `users` FOR EACH RO
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_alert_settings`
+--
+
+CREATE TABLE `user_alert_settings` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `allow_community_alerts` tinyint(1) DEFAULT 1,
+  `alert_radius` int(11) DEFAULT 5000 COMMENT 'Radius in meters',
+  `notify_push` tinyint(1) DEFAULT 1,
+  `notify_sound` tinyint(1) DEFAULT 1,
+  `notify_email` tinyint(1) DEFAULT 0,
+  `notify_sms` tinyint(1) DEFAULT 0,
+  `quiet_hours_start` time DEFAULT NULL,
+  `quiet_hours_end` time DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_alert_settings`
+--
+
+INSERT INTO `user_alert_settings` (`id`, `user_id`, `allow_community_alerts`, `alert_radius`, `notify_push`, `notify_sound`, `notify_email`, `notify_sms`, `quiet_hours_start`, `quiet_hours_end`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
+(2, 2, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
+(3, 3, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
+(4, 4, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
+(5, 5, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
+(6, 6, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41');
 
 -- --------------------------------------------------------
 
@@ -1521,7 +1909,20 @@ INSERT INTO `user_sessions` (`id`, `user_id`, `session_token`, `ip_address`, `us
 (35, 1, 'ca94a2f5b9bd7a9af660527c7cb26a83630293262d8a8e8dc7fe265e35896e21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 06:34:25', '2025-12-08 06:34:25', 1),
 (36, 1, '993edf1270d5e64a498706f34d8f961b4671f7881781e134444c4601800c751f', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 12:47:23', '2025-12-08 12:47:23', 1),
 (37, 1, '07a928fe4d97c4c9ab3d9f3d5077fdecb28d706dd91934932fb6e3be42797272', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-15 05:24:41', '2025-12-15 05:24:41', 1),
-(38, 1, '71d716085fc33e88cdd4772641ec65a862093281621fb746fd8918ef69460b83', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-30 08:14:15', '2025-12-30 08:14:15', 1);
+(38, 1, '71d716085fc33e88cdd4772641ec65a862093281621fb746fd8918ef69460b83', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-30 08:14:15', '2025-12-30 08:14:15', 1),
+(39, 1, '3208f3dd0850e2d703772f7bf462c757d667885d7ae7ae5daf9036d31d6d7b18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-17 17:40:08', '2026-01-17 17:40:08', 1),
+(40, 5, 'f0c9302ed639cb3e87745d75fa31186baa87b246da876fce31499863717348c8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 08:35:45', '2026-01-24 08:35:45', 1),
+(41, 6, '14ca9569afab4b8521da9e886c455c0a0a0c7772c8570bbb7fc164e8d8855d28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 08:42:26', '2026-01-24 08:42:26', 1),
+(42, 5, '6a799dd6e7a55d727159ceccab7b39da86b45abe0b874dcf9881f8e1b00161e7', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 09:12:55', '2026-01-24 09:12:55', 1),
+(43, 6, '03cc9b4f15bd6185bbd183d8073425160fdb0c607d53f5c0c674bfb0462fb081', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 09:13:12', '2026-01-24 09:13:12', 1),
+(44, 5, 'd1bf58fb1796ce67653b7127d8127c89f19e274ddb41e8f4f91d62ea3531c31b', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 09:58:34', '2026-01-24 09:58:34', 1),
+(45, 6, 'ea18e0c8c2159426cc77c5f13cfdf3d45a47f355e9bf8dfd451f33b7c946e9b0', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 09:58:58', '2026-01-24 09:58:58', 1),
+(46, 5, '33fa551e4dda3e606c528cad544de8d07d52ef044f67569b76b74bb02a44c8ea', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 11:58:05', '2026-01-24 11:58:05', 1),
+(47, 5, 'f2b03dd8b07d0234bc407b8194c340d96b77108d91b9d986c9bb9b71b4ca03ae', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 13:45:11', '2026-01-24 13:45:11', 1),
+(48, 5, 'd566dc5d489c9d4ba8e726ffc2378b02bd938c02eb516bfc1ba1e0810628d184', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-26 03:58:48', '2026-01-26 03:58:48', 1),
+(49, 5, 'b4efe9e68c26aae283041aead5e099784ea55c7e6ce6b901d45960afdfbf220d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-26 12:27:58', '2026-01-26 12:27:58', 1),
+(50, 5, 'b4499149c1d3e971f87ea9934e4d2374faa167940ce3acdc7ef6655e89920bf4', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-02-09 19:15:30', '2026-02-09 19:15:30', 1),
+(51, 6, 'ae54fd12663f790533f831701f2efbd35d467bfea5a253c2c87c00a7efaebc0a', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-02-09 19:58:27', '2026-02-09 19:58:27', 1);
 
 -- --------------------------------------------------------
 
@@ -1567,7 +1968,28 @@ CREATE TABLE `walk_sessions` (
 --
 
 INSERT INTO `walk_sessions` (`id`, `user_id`, `session_token`, `start_time`, `end_time`, `status`, `destination`, `estimated_duration_minutes`) VALUES
-(2, 1, 'e73051fe72f264daf9f4245a2b2b0a937e21115ed1a53fa1ede22ac8dc9ad61b', '2025-11-23 23:06:16', '2025-11-23 23:07:40', 'completed', '', 0);
+(2, 1, 'e73051fe72f264daf9f4245a2b2b0a937e21115ed1a53fa1ede22ac8dc9ad61b', '2025-11-23 23:06:16', '2025-11-23 23:07:40', 'completed', '', 0),
+(3, 6, '58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6', '2026-01-24 09:16:15', NULL, 'emergency', '', 0),
+(4, 6, '6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b', '2026-01-24 09:59:24', NULL, 'emergency', '', 0),
+(5, 6, '7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472', '2026-01-24 10:02:40', NULL, 'emergency', '', 0),
+(6, 6, '8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a', '2026-01-24 10:17:36', NULL, 'emergency', '', 0),
+(7, 5, '811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965', '2026-01-24 10:22:43', NULL, 'emergency', '', 0),
+(8, 4, '21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7', '2026-01-24 12:55:07', NULL, 'emergency', '', 0),
+(9, 4, '1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656', '2026-01-24 14:41:23', NULL, 'emergency', '', 0),
+(10, 4, '3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066', '2026-01-24 14:52:46', NULL, 'emergency', '', 0),
+(11, 6, '0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4', '2026-02-09 19:58:50', NULL, 'emergency', '', 0),
+(12, 4, '79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb', '2026-02-09 20:01:20', NULL, 'emergency', '', 0),
+(13, 4, 'd8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9', '2026-02-09 20:12:59', NULL, 'emergency', '', 0),
+(14, 6, '193544674996d5844aeb3fdd8a7c836edf4ad4511e123da72e1d91731b538db4', '2026-02-09 20:27:10', NULL, 'active', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `active_users_with_location`
+--
+DROP TABLE IF EXISTS `active_users_with_location`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `active_users_with_location`  AS SELECT `u`.`id` AS `id`, `u`.`email` AS `email`, `u`.`display_name` AS `display_name`, `u`.`current_latitude` AS `current_latitude`, `u`.`current_longitude` AS `current_longitude`, `u`.`is_online` AS `is_online`, `u`.`last_seen` AS `last_seen`, `uas`.`allow_community_alerts` AS `allow_community_alerts`, `uas`.`alert_radius` AS `alert_radius`, `uas`.`notify_push` AS `notify_push`, `uas`.`notify_sound` AS `notify_sound`, `uas`.`notify_email` AS `notify_email` FROM (`users` `u` left join `user_alert_settings` `uas` on(`u`.`id` = `uas`.`user_id`)) WHERE `u`.`is_online` = 1 AND `u`.`current_latitude` is not null AND `u`.`current_longitude` is not null AND (`uas`.`allow_community_alerts` is null OR `uas`.`allow_community_alerts` = 1) ;
 
 -- --------------------------------------------------------
 
@@ -1596,6 +2018,17 @@ ALTER TABLE `alerts`
   ADD KEY `latitude` (`latitude`,`longitude`),
   ADD KEY `source_type` (`source_type`),
   ADD KEY `location_name` (`location_name`(100));
+
+--
+-- Indexes for table `alert_responses`
+--
+ALTER TABLE `alert_responses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_alert_id` (`alert_id`),
+  ADD KEY `idx_responder_id` (`responder_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_response_time` (`response_time`),
+  ADD KEY `idx_alert_responses_alert_status` (`alert_id`,`status`);
 
 --
 -- Indexes for table `area_safety_scores`
@@ -1674,6 +2107,15 @@ ALTER TABLE `emergency_contacts`
   ADD KEY `is_active` (`is_active`);
 
 --
+-- Indexes for table `emergency_services`
+--
+ALTER TABLE `emergency_services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type` (`type`),
+  ADD KEY `has_womens_cell` (`has_womens_cell`),
+  ADD SPATIAL KEY `location` (`location`);
+
+--
 -- Indexes for table `group_alerts`
 --
 ALTER TABLE `group_alerts`
@@ -1711,6 +2153,14 @@ ALTER TABLE `group_members`
   ADD UNIQUE KEY `group_user` (`group_id`,`user_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `group_id` (`group_id`);
+
+--
+-- Indexes for table `helpline_numbers`
+--
+ALTER TABLE `helpline_numbers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category` (`category`),
+  ADD KEY `priority` (`priority`);
 
 --
 -- Indexes for table `incident_reports`
@@ -1922,7 +2372,18 @@ ALTER TABLE `users`
   ADD KEY `verification_status` (`verification_status`),
   ADD KEY `status` (`status`),
   ADD KEY `is_active` (`is_active`),
-  ADD KEY `idx_is_admin` (`is_admin`);
+  ADD KEY `idx_is_admin` (`is_admin`),
+  ADD KEY `idx_is_online` (`is_online`),
+  ADD KEY `idx_last_seen` (`last_seen`);
+
+--
+-- Indexes for table `user_alert_settings`
+--
+ALTER TABLE `user_alert_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`),
+  ADD KEY `idx_user_id` (`user_id`),
+  ADD KEY `idx_allow_alerts` (`allow_community_alerts`);
 
 --
 -- Indexes for table `user_area_ratings`
@@ -1966,6 +2427,12 @@ ALTER TABLE `walk_sessions`
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `alert_responses`
+--
+ALTER TABLE `alert_responses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1978,7 +2445,7 @@ ALTER TABLE `area_safety_scores`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `certificates`
@@ -2014,13 +2481,19 @@ ALTER TABLE `divisions`
 -- AUTO_INCREMENT for table `emergency_contacts`
 --
 ALTER TABLE `emergency_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `emergency_services`
+--
+ALTER TABLE `emergency_services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `group_alerts`
 --
 ALTER TABLE `group_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `group_alert_acknowledgments`
@@ -2032,25 +2505,31 @@ ALTER TABLE `group_alert_acknowledgments`
 -- AUTO_INCREMENT for table `group_media`
 --
 ALTER TABLE `group_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `helpline_numbers`
+--
+ALTER TABLE `helpline_numbers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `incident_reports`
 --
 ALTER TABLE `incident_reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `incident_zones`
 --
 ALTER TABLE `incident_zones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `leaf_nodes`
@@ -2068,7 +2547,7 @@ ALTER TABLE `legal_aid_providers`
 -- AUTO_INCREMENT for table `legal_consultations`
 --
 ALTER TABLE `legal_consultations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `legal_documents`
@@ -2092,19 +2571,19 @@ ALTER TABLE `neighborhood_groups`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `panic_alerts`
 --
 ALTER TABLE `panic_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `panic_notifications`
 --
 ALTER TABLE `panic_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `safety_courses`
@@ -2122,13 +2601,13 @@ ALTER TABLE `safety_resources`
 -- AUTO_INCREMENT for table `safe_spaces`
 --
 ALTER TABLE `safe_spaces`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `safe_zones`
 --
 ALTER TABLE `safe_zones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `support_referrals`
@@ -2152,7 +2631,13 @@ ALTER TABLE `upazilas`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `user_alert_settings`
+--
+ALTER TABLE `user_alert_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_area_ratings`
@@ -2170,13 +2655,13 @@ ALTER TABLE `user_preferences`
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `walk_sessions`
 --
 ALTER TABLE `walk_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -2188,6 +2673,13 @@ ALTER TABLE `walk_sessions`
 ALTER TABLE `alerts`
   ADD CONSTRAINT `alerts_ibfk_1` FOREIGN KEY (`source_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `alerts_ibfk_2` FOREIGN KEY (`related_report_id`) REFERENCES `incident_reports` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `alert_responses`
+--
+ALTER TABLE `alert_responses`
+  ADD CONSTRAINT `alert_responses_ibfk_1` FOREIGN KEY (`alert_id`) REFERENCES `panic_alerts` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `alert_responses_ibfk_2` FOREIGN KEY (`responder_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `area_safety_scores`
@@ -2341,6 +2833,12 @@ ALTER TABLE `support_referrals`
 --
 ALTER TABLE `upazilas`
   ADD CONSTRAINT `upazilas_ibfk_1` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`);
+
+--
+-- Constraints for table `user_alert_settings`
+--
+ALTER TABLE `user_alert_settings`
+  ADD CONSTRAINT `user_alert_settings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_area_ratings`

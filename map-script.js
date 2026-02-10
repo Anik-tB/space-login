@@ -220,18 +220,32 @@ function createMarker(feature) {
     title: props.name || 'Location'
   });
 
-  // Create popup content
+  // Create popup content - opens on CLICK with autoPan enabled
   const popupContent = createPopupContent(props);
   marker.bindPopup(popupContent, {
     maxWidth: 320,
     className: 'custom-popup',
     closeButton: true,
-    autoPan: true
+    autoPan: true,
+    autoPanPadding: [50, 80]
   });
 
-  // Add hover effect
-  marker.on('mouseover', function() {
-    this.openPopup();
+  // Tooltip for hover - quick info without map scrolling
+  const tooltipContent = `
+    <div style="padding: 8px 12px; min-width: 150px;">
+      <strong style="font-size: 14px;">${props.name || 'Unknown'}</strong><br>
+      <span style="color: ${getStatusColor(props.status)}; font-weight: 600;">
+        ${props.status === 'safe' ? '✓ Safe' : props.status === 'moderate' ? '⚠ Moderate' : '✗ Unsafe'}
+      </span>
+      <span style="margin-left: 8px;">Score: ${props.safety_score || 'N/A'}/10</span>
+      <div style="font-size: 11px; color: #666; margin-top: 4px;">Click for details</div>
+    </div>
+  `;
+  marker.bindTooltip(tooltipContent, {
+    direction: 'top',
+    offset: [0, -15],
+    opacity: 0.95,
+    className: 'custom-tooltip'
   });
 
   return marker;
@@ -580,7 +594,10 @@ async function loadSafeZones() {
                     <strong>${feature.properties.name}</strong><br>
                     ${feature.properties.description || ''}<br>
                     Safety Level: ${feature.properties.safety_level}
-                `);
+                `, {
+          autoPan: true,
+          autoPanPadding: [50, 80]
+        });
       },
     });
 
@@ -662,7 +679,10 @@ async function loadIncidentZones() {
                         : ''
                     }
                 </div>
-            `);
+            `, {
+        autoPan: true,
+        autoPanPadding: [50, 80]
+      });
 
       incidentZonesLayer.addLayer(circle);
     });

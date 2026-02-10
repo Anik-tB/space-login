@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Full View Button</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .full-view-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .full-view-btn:hover {
+            background: #1976D2;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Full View Button</h1>
+        <p>Click the button or image to test the modal:</p>
+
+        <img src="uploads/evidence/6974635e99ea9_1769235294_Screenshot_2025-12-30_113043.png"
+             alt="Test Image"
+             onclick="openImageModal('uploads/evidence/6974635e99ea9_1769235294_Screenshot_2025-12-30_113043.png')"
+             style="max-height: 300px;">
+        <br>
+        <button class="full-view-btn" onclick="openImageModal('uploads/evidence/6974635e99ea9_1769235294_Screenshot_2025-12-30_113043.png')">
+            📷 Full View
+        </button>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeImageModal()">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        function openImageModal(imageSrc) {
+            console.log('Opening modal with image:', imageSrc);
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+        }
+
+        function closeImageModal() {
+            console.log('Closing modal');
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Test if functions are available
+        console.log('openImageModal function:', typeof openImageModal);
+        console.log('closeImageModal function:', typeof closeImageModal);
+    </script>
+</body>
+</html>
