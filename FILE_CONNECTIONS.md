@@ -1,0 +1,218 @@
+# 🔗 File Connection Diagram - Space Login Project
+
+## 📊 Current File Relationships
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           SPACE LOGIN PROJECT                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   index.html    │───▶│   login.html    │───▶│  dashboard.php  │
+│  (Entry Point)  │    │  (Login Form)   │    │ (Main Dashboard)│
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ firebase_login  │    │    auth.php     │    │dashboard-script │
+│     .php        │    │ (Auth Handler)  │    │     .js         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────┐
+                    │  logout.php     │
+                    │ (Logout Handler)│
+                    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              DASHBOARD SYSTEM                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  dashboard.php  │───▶│dashboard-enhanced│───▶│dashboard-styles │
+│                 │    │     .js         │    │     .css        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│realtime_activity│    │  chart_data.php │    │ update_session  │
+│     .php        │    │ (Chart Data)    │    │     .php        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────┐
+                    │  Database.php   │
+                    │ (includes/)     │
+                    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            REPORT MANAGEMENT                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  dashboard.php  │───▶│report_incident  │───▶│  my_reports.php │
+│                 │    │     .php        │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ view_report.php │    │dispute_center   │    │ uploads/evidence│
+│                 │    │     .php        │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              USER MANAGEMENT                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  dashboard.php  │───▶│  profile.php    │───▶│ settings.php    │
+│                 │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│change_password  │    │deactivate_account│   │  verify_email   │
+│     .php        │    │     .php        │    │     .php        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              AUTHENTICATION                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   login.html    │───▶│ firebase_login  │───▶│    auth.php     │
+│                 │    │     .php        │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ register.html   │    │forgot_password  │    │ reset_password  │
+│                 │    │     .php        │    │     .php        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              ASSETS & STYLING                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   styles.css    │───▶│design-system.css│───▶│portal-effect.js │
+│                 │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   script.js     │    │dashboard-styles │    │dashboard-script │
+│                 │    │     .css        │    │     .js         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              MULTILINGUAL                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   lang_en.php   │◄───│  set_lang.php   │───▶│   lang_bn.php   │
+│                 │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────┐
+                    │ All PHP Files   │
+                    │ (Language Ref)  │
+                    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              DATABASE                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   db.php        │───▶│  Database.php   │───▶│database_schema  │
+│                 │    │ (includes/)     │    │     .sql        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│setup_database   │    │check_sessions   │    │ All PHP Files   │
+│     .php        │    │   _table.php    │    │ (DB Access)     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              RESOURCES                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  dashboard.php  │───▶│safety_resources │    │   README.md     │
+│                 │    │     .php        │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+## 🔄 Key Data Flow Paths
+
+### 1. **User Authentication Flow:**
+```
+
+index.html → login.html → firebase_login.php → auth.php → dashboard.php
+
+```
+
+### 2. **Dashboard Data Flow:**
+```
+
+dashboard.php → realtime_activity.php → Database.php
+dashboard.php → chart_data.php → Database.php
+
+```
+
+### 3. **Report Management Flow:**
+```
+
+dashboard.php → report_incident.php → my_reports.php → view_report.php
+
+```
+
+### 4. **File Upload Flow:**
+```
+
+report_incident.php → uploads/evidence/ → view_report.php
+
+```
+
+### 5. **Language Support Flow:**
+```
+
+All PHP Files → lang_en.php/lang_bn.php ← set_lang.php
+
+```
+
+## 📊 File Categories by Function
+
+### **Frontend Files (HTML/CSS/JS):**
+- `index.html`, `login.html`, `register.html`
+- `styles.css`, `design-system.css`, `dashboard-styles.css`
+- `script.js`, `portal-effect.js`, `dashboard-script.js`, `dashboard-enhanced.js`
+
+### **Backend Files (PHP):**
+- `auth.php`, `firebase_login.php`, `logout.php`
+- `dashboard.php`, `realtime_activity.php`, `chart_data.php`
+- `report_incident.php`, `my_reports.php`, `view_report.php`
+- `profile.php`, `settings.php`, `change_password.php`
+
+### **Database Files:**
+- `db.php`, `includes/Database.php`, `database_schema.sql`
+- `setup_database.php`, `check_sessions_table.php`
+
+### **Language Files:**
+- `lang_en.php`, `lang_bn.php`, `set_lang.php`
+
+### **Upload Files:**
+- `uploads/evidence/` (directory with uploaded files)
+
+### **Documentation:**
+- `README.md`, `FILE_ORGANIZATION.md`, `FILE_CONNECTIONS.md`
+
+This diagram shows how all files are interconnected and helps understand the data flow and dependencies in the Space Login project!
+```

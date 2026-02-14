@@ -266,7 +266,7 @@
 
         <!-- Submit Button -->
         <button type="submit" id="registerBtn" class="submit-btn">
-          <span class="btn-text">Create Account</span>
+          <span class="btn-text">Next</span>
           <span class="btn-loader" style="display: none">
             <svg
               width="20"
@@ -289,6 +289,66 @@
           </p>
         </div>
       </form>
+
+      <!-- Face Recognition Step (Hidden Initially) -->
+      <div
+        id="faceRecognitionStep"
+        class="face-recognition-step"
+        style="display: none"
+      >
+        <div class="register-header">
+          <h2 class="register-title">Face Verification</h2>
+          <p class="register-subtitle">
+            Please position your face in front of the camera
+          </p>
+        </div>
+
+        <div class="face-recognition-container">
+          <div class="webcam-wrapper">
+            <video id="webcamVideo" autoplay playsinline></video>
+            <canvas id="webcamCanvas" style="display: none"></canvas>
+            <div id="faceDetectionOverlay" class="face-overlay"></div>
+          </div>
+
+          <div class="face-instructions">
+            <p><strong>Instructions:</strong></p>
+            <ul>
+              <li>Position your face in the center of the frame</li>
+              <li>Ensure good lighting</li>
+              <li>Look directly at the camera</li>
+              <li>Remove any face coverings</li>
+            </ul>
+          </div>
+
+          <div
+            id="faceRecognitionStatus"
+            class="status-message"
+            role="alert"
+          ></div>
+
+          <div class="face-action-buttons">
+            <button type="button" id="captureFaceBtn" class="submit-btn">
+              <span class="btn-text">Capture & Verify</span>
+              <span class="btn-loader" style="display: none">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+              </span>
+            </button>
+            <button type="button" id="backToFormBtn" class="back-btn">
+              Back to Form
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="register-footer">
         <p class="login-prompt">Already have an account?</p>
         <a class="back-link" href="index.html">Sign In</a>
@@ -387,8 +447,8 @@
       }
 
       // Function to show status message
-      function showStatus(message, type = 'info') {
-        const statusDiv = document.getElementById('registerStatus');
+      function showStatus(message, type = 'info', targetId = 'registerStatus') {
+        const statusDiv = document.getElementById(targetId);
         statusDiv.textContent = message;
         statusDiv.className = `status-message status-${type}`;
         statusDiv.style.display = 'block';
@@ -398,6 +458,78 @@
             statusDiv.style.display = 'none';
           }, 5000);
         }
+      }
+
+      // Store form data temporarily
+      let formData = null;
+      let webcamStream = null;
+      let videoElement = null;
+      let canvasElement = null;
+
+      // Initialize webcam
+      async function initWebcam() {
+        try {
+          videoElement = document.getElementById('webcamVideo');
+          canvasElement = document.getElementById('webcamCanvas');
+
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 640 },
+              height: { ideal: 480 },
+              facingMode: 'user',
+            },
+          });
+
+          webcamStream = stream;
+          videoElement.srcObject = stream;
+
+          return true;
+        } catch (error) {
+          console.error('Error accessing webcam:', error);
+          showStatus(
+            'Unable to access webcam. Please allow camera permissions.',
+            'error',
+            'faceRecognitionStatus'
+          );
+          return false;
+        }
+      }
+
+      // Stop webcam
+      function stopWebcam() {
+        if (webcamStream) {
+          webcamStream.getTracks().forEach((track) => track.stop());
+          webcamStream = null;
+        }
+        if (videoElement) {
+          videoElement.srcObject = null;
+        }
+      }
+
+      // Capture face from webcam
+      function captureFace() {
+        if (!videoElement || !canvasElement) return null;
+
+        const context = canvasElement.getContext('2d');
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+        context.drawImage(videoElement, 0, 0);
+
+        return canvasElement.toDataURL('image/jpeg', 0.8);
+      }
+
+      // Show face recognition step
+      function showFaceRecognitionStep() {
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('faceRecognitionStep').style.display = 'block';
+        initWebcam();
+      }
+
+      // Show registration form
+      function showRegistrationForm() {
+        stopWebcam();
+        document.getElementById('faceRecognitionStep').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
       }
 
       // Preview NID front photo
@@ -418,6 +550,7 @@
           showImagePreview('reg_nid_back', 'nid_back_preview', 'nid_back_img');
         });
 
+      // Handle form submission (Next button)
       document
         .getElementById('registerForm')
         .addEventListener('submit', function (e) {
@@ -433,9 +566,6 @@
             .value.trim();
           const nidFront = document.getElementById('reg_nid_front').files[0];
           const nidBack = document.getElementById('reg_nid_back').files[0];
-          const registerBtn = document.getElementById('registerBtn');
-          const btnText = registerBtn.querySelector('.btn-text');
-          const btnLoader = registerBtn.querySelector('.btn-loader');
 
           // Clear previous status
           showStatus('', 'info');
@@ -479,145 +609,287 @@
             return;
           }
 
-          // Disable button and show loading
-          registerBtn.disabled = true;
+          // Store form data for later use
+          formData = {
+            email: email,
+            password: password,
+            nidNumber: nidNumber,
+            nidFront: nidFront,
+            nidBack: nidBack,
+          };
+
+          // Show face recognition step
+          showFaceRecognitionStep();
+        });
+
+      // Handle face capture and verification
+      document
+        .getElementById('captureFaceBtn')
+        .addEventListener('click', async function () {
+          const captureBtn = document.getElementById('captureFaceBtn');
+          const btnText = captureBtn.querySelector('.btn-text');
+          const btnLoader = captureBtn.querySelector('.btn-loader');
+
+          // Disable button
+          captureBtn.disabled = true;
           btnText.style.display = 'none';
           btnLoader.style.display = 'inline-block';
+          showStatus('Capturing your face...', 'info', 'faceRecognitionStatus');
+
+          // Capture face
+          const faceImage = captureFace();
+          if (!faceImage) {
+            showStatus(
+              'Failed to capture image. Please try again.',
+              'error',
+              'faceRecognitionStatus'
+            );
+            captureBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+            return;
+          }
+
+          // Stop webcam
+          stopWebcam();
+
           showStatus(
-            'Creating Firebase account and uploading NID photos...',
-            'info'
+            'Verifying face with NID photos...',
+            'info',
+            'faceRecognitionStatus'
           );
 
-          let firebaseUser = null;
+          // Send to face recognition API
+          try {
+            // Convert base64 data URL to blob
+            const base64Data = faceImage.split(',')[1];
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'image/jpeg' });
+            const faceFile = new File([blob], 'face.jpg', {
+              type: 'image/jpeg',
+            });
 
-          // Step 1: Create Firebase user account
-          firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-              firebaseUser = userCredential.user;
+            const verifyFormData = new FormData();
+            verifyFormData.append('nid_front', formData.nidFront);
+            verifyFormData.append('nid_back', formData.nidBack);
+            verifyFormData.append('face_image', faceFile);
+
+            const response = await fetch('verify_face.php', {
+              method: 'POST',
+              body: verifyFormData,
+            });
+
+            // Get response text first (even if status is not OK)
+            const responseText = await response.text();
+            console.log('Face verification response status:', response.status);
+            console.log('Face verification response text:', responseText);
+
+            // Try to parse JSON from response (even on error status)
+            let result = null;
+            try {
+              result = JSON.parse(responseText);
+            } catch (parseError) {
+              console.error('Failed to parse JSON response:', parseError);
+              console.error('Raw response:', responseText);
+
+              // If response is not OK and not valid JSON, show the raw response
+              if (!response.ok) {
+                const errorMsg = responseText
+                  ? `Server error (${
+                      response.status
+                    }): ${responseText.substring(0, 200)}`
+                  : `Server error (${response.status}): No response body`;
+                throw new Error(errorMsg);
+              }
+
+              throw new Error(
+                'Invalid JSON response from server: ' +
+                  responseText.substring(0, 200)
+              );
+            }
+
+            // Check if result has success property
+            if (!result || typeof result.success === 'undefined') {
+              throw new Error(
+                'Invalid response format: ' + JSON.stringify(result)
+              );
+            }
+
+            // Check HTTP status code - even if JSON parses, status code matters
+            if (!response.ok && result.message) {
+              throw new Error(
+                result.message || `Server error: ${response.status}`
+              );
+            }
+
+            if (result.success && result.match) {
               showStatus(
-                'Firebase account created! Saving to database...',
-                'info'
+                'Face verified successfully! Creating your account...',
+                'success',
+                'faceRecognitionStatus'
               );
 
-              // Step 2: Save to SQL database with NID photos
-              const formData = new FormData();
-              formData.append('email', email);
-              formData.append('password', password);
-              formData.append('nid_number', nidNumber);
-              formData.append('nid_front', nidFront);
-              formData.append('nid_back', nidBack);
-              formData.append('firebase_uid', firebaseUser.uid); // Include Firebase UID
-
-              return fetch('register.php', {
-                method: 'POST',
-                body: formData,
-              });
-            })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error('Server error: ' + response.status);
-              }
-              return response.json();
-            })
-            .then((data) => {
-              if (data.success) {
-                showStatus(
-                  'Registration successful! Redirecting to login...',
-                  'success'
-                );
-                setTimeout(() => {
-                  window.location.href = 'index.html';
-                }, 2000);
-              } else {
-                // If SQL registration fails, delete Firebase user
-                const currentUser = firebase.auth().currentUser;
-                if (currentUser) {
-                  currentUser
-                    .delete()
-                    .then(() => {
-                      console.log(
-                        'Firebase user deleted due to SQL registration failure'
-                      );
-                    })
-                    .catch((deleteError) => {
-                      console.error(
-                        'Error deleting Firebase user:',
-                        deleteError
-                      );
-                    });
-                }
-                registerBtn.disabled = false;
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
-                showStatus(
-                  data.message || 'Registration failed. Please try again.',
-                  'error'
-                );
-              }
-            })
-            .catch((error) => {
-              // Handle errors: Firebase registration failure OR network error during SQL save
-              const currentUser = firebase.auth().currentUser;
-
-              // If Firebase user was created (currentUser exists) but we got an error,
-              // it means SQL save failed or network error occurred - delete Firebase user
-              if (currentUser && firebaseUser) {
-                currentUser
-                  .delete()
-                  .then(() => {
-                    console.log(
-                      'Firebase user deleted due to registration error'
-                    );
-                  })
-                  .catch((deleteError) => {
-                    console.error('Error deleting Firebase user:', deleteError);
-                  });
-              }
-
-              registerBtn.disabled = false;
+              // Proceed with account creation
+              await createAccount();
+            } else {
+              captureBtn.disabled = false;
               btnText.style.display = 'inline';
               btnLoader.style.display = 'none';
+              showStatus(
+                result.message || 'Face verification failed. Please try again.',
+                'error',
+                'faceRecognitionStatus'
+              );
+              // Restart webcam
+              initWebcam();
+            }
+          } catch (error) {
+            captureBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
 
-              let errorMessage = 'Registration failed. Please try again.';
+            // Extract actual error message
+            let errorMessage = 'Unknown error occurred';
 
-              // Check if it's a Firebase authentication error
-              if (error.code) {
-                switch (error.code) {
-                  case 'auth/email-already-in-use':
-                    errorMessage = 'This email is already registered.';
-                    break;
-                  case 'auth/invalid-email':
-                    errorMessage = 'Invalid email address.';
-                    break;
-                  case 'auth/weak-password':
-                    errorMessage = 'Password is too weak.';
-                    break;
-                  case 'auth/network-request-failed':
-                    errorMessage =
-                      'Network error. Please check your connection and try again.';
-                    break;
-                  default:
-                    errorMessage = error.message || errorMessage;
-                }
-              } else if (error.message) {
-                // Network or other errors
-                if (
-                  error.message.includes('fetch') ||
-                  error.message.includes('network')
-                ) {
-                  errorMessage =
-                    'Network error. Please check your connection and try again.';
-                } else {
-                  errorMessage = error.message;
-                }
-              }
+            if (error.message) {
+              errorMessage = error.message;
+            } else if (
+              error.toString &&
+              error.toString() !== '[object Object]'
+            ) {
+              errorMessage = error.toString();
+            } else if (error.response) {
+              errorMessage = `HTTP ${error.response.status}: ${error.response.statusText}`;
+            }
 
-              showStatus(errorMessage, 'error');
-              console.error('Registration error:', error);
+            // Log full error details
+            console.error('Verification error details:', {
+              error: error,
+              message: errorMessage,
+              name: error.name,
+              stack: error.stack,
+              type: typeof error,
+              stringified: JSON.stringify(
+                error,
+                Object.getOwnPropertyNames(error)
+              ),
             });
+
+            // Show error message (limit length for display)
+            const displayMessage =
+              errorMessage.length > 150
+                ? errorMessage.substring(0, 150) + '...'
+                : errorMessage;
+
+            showStatus(
+              `Error: ${displayMessage}. Check console for full details.`,
+              'error',
+              'faceRecognitionStatus'
+            );
+            // Restart webcam
+            initWebcam();
+          }
         });
+
+      // Handle back button
+      document
+        .getElementById('backToFormBtn')
+        .addEventListener('click', function () {
+          showRegistrationForm();
+        });
+
+      // Create account after face verification
+      async function createAccount() {
+        let firebaseUser = null;
+
+        try {
+          // Step 1: Create Firebase user account
+          const userCredential = await firebase
+            .auth()
+            .createUserWithEmailAndPassword(formData.email, formData.password);
+
+          firebaseUser = userCredential.user;
+
+          // Step 2: Save to SQL database with NID photos
+          const accountFormData = new FormData();
+          accountFormData.append('email', formData.email);
+          accountFormData.append('password', formData.password);
+          accountFormData.append('nid_number', formData.nidNumber);
+          accountFormData.append('nid_front', formData.nidFront);
+          accountFormData.append('nid_back', formData.nidBack);
+          accountFormData.append('firebase_uid', firebaseUser.uid);
+
+          const response = await fetch('register.php', {
+            method: 'POST',
+            body: accountFormData,
+          });
+
+          if (!response.ok) {
+            throw new Error('Server error: ' + response.status);
+          }
+
+          const data = await response.json();
+
+          if (data.success) {
+            showStatus(
+              'Registration successful! Redirecting to login...',
+              'success',
+              'faceRecognitionStatus'
+            );
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 2000);
+          } else {
+            // If SQL registration fails, delete Firebase user
+            const currentUser = firebase.auth().currentUser;
+            if (currentUser) {
+              await currentUser.delete();
+            }
+            showStatus(
+              data.message || 'Registration failed. Please try again.',
+              'error',
+              'faceRecognitionStatus'
+            );
+          }
+        } catch (error) {
+          // If Firebase registration fails, clean up
+          const currentUser = firebase.auth().currentUser;
+          if (currentUser && firebaseUser) {
+            try {
+              await currentUser.delete();
+            } catch (deleteError) {
+              console.error('Error deleting Firebase user:', deleteError);
+            }
+          }
+
+          let errorMessage = 'Registration failed. Please try again.';
+          if (error.code) {
+            switch (error.code) {
+              case 'auth/email-already-in-use':
+                errorMessage = 'This email is already registered.';
+                break;
+              case 'auth/invalid-email':
+                errorMessage = 'Invalid email address.';
+                break;
+              case 'auth/weak-password':
+                errorMessage = 'Password is too weak.';
+                break;
+              default:
+                errorMessage = error.message || errorMessage;
+            }
+          } else if (error.message) {
+            errorMessage = error.message;
+          }
+
+          showStatus(errorMessage, 'error', 'faceRecognitionStatus');
+          console.error('Registration error:', error);
+        }
+      }
     </script>
   </body>
 </html>
