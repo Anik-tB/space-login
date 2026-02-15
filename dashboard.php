@@ -1784,6 +1784,131 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
 
 
+
+        /* Alerts Sidebar Styles */
+        .alerts-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Hidden by default */
+            width: 400px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95); /* Darker glass effect */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 2000; /* Higher than other elements */
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .alerts-sidebar.active {
+            right: 0;
+        }
+
+        .alerts-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .alerts-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Custom Scrollbar for sidebar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .alert-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: transform 0.2s ease, background 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        /* Severity Colors */
+        .alert-card.critical::before { background: #ef4444; }
+        .alert-card.high::before { background: #f97316; }
+        .alert-card.medium::before { background: #eab308; }
+        .alert-card.low::before { background: #3b82f6; }
+        .alert-card.info::before { background: #0ea5e9; }
+
+        .badge-severity {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .alert-card.critical .badge-severity { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .alert-card.high .badge-severity { background: rgba(249, 115, 22, 0.2); color: #fdba74; }
+        .alert-card.medium .badge-severity { background: rgba(234, 179, 8, 0.2); color: #fde047; }
+        .alert-card.low .badge-severity { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+        .alert-card.info .badge-severity { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; }
+
+        .alerts-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1999; /* Just below sidebar */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .alerts-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Sidebar */
+        @media (max-width: 480px) {
+            .alerts-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
     </style>
 
 </head>
@@ -8120,6 +8245,121 @@ if (viewReportDetailsBtn) {
 
     </footer>
 
+
+    <!-- Alerts Sidebar & Overlay -->
+    <div class="alerts-overlay" id="alertsOverlay"></div>
+    <div class="alerts-sidebar" id="alertsSidebar">
+        <div class="alerts-header">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <div class="relative">
+                    <i data-lucide="bell" class="w-5 h-5 text-primary-400"></i>
+                    <?php if (!empty($activeAlerts)): ?>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                    <?php endif; ?>
+                </div>
+                Community Alerts
+            </h3>
+            <button id="closeAlerts" class="text-white/60 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div class="alerts-content custom-scrollbar">
+            <?php if (empty($activeAlerts)): ?>
+                <div class="flex flex-col items-center justify-center h-full text-center text-white/50 space-y-4 py-12">
+                    <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-2">
+                        <i data-lucide="bell-off" class="w-8 h-8 text-white/30"></i>
+                    </div>
+                    <div>
+                        <p class="text-white/80 font-medium">No active alerts</p>
+                        <p class="text-xs mt-1">Your community is currently safe.</p>
+                    </div>
+                </div>
+            <?php else: ?>
+                <?php foreach ($activeAlerts as $alert): ?>
+                    <div class="alert-card <?= htmlspecialchars($alert['severity']) ?>">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="badge-severity">
+                                <?= htmlspecialchars($alert['severity']) ?>
+                            </span>
+                            <span class="text-xs text-white/50 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3 h-3"></i>
+                                <?= date('M j, g:i a', strtotime($alert['start_time'])) ?>
+                            </span>
+                        </div>
+                        <h4 class="text-base font-semibold text-white mb-1.5 leading-tight"><?= htmlspecialchars($alert['title']) ?></h4>
+                        <p class="text-sm text-white/70 mb-3 line-clamp-3 leading-relaxed"><?= htmlspecialchars($alert['description']) ?></p>
+
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                            <div class="flex items-center text-xs text-secondary-300">
+                                <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i>
+                                <span class="truncate max-w-[180px]"><?= htmlspecialchars($alert['location_name'] ?? 'Unknown Location') ?></span>
+                            </div>
+                            <!-- <button class="text-xs text-primary-400 hover:text-primary-300 font-medium flex items-center">
+                                Details <i data-lucide="chevron-right" class="w-3 h-3 ml-0.5"></i>
+                            </button> -->
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="p-4 border-t border-white/10 bg-white/5">
+            <a href="community_alerts.php" class="btn btn-primary w-full flex items-center justify-center gap-2 py-2.5">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                View All Community Alerts
+            </a>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const alertsBtn = document.querySelector('[data-nav="alerts"]');
+        const alertsSidebar = document.getElementById('alertsSidebar');
+        const alertsOverlay = document.getElementById('alertsOverlay');
+        const closeAlertsBtn = document.getElementById('closeAlerts');
+
+        function toggleAlerts(e) {
+            if (e) e.preventDefault();
+
+            const isActive = alertsSidebar.classList.contains('active');
+
+            if (isActive) {
+                alertsSidebar.classList.remove('active');
+                alertsOverlay.classList.remove('active');
+                if (alertsBtn) alertsBtn.classList.remove('active');
+            } else {
+                alertsSidebar.classList.add('active');
+                alertsOverlay.classList.add('active');
+                if (alertsBtn) alertsBtn.classList.add('active');
+            }
+        }
+
+        if (alertsBtn) {
+            alertsBtn.addEventListener('click', toggleAlerts);
+        }
+
+        if (closeAlertsBtn) {
+            closeAlertsBtn.addEventListener('click', toggleAlerts);
+        }
+
+        if (alertsOverlay) {
+            alertsOverlay.addEventListener('click', toggleAlerts);
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && alertsSidebar.classList.contains('active')) {
+                toggleAlerts();
+            }
+        });
+
+        // Re-initialize Lucide icons for the new content if needed
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+    </script>
 </body>
 
 </html>
