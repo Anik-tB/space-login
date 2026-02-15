@@ -3,28 +3,21 @@ session_start();
 require_once __DIR__ . '/includes/Database.php';
 require_once __DIR__ . '/includes/broadcast_map_update.php';
 
-// Check admin authentication
+// STRICT ADMIN AUTHENTICATION
 $userId = $_SESSION['user_id'] ?? null;
-if (!$userId) {
+if (!$userId || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized - Admin access required']);
     exit;
 }
 
 $database = new Database();
 $user = $database->fetchOne("SELECT id, email, is_admin FROM users WHERE id = ?", [$userId]);
 
-// Verify admin status
-$isAdmin = false;
-if (isset($user['is_admin']) && $user['is_admin'] == 1) {
-    $isAdmin = true;
-} elseif (strpos(strtolower($user['email'] ?? ''), 'admin') !== false) {
-    $isAdmin = true;
-}
-
-if (!$isAdmin) {
+// Verify admin status - STRICT: only is_admin = 1
+if (!$user || $user['is_admin'] != 1) {
     http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Access denied']);
+    echo json_encode(['success' => false, 'message' => 'Access denied - Not an administrator']);
     exit;
 }
 
@@ -236,13 +229,15 @@ try {
             break;
 
         case 'get_all':
-            $alerts = $database->fetchAll(
-                "SELECT a.*, u.display_name, u.email
-                 FROM alerts a
-                 LEFT JOIN users u ON a.source_user_id = u.id
-                 ORDER BY a.start_time DESC
-                 LIMIT 50"
-            );
+            $full = isset($_GET['full']) && $_GET['full'] === '1';
+            $sql = "SELECT a.*, u.display_name, u.email
+                    FROM alerts a
+                    LEFT JOIN users u ON a.source_user_id = u.id
+                    ORDER BY a.start_time DESC";
+            if (!$full) {
+                $sql .= " LIMIT 50";
+            }
+            $alerts = $database->fetchAll($sql);
 
             echo json_encode([
                 'success' => true,

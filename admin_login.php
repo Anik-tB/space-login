@@ -23,14 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_login'])) {
             );
 
             if ($user) {
-                // Check if user is admin (by email or is_admin field)
+                // STRICT: Only check is_admin field in database
                 $isAdmin = false;
 
-                // Check is_admin field if it exists
+                // Check is_admin field - must be exactly 1
                 if (isset($user['is_admin']) && $user['is_admin'] == 1) {
-                    $isAdmin = true;
-                } elseif (strpos(strtolower($user['email']), 'admin') !== false ||
-                          strtolower($user['email']) === 'admin@safespace.com') {
                     $isAdmin = true;
                 }
 

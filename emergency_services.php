@@ -313,33 +313,55 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         .filter-tabs {
             display: flex;
             overflow-x: auto;
-            padding: 1.25rem;
-            gap: 0.6rem;
+            padding: 1.5rem;
+            gap: 1rem;
             background: rgba(0, 0, 0, 0.3);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            scrollbar-width: none;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(102, 126, 234, 0.5) rgba(255, 255, 255, 0.1);
         }
 
         .filter-tabs::-webkit-scrollbar {
-            display: none;
+            height: 8px;
+        }
+
+        .filter-tabs::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin: 0 1.5rem;
+        }
+
+        .filter-tabs::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .filter-tabs::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.7);
         }
 
         .filter-tab {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-secondary);
-            padding: 0.7rem 1.3rem;
+            padding: 1rem 2rem;
             border-radius: 50px;
             cursor: pointer;
             white-space: nowrap;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             position: relative;
             overflow: hidden;
+            min-width: fit-content;
+        }
+
+        .filter-tab span:first-child {
+            font-size: 1.5rem;
         }
 
         .filter-tab::before {
@@ -991,23 +1013,23 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
                 </button>
                 <button class="filter-tab" data-type="police_station">
                     <span>👮</span>
-                    <span>Police</span>
+                    <span>Police Stations</span>
                 </button>
                 <button class="filter-tab" data-type="hospital">
                     <span>🏥</span>
-                    <span>Hospital</span>
+                    <span>Hospitals</span>
                 </button>
                 <button class="filter-tab" data-type="womens_helpdesk">
                     <span>👩‍⚖️</span>
-                    <span>Women</span>
+                    <span>Women's Helpdesks</span>
                 </button>
                 <button class="filter-tab" data-type="fire_station">
                     <span>🚒</span>
-                    <span>Fire</span>
+                    <span>Fire Stations</span>
                 </button>
                 <button class="filter-tab" data-type="ngo">
                     <span>🤝</span>
-                    <span>NGO</span>
+                    <span>NGOs</span>
                 </button>
             </div>
 

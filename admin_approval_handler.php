@@ -11,28 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once __DIR__ . '/includes/Database.php';
 
-// Check admin authentication
+// STRICT ADMIN AUTHENTICATION
 $userId = $_SESSION['user_id'] ?? null;
-if (!$userId) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+if (!$userId || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    echo json_encode(['success' => false, 'message' => 'Unauthorized - Admin access required']);
     exit;
 }
 
-// Check if user is admin (you can add is_admin field to users table)
 $database = new Database();
-$user = $database->fetchOne("SELECT id, email, display_name FROM users WHERE id = ?", [$userId]);
-if (!$user) {
-    echo json_encode(['success' => false, 'message' => 'User not found']);
-    exit;
-}
-
-// For now, allow if user email contains 'admin' or is admin@safespace.com
-// In production, add is_admin field to users table
-$isAdmin = strpos(strtolower($user['email'] ?? ''), 'admin') !== false ||
-           strtolower($user['email'] ?? '') === 'admin@safespace.com';
-
-if (!$isAdmin) {
-    echo json_encode(['success' => false, 'message' => 'Admin access required']);
+$user = $database->fetchOne("SELECT id, email, display_name, is_admin FROM users WHERE id = ?", [$userId]);
+if (!$user || $user['is_admin'] != 1) {
+    echo json_encode(['success' => false, 'message' => 'Access denied - Not an administrator']);
     exit;
 }
 

@@ -82,37 +82,25 @@ $database = new Database();
 
 require_once __DIR__ . '/includes/Database.php';
 
-// Check admin authentication
+// STRICT ADMIN AUTHENTICATION - Only allow users with is_admin = 1
 $userId = $_SESSION['user_id'] ?? null;
-if (!$userId) {
-    header('Location: admin_login.php');
+
+// Check if user is logged in and has admin session flag
+if (!$userId || !isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    session_destroy();
+    header('Location: admin_login.php?error=access_denied');
     exit;
 }
 
 $database = new Database();
+
+// Verify user exists and is admin in database
 $user = $database->fetchOne("SELECT id, email, display_name, is_admin FROM users WHERE id = ?", [$userId]);
-if (!$user) {
-    header('Location: admin_login.php');
+if (!$user || $user['is_admin'] != 1) {
+    // User is not admin or doesn't exist - destroy session and redirect
+    session_destroy();
+    header('Location: admin_login.php?error=not_authorized');
     exit;
-}
-
-// Check if user is admin (check is_admin field first, then email)
-$isAdmin = false;
-if (isset($user['is_admin']) && $user['is_admin'] == 1) {
-    $isAdmin = true;
-} elseif (strpos(strtolower($user['email'] ?? ''), 'admin') !== false ||
-          strtolower($user['email'] ?? '') === 'admin@safespace.com') {
-    $isAdmin = true;
-}
-
-if (!$isAdmin) {
-    header('Location: admin_login.php');
-    exit;
-}
-
-// Check if admin session is set
-if (!isset($_SESSION['is_admin'])) {
-    $_SESSION['is_admin'] = true;
 }
 
 // Set admin name in session for display
@@ -842,10 +830,12 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
             if (savedTheme === 'dark') {
                 adminBody.classList.add('dark-theme');
                 themeToggle.textContent = '☀️';
-                themeToggle.title = 'Switch to Light Mode';
+                themeToggle.title = 'Switch to light mode';
+                themeToggle.setAttribute('aria-label', 'Switch to light mode');
             } else {
                 themeToggle.textContent = '🌙';
-                themeToggle.title = 'Switch to Dark Mode';
+                themeToggle.title = 'Switch to dark mode';
+                themeToggle.setAttribute('aria-label', 'Switch to dark mode');
             }
 
             // Toggle theme
@@ -857,7 +847,8 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                 const isDark = adminBody.classList.contains('dark-theme');
 
                 themeToggle.textContent = isDark ? '☀️' : '🌙';
-                themeToggle.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+                themeToggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+                themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
                 localStorage.setItem('adminTheme', isDark ? 'dark' : 'light');
 
                 // Update charts if they exist
@@ -871,10 +862,11 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
     <script src="js/admin-alert-management.js" defer></script>
 </head>
 <body class="admin-body" id="adminBody">
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <div class="dashboard-shell">
-    <aside class="dashboard-nav">
+    <aside class="dashboard-nav" aria-label="Admin navigation">
         <div class="dashboard-nav__brand">
-            <span class="brand-mark">🛡️</span>
+            <span class="brand-mark" aria-hidden="true">🛡️</span>
             <div>
                 <strong>SafeSpace</strong>
                 <small>Command Suite</small>
@@ -882,46 +874,66 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
         </div>
         <nav class="dashboard-nav__links">
             <a class="nav-item active" href="admin_dashboard.php">
-                <span style="margin-right: 8px;">📊</span> Overview
+                <span class="nav-item__icon" aria-hidden="true">📊</span> Overview
+            </a>
+            <a class="nav-item" href="admin_view_all_alerts.php">
+                <span class="nav-item__icon" aria-hidden="true">🚨</span> All Alerts
             </a>
             <a class="nav-item" href="dashboard.php">
-                <span style="margin-right: 8px;">👥</span> Citizen Portal
+                <span class="nav-item__icon" aria-hidden="true">👥</span> Citizen Portal
             </a>
             <a class="nav-item" href="report_incident.php">
-                <span style="margin-right: 8px;">📝</span> Intake Desk
+                <span class="nav-item__icon" aria-hidden="true">📝</span> Intake Desk
             </a>
             <a class="nav-item" href="dispute_center.php">
-                <span style="margin-right: 8px;">⚖️</span> Disputes
+                <span class="nav-item__icon" aria-hidden="true">⚖️</span> Disputes
             </a>
             <a class="nav-item" href="safety_resources.php">
-                <span style="margin-right: 8px;">📚</span> Resources
+                <span class="nav-item__icon" aria-hidden="true">📚</span> Resources
             </a>
-            <a class="nav-item" href="logout.php" style="color: #ef4444;">
-                <span style="margin-right: 8px;">🚪</span> Logout
+            <a class="nav-item nav-item--logout" href="logout.php" data-confirm-logout="1">
+                <span class="nav-item__icon" aria-hidden="true">🚪</span> Logout
             </a>
         </nav>
         <div class="dashboard-nav__meta">
-            <span>Operational</span>
-            <small>Updated <?= date('d M Y, H:i') ?></small>
+            <span class="dashboard-nav__status-line">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Operational</span>
+            </span>
+            <small>Data as of <?= date('d M Y, H:i') ?></small>
         </div>
     </aside>
-    <main class="dashboard-main">
+    <main id="main-content" class="dashboard-main" role="main">
         <header class="dashboard-header">
             <div class="header-title">
                 <h1>National Safety Dashboard</h1>
-                <span>Live insights for rapid response</span>
+                <span class="header-subtitle">Live insights for rapid response</span>
             </div>
             <div class="header-actions">
-                <div class="header-search">
-                    <input type="search" placeholder="Search reports" name="global-search" />
-                </div>
-                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode" style="position: relative; top: auto; right: auto; margin-left: 12px;">🌙</button>
-                <div class="header-user">
-                    <span class="user-avatar"><?= strtoupper(substr($_SESSION['admin_name'] ?? 'Gov', 0, 1)); ?></span>
+                <form method="get" action="admin_dashboard.php#incident-registry" class="header-search" role="search">
+                    <input type="search" placeholder="Search reports by title, location, or citizen..." name="q" value="<?= htmlspecialchars($searchTerm ?? '', ENT_QUOTES, 'UTF-8'); ?>" aria-label="Search reports" />
+                    <button type="submit" class="ghost-btn header-search-btn" title="Search">Search</button>
+                </form>
+                <button type="button" class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+                <div class="header-user" role="presentation">
+                    <span class="user-avatar" aria-hidden="true"><?= strtoupper(substr($_SESSION['admin_name'] ?? 'Gov', 0, 1)); ?></span>
                     <span class="user-name"><?= htmlspecialchars($_SESSION['admin_name'] ?? 'Control Officer', ENT_QUOTES, 'UTF-8'); ?></span>
                 </div>
             </div>
         </header>
+
+        <div class="dashboard-toolbar" aria-live="polite">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list">
+                    <li class="breadcrumb__item"><a href="admin_dashboard.php">Dashboard</a></li>
+                    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">Overview</li>
+                </ol>
+            </nav>
+            <div class="data-freshness">
+                <span class="data-freshness__label">Data updated</span>
+                <time datetime="<?= date('c'); ?>" class="data-freshness__time"><?= date('d M Y, H:i'); ?></time>
+            </div>
+        </div>
 
         <?php if ($error): ?>
             <div class="alert-banner" style="background: #fee2e2; color: #b91c1c; padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fecaca;">
@@ -938,16 +950,16 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
         <?php endif; ?>
 
         <section class="summary-strip">
-            <article class="summary-card">
+            <a href="view_all_reports.php" class="summary-card summary-card--link" title="View all reports">
                 <span class="summary-label">Total Reports</span>
                 <strong><?= number_format($metrics['total_reports'] ?? 0); ?></strong>
                 <small><?= number_format($metrics['reports_last_24h'] ?? 0); ?> past 24h</small>
-            </article>
-            <article class="summary-card">
+            </a>
+            <a href="admin_dashboard.php?severity=critical#incident-registry" class="summary-card summary-card--link" title="View critical backlog">
                 <span class="summary-label">Critical Backlog</span>
                 <strong><?= number_format($metrics['critical_backlog'] ?? 0); ?></strong>
                 <small><?= number_format($metrics['active_investigations'] ?? 0); ?> in review</small>
-            </article>
+            </a>
             <article class="summary-card">
                 <span class="summary-label">Response Time</span>
                 <strong><?= number_format($metrics['avg_response_time'] ?? 0, 1); ?>m</strong>
@@ -999,22 +1011,25 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
 
         <section class="grid">
             <article class="panel">
-                <header><h2>Recent Reports</h2></header>
+                <header class="panel-header-with-action">
+                    <h2>Recent Reports</h2>
+                    <a href="view_all_reports.php" class="feed-view-all-link">View All →</a>
+                </header>
                 <ul class="feed">
                     <?php if (!empty($recentReports)): ?>
                         <?php foreach (array_slice($recentReports, 0, 5) as $report): ?>
-                            <li>
+                            <li class="feed-item">
                                 <span class="feed-pill severity-<?= htmlspecialchars($report['severity']); ?>"></span>
                                 <div class="feed-body">
                                     <strong><?= htmlspecialchars(mb_strimwidth($report['title'], 0, 35, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></strong>
                                     <small><?= htmlspecialchars(ucwords(str_replace('_', ' ', $report['status'])), ENT_QUOTES, 'UTF-8'); ?> • <?= date('d M H:i', strtotime($report['reported_date'])); ?></small>
                                 </div>
-                                <a href="view_report.php?id=<?= (int)$report['id']; ?>" style="padding: 6px 12px; background: #6366f1; color: white; border-radius: 6px; font-size: 0.75rem; text-decoration: none;">View</a>
+                                <a href="view_report.php?id=<?= (int)$report['id']; ?>" class="feed-btn-view" title="View full report">View</a>
                             </li>
                         <?php endforeach; ?>
                         <?php if (count($recentReports) > 5): ?>
-                            <li style="text-align: center; padding: 12px;">
-                                <a href="view_all_reports.php" style="color: #6366f1; font-weight: 600; font-size: 0.85rem; text-decoration: none;">View All <?= count($recentReports); ?> Reports →</a>
+                            <li class="feed-view-all-row">
+                                <a href="view_all_reports.php" class="feed-view-all-link">View All <?= count($recentReports); ?> Reports →</a>
                             </li>
                         <?php endif; ?>
                     <?php else: ?>
@@ -1023,22 +1038,25 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                 </ul>
             </article>
             <article class="panel">
-                <header><h2>Alert Feed</h2></header>
+                <header class="panel-header-with-action">
+                    <h2>Alert Feed</h2>
+                    <a href="admin_view_all_alerts.php" class="feed-view-all-link">View All →</a>
+                </header>
                 <ul class="feed">
                     <?php if (!empty($recentAlerts)): ?>
                         <?php foreach (array_slice($recentAlerts, 0, 5) as $alert): ?>
-                            <li>
+                            <li class="feed-item">
                                 <span class="feed-pill alert-<?= strtolower($alert['severity']); ?>"></span>
                                 <div class="feed-body">
                                     <strong><?= htmlspecialchars(mb_strimwidth($alert['title'], 0, 35, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></strong>
                                     <small><?= htmlspecialchars(ucwords($alert['severity']), ENT_QUOTES, 'UTF-8'); ?> • <?= date('d M H:i', strtotime($alert['start_time'])); ?></small>
                                 </div>
-                                <a href="dashboard.php#alerts" style="padding: 6px 12px; background: #4f46e5; color: white; border-radius: 6px; font-size: 0.75rem;">View</a>
+                                <a href="admin_view_all_alerts.php" class="feed-btn-view" title="View in Alert Management">View</a>
                             </li>
                         <?php endforeach; ?>
                         <?php if (count($recentAlerts) > 5): ?>
-                            <li style="text-align: center; padding: 12px;">
-                                <a href="dashboard.php#alerts" style="color: #4f46e5; font-weight: 600; font-size: 0.85rem;">View All Alerts →</a>
+                            <li class="feed-view-all-row">
+                                <a href="admin_view_all_alerts.php" class="feed-view-all-link">View All <?= count($recentAlerts); ?> Alerts →</a>
                             </li>
                         <?php endif; ?>
                     <?php else: ?>
@@ -1056,25 +1074,30 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                     </div>
                 <?php endif; ?>
             </article>
+        </section>
 
-            <!-- Alert Management Panel -->
-            <article class="panel">
-                <header style="display: flex; justify-content: space-between; align-items: center;">
-                    <h2>🚨 Alert Management</h2>
-                    <button onclick="openCreateAlertModal()" class="ghost-btn" style="padding: 10px 20px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);">
-                        ➕ Create New Alert
-                    </button>
+        <!-- Alert Management - Full width for better screen use -->
+        <section class="alert-management-section">
+            <article class="panel alert-management-panel">
+                <header class="alert-management-header">
+                    <h2 class="alert-management-title">🚨 Alert Management</h2>
+                    <div class="alert-management-actions">
+                        <a href="admin_view_all_alerts.php" class="btn-view-all-alerts">View All →</a>
+                        <button type="button" onclick="openCreateAlertModal()" class="btn-create-alert">
+                            <span class="btn-create-alert-icon">➕</span> Create New Alert
+                        </button>
+                    </div>
                 </header>
-                <div id="alertManagementContainer" style="margin-top: 16px;">
-                    <p style="text-align: center; color: #94a3b8; padding: 20px;">Loading alerts...</p>
+                <div id="alertManagementContainer" class="alert-management-container">
+                    <p class="alert-management-loading">Loading alerts...</p>
                 </div>
             </article>
         </section>
 
-        <section class="panel panel--wide">
+        <section id="incident-registry" class="panel panel--wide">
             <header>
                 <h2>Incident Registry</h2>
-                <form method="get" class="filter-set">
+                <form method="get" action="admin_dashboard.php#incident-registry" class="filter-set">
                     <select name="status">
                         <?php foreach ($statusOptions as $option): ?>
                             <option value="<?= $option; ?>" <?= $statusFilter === $option ? 'selected' : ''; ?>>
@@ -1092,10 +1115,18 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                     <input type="search" name="q" placeholder="Search" value="<?= htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8'); ?>" />
                     <button type="submit" class="ghost-btn">Apply</button>
                     <?php if ($statusFilter !== 'all' || $severityFilter !== 'all' || $searchTerm !== ''): ?>
-                        <a class="ghost-btn" href="admin_dashboard.php">Reset</a>
+                        <a class="ghost-btn" href="admin_dashboard.php#incident-registry">Reset filters</a>
                     <?php endif; ?>
                 </form>
             </header>
+            <?php
+            $displayCount = count($tableData);
+            $shownCount = min(10, $displayCount);
+            if ($displayCount > 0): ?>
+            <div class="table-toolbar">
+                <span class="table-toolbar__count">Showing <?= $shownCount; ?> of <?= $displayCount; ?> reports</span>
+            </div>
+            <?php endif; ?>
             <div class="table-wrap" style="max-height: 450px; overflow-y: auto;">
                 <table class="data-table">
                     <thead>
@@ -1134,21 +1165,25 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="9" class="list-empty">No records match filters</td>
+                            <td colspan="9">
+                                <div class="empty-state">
+                                    <span class="empty-state__icon" aria-hidden="true">📋</span>
+                                    <p class="empty-state__title">No reports match filters</p>
+                                    <p class="empty-state__text">Try changing status, severity, or search term.</p>
+                                    <a href="admin_dashboard.php#incident-registry" class="ghost-btn empty-state__action">Reset filters</a>
+                                </div>
+                            </td>
                         </tr>
                     <?php endif; ?>
                     </tbody>
                 </table>
             </div>
-            <?php if (count($tableData) > 10): ?>
-                <div style="text-align: center; padding: 16px; border-top: 1px solid #e2e8f0;">
-                    <a href="view_all_reports.php?status=<?= $statusFilter; ?>&severity=<?= $severityFilter; ?>&q=<?= urlencode($searchTerm); ?>"
-                       class="ghost-btn"
-                       style="padding: 10px 24px; background: #6366f1; color: white; border: none; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.2s ease;">
-                        View All <?= count($tableData); ?> Reports →
-                    </a>
-                </div>
-            <?php endif; ?>
+            <div class="incident-registry-footer">
+                <a href="view_all_reports.php?status=<?= htmlspecialchars($statusFilter, ENT_QUOTES, 'UTF-8'); ?>&severity=<?= htmlspecialchars($severityFilter, ENT_QUOTES, 'UTF-8'); ?>&q=<?= urlencode($searchTerm ?? ''); ?>"
+                   class="btn-view-all-reports">
+                    View All <?= count($tableData); ?> Reports →
+                </a>
+            </div>
         </section>
 
         <!-- Pending Approvals Section -->
@@ -1357,15 +1392,20 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
 
 
         <footer class="dashboard-footer">
-            <span>© <?= date('Y'); ?> SafeSpace Command Center</span>
-            <span>Authorized Personnel Only</span>
+            <span>© <?= date('Y'); ?> SafeSpace Command Center. Authorized use only.</span>
+            <span class="dashboard-footer__version">Admin v1.0</span>
         </footer>
     </main>
 </div>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
+        // Logout confirmation
+        document.querySelectorAll('[data-confirm-logout="1"]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                if (!confirm('Are you sure you want to log out?')) e.preventDefault();
+            });
+        });
     </script>
 </body>
 </html>

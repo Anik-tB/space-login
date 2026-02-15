@@ -5,9 +5,11 @@
 // Global variables for alert management
 let currentEditingAlertId = null;
 
-// Load all alerts
+// Load all alerts (use full=1 on View All page to fetch all alerts without limit)
 function loadAlerts() {
-    fetch('admin_alert_handler.php?action=get_all')
+    const isViewAllPage = document.body && document.body.getAttribute('data-view-all-alerts') === '1';
+    const url = 'admin_alert_handler.php?action=get_all' + (isViewAllPage ? '&full=1' : '');
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -28,47 +30,54 @@ function displayAlerts(alerts) {
     if (!container) return;
 
     if (!alerts || alerts.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 20px;">No alerts found. Create your first alert!</p>';
+        container.innerHTML = '<p class="alert-management-empty">No alerts found. Create your first alert!</p>';
         return;
     }
 
-    let html = '<div style="display: grid; gap: 12px;">';
+    const severityColors = {
+        low: '#22c55e',
+        medium: '#f59e0b',
+        high: '#ef4444',
+        critical: '#dc2626'
+    };
+
+    let html = '<ul class="alert-cards-grid">';
 
     alerts.forEach(alert => {
         const isActive = parseInt(alert.is_active) === 1;
-        const severityColors = {
-            low: '#22c55e',
-            medium: '#f59e0b',
-            high: '#ef4444',
-            critical: '#dc2626'
-        };
         const severityColor = severityColors[alert.severity] || '#6366f1';
+        const locationDisplay = alert.location_name || (alert.latitude && alert.longitude
+            ? (parseFloat(alert.latitude).toFixed(4) + ', ' + parseFloat(alert.longitude).toFixed(4))
+            : '');
+        const radiusDisplay = alert.radius_km ? (parseFloat(alert.radius_km) + ' km') : '';
+        const timeStr = new Date(alert.start_time).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const desc = escapeHtml(alert.description || '').substring(0, 150) + (alert.description && alert.description.length > 150 ? '...' : '');
 
         html += `
-            <div style="background: ${isActive ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.1)'}; border: 1px solid ${isActive ? severityColor : '#64748b'}; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; ${!isActive ? 'opacity: 0.6;' : ''}">
-                <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="background: ${severityColor}; color: white; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${alert.severity}</span>
-                        <span style="background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">${alert.type}</span>
-                        ${!isActive ? '<span style="background: rgba(100, 116, 139, 0.3); color: #94a3b8; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">INACTIVE</span>' : ''}
+            <li class="alert-card ${!isActive ? 'alert-card--inactive' : ''}" style="border-left: 4px solid ${severityColor};">
+                <div class="alert-card__body">
+                    <div class="alert-card__tags">
+                        <span class="alert-card__tag alert-card__tag--severity" style="background:${severityColor}">${escapeHtml(alert.severity)}</span>
+                        <span class="alert-card__tag alert-card__tag--type">${escapeHtml(alert.type)}</span>
+                        ${!isActive ? '<span class="alert-card__tag alert-card__tag--inactive">INACTIVE</span>' : ''}
                     </div>
-                    <h3 style="margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 600; color: ${isActive ? '#f1f5f9' : '#94a3b8'};">${escapeHtml(alert.title)}</h3>
-                    <p style="margin: 0 0 8px 0; color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">${escapeHtml(alert.description || '').substring(0, 150)}${alert.description && alert.description.length > 150 ? '...' : ''}</p>
-                    <div style="display: flex; gap: 16px; font-size: 0.85rem; color: #64748b;">
-                        ${alert.location_name ? `<span>📍 ${escapeHtml(alert.location_name)}</span>` : ''}
-                        ${alert.radius_km ? `<span>🎯 ${alert.radius_km} km</span>` : ''}
-                        <span>🕐 ${new Date(alert.start_time).toLocaleString('en-US', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</span>
+                    <h3 class="alert-card__title">${escapeHtml(alert.title)}</h3>
+                    ${desc ? `<p class="alert-card__description">${desc}</p>` : ''}
+                    <div class="alert-card__meta">
+                        ${locationDisplay ? `<span class="alert-card__meta-item">📍 <span>${escapeHtml(locationDisplay)}</span></span>` : ''}
+                        ${radiusDisplay ? `<span class="alert-card__meta-item">🎯 <span>${radiusDisplay}</span></span>` : ''}
+                        <span class="alert-card__meta-item">🕐 <span>${timeStr}</span></span>
                     </div>
                 </div>
-                <div style="display: flex; gap: 8px; margin-left: 16px;">
-                    <button onclick="editAlert(${alert.id})" style="padding: 8px 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;">✏️ Edit</button>
-                    <button onclick="deleteAlert(${alert.id})" style="padding: 8px 16px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;">🗑️ Delete</button>
+                <div class="alert-card__actions">
+                    <button type="button" class="alert-card__btn alert-card__btn--edit" onclick="editAlert(${alert.id})">✏️ Edit</button>
+                    <button type="button" class="alert-card__btn alert-card__btn--delete" onclick="deleteAlert(${alert.id})">🗑️ Delete</button>
                 </div>
-            </div>
+            </li>
         `;
     });
 
-    html += '</div>';
+    html += '</ul>';
     container.innerHTML = html;
 }
 

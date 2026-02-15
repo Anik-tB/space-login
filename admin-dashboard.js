@@ -145,6 +145,12 @@ window.loadMoreItems = function(type, total) {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM Content Loaded - Initializing admin dashboard');
 
+  // Scroll to Incident Registry when landing with hash (e.g. from search or Critical Backlog)
+  if (window.location.hash === '#incident-registry') {
+    const el = document.getElementById('incident-registry');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   const chartPayload = window.SAFE_SPACE_ADMIN_DATA || {};
   console.log('Chart payload received:', chartPayload);
 
@@ -897,28 +903,27 @@ function updateTabCountsFromServer(counts) {
 }
 
 function showNotification(message, type) {
+  type = type || 'info';
+  let container = document.getElementById('admin-notification-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'admin-notification-container';
+    container.className = 'admin-notification-container';
+    container.setAttribute('aria-live', 'polite');
+    container.setAttribute('aria-atomic', 'false');
+    document.body.appendChild(container);
+  }
   const notification = document.createElement('div');
   notification.className = `notification notification-${type}`;
   notification.textContent = message;
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    background: ${type === 'success' ? '#10b981' : '#ef4444'};
-    color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 10000;
-    animation: slideIn 0.3s ease-out;
-  `;
+  notification.setAttribute('role', 'status');
 
-  document.body.appendChild(notification);
+  container.appendChild(notification);
 
   setTimeout(() => {
-    notification.style.animation = 'slideOut 0.3s ease-out';
+    notification.classList.add('notification--exit');
     setTimeout(() => notification.remove(), 300);
-  }, 3000);
+  }, 3500);
 }
 
 // Make loadMoreItems globally available
