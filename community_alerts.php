@@ -710,91 +710,107 @@ $alerts = $models->getActiveAlerts();
             showLoading(true);
             alertsLayer.clearLayers();
 
+            const alertsData = <?php echo json_encode(array_map(function($alert) {
+                // Ensure numeric values are numbers
+                $alert['latitude'] = (float)$alert['latitude'];
+                $alert['longitude'] = (float)$alert['longitude'];
+                return $alert;
+            }, $alerts)); ?>;
+
             let validMarkersCount = 0;
+            const markers = [];
 
-            <?php foreach ($alerts as $alert): ?>
-                <?php if (!empty($alert['latitude']) && !empty($alert['longitude'])): ?>
-                    const lat<?php echo $alert['id']; ?> = parseFloat(<?php echo $alert['latitude']; ?>);
-                    const lng<?php echo $alert['id']; ?> = parseFloat(<?php echo $alert['longitude']; ?>);
+            alertsData.forEach(alert => {
+                if (!alert.latitude || !alert.longitude) return;
 
-                    // Validate coordinates - check if they are valid numbers and within valid ranges
-                    if (isNaN(lat<?php echo $alert['id']; ?>) || isNaN(lng<?php echo $alert['id']; ?>) ||
-                        lat<?php echo $alert['id']; ?> < -90 || lat<?php echo $alert['id']; ?> > 90 ||
-                        lng<?php echo $alert['id']; ?> < -180 || lng<?php echo $alert['id']; ?> > 180) {
-                        console.warn('Invalid coordinates for alert <?php echo $alert['id']; ?>:', lat<?php echo $alert['id']; ?>, lng<?php echo $alert['id']; ?>);
-                    } else {
+                const lat = alert.latitude;
+                const lng = alert.longitude;
 
-                    const severity<?php echo $alert['id']; ?> = '<?php echo $alert['severity'] ?? 'medium'; ?>';
-                    const color<?php echo $alert['id']; ?> = getSeverityColor(severity<?php echo $alert['id']; ?>);
-                    const isCritical<?php echo $alert['id']; ?> = severity<?php echo $alert['id']; ?>.toLowerCase() === 'critical';
+                // Validate coordinates
+                if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                    console.warn('Invalid coordinates for alert:', alert.id, lat, lng);
+                    return;
+                }
 
-                    const alert<?php echo $alert['id']; ?> = L.marker([lat<?php echo $alert['id']; ?>, lng<?php echo $alert['id']; ?>], {
-                        icon: L.divIcon({
-                            className: 'alert-marker',
-                            html: `<div class="${isCritical<?php echo $alert['id']; ?> ? 'alert-marker-pulse' : ''}" style="
-                                width: 36px;
-                                height: 36px;
-                                background: ${color<?php echo $alert['id']; ?>};
-                                border: 4px solid white;
-                                border-radius: 50%;
-                                box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-weight: bold;
-                                color: white;
-                                font-size: 18px;
-                            ">⚠</div>`,
-                            iconSize: [36, 36],
-                            iconAnchor: [18, 18]
-                        })
-                    });
+                const severity = alert.severity || 'medium';
+                const color = getSeverityColor(severity);
+                const isCritical = severity.toLowerCase() === 'critical';
 
-                    const popupContent = `
-                        <div style="min-width: 280px; font-family: 'Segoe UI', sans-serif;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                <span style="display: inline-block; padding: 0.25rem 0.75rem; background: ${color<?php echo $alert['id']; ?>}; color: white; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
-                                    ${severity<?php echo $alert['id']; ?>.toUpperCase()}
-                                </span>
-                            </div>
-                            <h3 style="margin: 0 0 0.75rem 0; font-size: 1.2rem; font-weight: 600; color: #2c3e50;">
-                                <?php echo addslashes($alert['title']); ?>
-                            </h3>
-                            <?php if (!empty($alert['description'])): ?>
-                                <p style="margin: 0.5rem 0; color: #666; line-height: 1.6; font-size: 0.95rem;">
-                                    <?php echo addslashes($alert['description']); ?>
-                                </p>
-                            <?php endif; ?>
-                            <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e8e8e8;">
-                                <?php if (!empty($alert['location_name'])): ?>
-                                    <p style="margin: 0.4rem 0; font-size: 0.9rem; color: #666;">
-                                        <strong style="color: #333;">📍 Location:</strong> <?php echo addslashes($alert['location_name']); ?>
-                                    </p>
-                                <?php endif; ?>
-                                <p style="margin: 0.4rem 0; font-size: 0.85rem; color: #999;">
-                                    <strong>🕐 Time:</strong> <?php echo date('M d, Y • H:i', strtotime($alert['start_time'] ?? 'now')); ?>
-                                </p>
-                            </div>
+                const marker = L.marker([lat, lng], {
+                    icon: L.divIcon({
+                        className: 'alert-marker',
+                        html: `<div class="${isCritical ? 'alert-marker-pulse' : ''}" style="
+                            width: 36px;
+                            height: 36px;
+                            background: ${color};
+                            border: 4px solid white;
+                            border-radius: 50%;
+                            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: bold;
+                            color: white;
+                            font-size: 18px;
+                        ">⚠</div>`,
+                        iconSize: [36, 36],
+                        iconAnchor: [18, 18]
+                    })
+                });
+
+                // Escape HTML for popup
+                const escapeHtml = (unsafe) => {
+                    return (unsafe || '').replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                }
+
+                const popupContent = `
+                    <div style="min-width: 280px; font-family: 'Segoe UI', sans-serif;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <span style="display: inline-block; padding: 0.25rem 0.75rem; background: ${color}; color: white; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+                                ${severity.toUpperCase()}
+                            </span>
                         </div>
-                    `;
+                        <h3 style="margin: 0 0 0.75rem 0; font-size: 1.2rem; font-weight: 600; color: #2c3e50;">
+                            ${escapeHtml(alert.title)}
+                        </h3>
+                        ${alert.description ? `
+                            <p style="margin: 0.5rem 0; color: #666; line-height: 1.6; font-size: 0.95rem;">
+                                ${escapeHtml(alert.description)}
+                            </p>
+                        ` : ''}
+                        <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #e8e8e8;">
+                            ${alert.location_name ? `
+                                <p style="margin: 0.4rem 0; font-size: 0.9rem; color: #666;">
+                                    <strong style="color: #333;">📍 Location:</strong> ${escapeHtml(alert.location_name)}
+                                </p>
+                            ` : ''}
+                            <p style="margin: 0.4rem 0; font-size: 0.85rem; color: #999;">
+                                <strong>🕐 Time:</strong> ${new Date(alert.start_time || Date.now()).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                        </div>
+                    </div>
+                `;
 
-                    alert<?php echo $alert['id']; ?>.bindPopup(popupContent, {
-                        maxWidth: 320,
-                        className: 'custom-alert-popup'
-                    });
+                marker.bindPopup(popupContent, {
+                    maxWidth: 320,
+                    className: 'custom-alert-popup'
+                });
 
-                    alertsLayer.addLayer(alert<?php echo $alert['id']; ?>);
-                    validMarkersCount++;
-                    }
-                <?php endif; ?>
-            <?php endforeach; ?>
+                alertsLayer.addLayer(marker);
+                markers.push(marker);
+                validMarkersCount++;
+            });
 
             showLoading(false);
 
             // Fit bounds to show all alerts if there are any valid markers
-            if (validMarkersCount > 0 && alertsLayer.getLayers().length > 0) {
-                const bounds = L.latLngBounds(alertsLayer.getLayers().map(layer => layer.getLatLng()));
-                map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+            if (validMarkersCount > 0 && markers.length > 0) {
+                const group = new L.featureGroup(markers);
+                map.fitBounds(group.getBounds(), { padding: [50, 50], maxZoom: 14 });
             } else {
                 console.log('No valid alert markers to display on map');
             }

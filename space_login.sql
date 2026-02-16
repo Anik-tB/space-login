@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2026 at 04:43 PM
+-- Generation Time: Feb 16, 2026 at 06:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -178,11 +178,215 @@ CREATE TABLE `alerts` (
 --
 
 INSERT INTO `alerts` (`id`, `title`, `description`, `type`, `severity`, `location_name`, `latitude`, `longitude`, `radius_km`, `start_time`, `end_time`, `is_active`, `source_type`, `source_user_id`, `related_report_id`, `views_count`, `acknowledgments_count`) VALUES
-(5, 'সন্দেহজনক কার্যকলাপ সতর্কতা', 'মহাখালী বাস স্ট্যান্ড এলাকায় সন্দেহজনক ব্যক্তিদের দেখা গেছে। সতর্ক থাকুন এবং রাতে একা চলাচল এড়িয়ে চলুন।', 'warning', 'high', 'মহাখালী বাস স্ট্যান্ড', 23.78010000, 90.40530000, 1.50, '2026-01-24 14:00:00', '2026-01-26 14:00:00', 1, 'community', 5, NULL, 0, 0),
-(6, 'জরুরি: ট্রাফিক দুর্ঘটনা', 'ফার্মগেট মোড়ে বড় ধরনের ট্রাফিক দুর্ঘটনা ঘটেছে। রাস্তা সম্পূর্ণ বন্ধ। বিকল্প পথ ব্যবহার করুন।', 'emergency', 'critical', 'ফার্মগেট মোড়', 23.75750000, 90.38890000, 2.00, '2026-01-24 13:30:00', '2026-01-24 18:00:00', 1, 'police', 6, NULL, 0, 0),
-(7, 'hulaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'ddddddddddddddddddddddddddddddd', 'warning', 'medium', 'dfdsfsdfdf', -0.00000100, 0.00000100, 1.20, '2026-02-09 19:35:54', '2026-02-08 19:35:00', 1, 'admin', 4, NULL, 0, 0),
-(8, '🚨 Emergency Alert Nearby', 'Someone in your area needs immediate help! This is an emergency panic alert.', 'emergency', 'critical', '23.81444352890792, 90.38659543342219', 23.81444353, 90.38659543, 5.00, '2026-02-09 20:12:45', NULL, 1, 'community', 4, NULL, 0, 0),
-(9, '🚨 Emergency Alert Nearby', 'Someone in your area needs immediate help! This is an emergency panic alert.', 'emergency', 'critical', '23.814424411656717, 90.38656005061553', 23.81442441, 90.38656005, 5.00, '2026-02-09 20:12:54', NULL, 1, 'community', 4, NULL, 0, 0);
+(1, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 30, 5),
+(2, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 32, 6),
+(3, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 34, 7),
+(4, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 36, 8),
+(5, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 38, 9),
+(6, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 40, 10),
+(7, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 42, 11),
+(8, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 44, 12),
+(9, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 46, 13),
+(10, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 48, 14),
+(11, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 50, 15),
+(12, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 52, 16),
+(13, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 54, 17),
+(14, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 56, 18),
+(15, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 58, 19),
+(16, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 60, 20),
+(17, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 62, 21),
+(18, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 64, 22),
+(19, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 66, 23),
+(20, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 68, 24),
+(21, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 70, 25),
+(22, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 72, 26),
+(23, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 74, 27),
+(24, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 76, 28),
+(25, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 78, 29),
+(26, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 80, 30),
+(27, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'warning', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 82, 31),
+(28, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 84, 32),
+(29, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 86, 33),
+(30, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'warning', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 88, 34),
+(31, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 90, 35),
+(32, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 92, 36),
+(33, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 94, 37),
+(34, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 96, 38),
+(35, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 98, 39),
+(36, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 100, 40),
+(37, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 102, 41),
+(38, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 104, 42),
+(39, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 106, 43),
+(40, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 108, 44),
+(41, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 110, 45),
+(42, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 112, 46),
+(43, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 114, 47),
+(44, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 116, 48),
+(45, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 118, 49),
+(46, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 120, 50),
+(47, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 122, 51),
+(48, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 124, 52),
+(49, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 126, 53),
+(50, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 128, 54),
+(51, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 130, 55),
+(52, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 132, 56),
+(53, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 134, 57),
+(54, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 136, 58),
+(55, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 138, 59),
+(56, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 140, 60),
+(57, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 142, 61),
+(58, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 144, 62),
+(59, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 146, 63),
+(60, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 148, 64),
+(61, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 150, 65),
+(62, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 152, 66),
+(63, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 154, 67),
+(64, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 156, 68),
+(65, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 158, 69),
+(66, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 160, 70),
+(67, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 162, 71),
+(68, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 164, 72),
+(69, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 166, 73),
+(70, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 168, 74),
+(71, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 170, 75),
+(72, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 172, 76),
+(73, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 174, 77),
+(74, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 176, 78),
+(75, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 178, 79),
+(76, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 180, 80),
+(77, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 182, 81),
+(78, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 184, 82),
+(79, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 186, 83),
+(80, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 188, 84),
+(81, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 190, 85),
+(82, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 192, 86),
+(83, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 194, 87),
+(84, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 196, 88),
+(85, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 198, 89),
+(86, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 200, 90),
+(87, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'warning', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 7, NULL, 202, 91),
+(88, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 8, NULL, 204, 92),
+(89, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 9, NULL, 206, 93),
+(90, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'warning', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 10, NULL, 208, 94),
+(91, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 1, NULL, 210, 95),
+(92, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 2, NULL, 212, 96),
+(93, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 3, NULL, 214, 97),
+(94, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 4, NULL, 216, 98),
+(95, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 5, NULL, 218, 99),
+(96, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:06', NULL, 1, 'community', 6, NULL, 220, 100),
+(97, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 30, 5),
+(98, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 32, 6),
+(99, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 34, 7),
+(100, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 36, 8),
+(101, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 38, 9),
+(102, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 40, 10),
+(103, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 42, 11),
+(104, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 44, 12),
+(105, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 46, 13),
+(106, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 48, 14),
+(107, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 50, 15),
+(108, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 52, 16),
+(109, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 54, 17),
+(110, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 56, 18),
+(111, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 58, 19),
+(112, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 60, 20),
+(113, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 62, 21),
+(114, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 64, 22),
+(115, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 66, 23),
+(116, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 68, 24),
+(117, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 70, 25),
+(118, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 72, 26),
+(119, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 74, 27),
+(120, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 76, 28),
+(121, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 78, 29),
+(122, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 80, 30),
+(123, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'warning', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 82, 31),
+(124, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 84, 32),
+(125, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 86, 33),
+(126, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'warning', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 88, 34),
+(127, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 90, 35),
+(128, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 92, 36),
+(129, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 94, 37),
+(130, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 96, 38),
+(131, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 98, 39),
+(132, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 100, 40),
+(133, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 102, 41),
+(134, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 104, 42),
+(135, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 106, 43),
+(136, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 108, 44),
+(137, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 110, 45),
+(138, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 112, 46),
+(139, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 114, 47),
+(140, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 116, 48),
+(141, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 118, 49),
+(142, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 120, 50),
+(143, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 122, 51),
+(144, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 124, 52),
+(145, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 126, 53),
+(146, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 128, 54),
+(147, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 130, 55),
+(148, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 132, 56),
+(149, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 134, 57),
+(150, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 136, 58),
+(151, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 138, 59),
+(152, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 140, 60),
+(153, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'warning', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 142, 61),
+(154, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 144, 62),
+(155, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 146, 63),
+(156, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'warning', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 148, 64),
+(157, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 150, 65),
+(158, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 152, 66),
+(159, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 154, 67),
+(160, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 156, 68),
+(161, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 158, 69),
+(162, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 160, 70),
+(163, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 162, 71),
+(164, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 164, 72),
+(165, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 166, 73),
+(166, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 168, 74),
+(167, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'update', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 170, 75),
+(168, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'warning', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 172, 76),
+(169, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'info', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 174, 77),
+(170, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 176, 78),
+(171, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'warning', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 178, 79),
+(172, 'New security post - Badda', 'New security post. Area safer now.', 'info', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 180, 80),
+(173, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'update', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 182, 81),
+(174, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'warning', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 184, 82),
+(175, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'info', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 186, 83),
+(176, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'update', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 188, 84),
+(177, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'warning', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 190, 85),
+(178, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'info', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 192, 86),
+(179, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'update', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 194, 87),
+(180, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'warning', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 196, 88),
+(181, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'info', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 198, 89),
+(182, 'New security post - Badda', 'New security post. Area safer now.', 'update', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 200, 90),
+(183, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'warning', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 202, 91),
+(184, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'info', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 204, 92),
+(185, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'update', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 206, 93),
+(186, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'warning', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 208, 94),
+(187, 'Street light fixed - Dhanmondi Rd 2', 'Street light fixed. Area safer now.', 'info', 'low', 'Dhanmondi Rd 2', 23.74520000, 90.37520000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 1, NULL, 210, 95),
+(188, 'CCTV installed - Mirpur 10', 'CCTV installed. Area safer now.', 'update', 'low', 'Mirpur 10', 23.80350000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 2, NULL, 212, 96),
+(189, 'Safe route added - Uttara Sector 3', 'Safe route added. Area safer now.', 'warning', 'low', 'Uttara Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 3, NULL, 214, 97),
+(190, 'Police patrol increased - Gulshan 2', 'Police patrol increased. Area safer now.', 'info', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 4, NULL, 216, 98),
+(191, 'Road repair done - Farmgate', 'Road repair done. Area safer now.', 'update', 'low', 'Farmgate', 23.75400000, 90.38800000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 5, NULL, 218, 99),
+(192, 'New security post - Badda', 'New security post. Area safer now.', 'warning', 'low', 'Badda', 23.78800000, 90.43200000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 6, NULL, 220, 100),
+(193, 'Community watch active - Mohammadpur', 'Community watch active. Area safer now.', 'info', 'low', 'Mohammadpur', 23.76100000, 90.36600000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 7, NULL, 222, 101),
+(194, 'Well-lit path - Banani', 'Well-lit path. Area safer now.', 'update', 'low', 'Banani', 23.78600000, 90.40500000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 8, NULL, 224, 102),
+(195, 'Emergency button added - Panthapath', 'Emergency button added. Area safer now.', 'warning', 'low', 'Panthapath', 23.75100000, 90.39100000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 9, NULL, 226, 103),
+(196, 'Guard posted - Mohakhali', 'Guard posted. Area safer now.', 'info', 'low', 'Mohakhali', 23.77850000, 90.37250000, 0.50, '2026-02-15 21:11:26', NULL, 1, 'community', 10, NULL, 228, 104),
+(197, 'Suspicious activity near Dhanmondi Lake', 'Multiple reports of unknown persons lingering near the lake after dark. Stay alert.', 'warning', 'medium', 'Dhanmondi Lake', 23.75000000, 90.37800000, 1.00, '2026-02-15 21:11:48', NULL, 1, 'community', 2, 24, 45, 12),
+(198, 'Road construction - Diversion at Mirpur 10', 'Main road blocked. Use alternate route. Well-lit path available.', 'info', 'low', 'Mirpur 10', 23.80690000, 90.36870000, 0.50, '2026-02-15 21:11:48', NULL, 1, 'system', NULL, NULL, 120, 8),
+(199, 'Police presence increased at Gulshan 2', 'Additional patrol for your safety. All clear.', 'update', 'low', 'Gulshan 2', 23.79250000, 90.41620000, 1.00, '2026-02-15 21:11:48', NULL, 1, 'admin', 1, NULL, 85, 25),
+(200, 'New street lights installed - Dhanmondi 27', 'Road 27 now has improved lighting. Safer for evening walks.', 'update', 'low', 'Dhanmondi Road 27', 23.74600000, 90.38000000, 0.30, '2026-02-15 21:11:48', NULL, 1, 'community', 2, NULL, 65, 22),
+(201, 'CCTV camera out of order - Mirpur 10', 'Camera near community center not working. Report to authority.', 'warning', 'medium', 'Mirpur 10 Community Center', 23.80690000, 90.36870000, 0.20, '2026-02-15 21:11:48', NULL, 1, 'community', 5, NULL, 42, 15),
+(202, 'Safe route mapped - Uttara Metro to Sector 3', 'Community has verified safe walking path. Check app for details.', 'info', 'low', 'Uttara Metro to Sector 3', 23.86300000, 90.39700000, 0.50, '2026-02-15 21:11:48', NULL, 1, 'community', 10, NULL, 88, 35),
+(203, 'Temporary road closure - Farmgate', 'Road repair until Feb 20. Use alternate route.', 'info', 'low', 'Farmgate Main Road', 23.75400000, 90.38800000, 0.25, '2026-02-15 21:11:48', NULL, 1, 'system', NULL, NULL, 120, 45),
+(204, 'Suspicious person following women - Kamalapur', 'Multiple reports of man following women near station exit. Police notified. Avoid walking alone.', 'emergency', 'critical', 'Kamalapur Railway Station', 23.72950000, 90.42700000, 0.80, '2026-02-15 21:45:22', NULL, 1, 'community', 2, NULL, 156, 89),
+(205, 'Snatchers active - Gabtoli Bus Terminal', 'Phone snatching reported near terminal entrance. 3 incidents today. Be alert with belongings.', 'warning', 'critical', 'Gabtoli Bus Terminal', 23.76800000, 90.35500000, 0.60, '2026-02-15 21:45:22', NULL, 1, 'community', 5, NULL, 203, 112),
+(206, 'Harassment near Jatrabari crossing', 'Eve-teasing and verbal harassment reported. Women advised to use main road, avoid shortcuts.', 'emergency', 'critical', 'Jatrabari Crossing', 23.71800000, 90.43500000, 0.70, '2026-02-15 21:45:22', NULL, 1, 'community', 7, NULL, 178, 95),
+(207, 'Street light out - Karwan Bazar night market', 'Dark stretch near wholesale market. Multiple incidents. Avoid after 10 PM.', 'warning', 'high', 'Karwan Bazar Night Market', 23.75200000, 90.39000000, 0.50, '2026-02-15 21:45:22', NULL, 1, 'community', 3, NULL, 134, 67),
+(208, 'Robbery attempt - Demra Bus Stand', 'Armed robbery attempt reported. Police patrolling increased. Stay in well-lit areas.', 'emergency', 'critical', 'Demra Bus Stand', 23.71000000, 90.44500000, 0.75, '2026-02-15 21:45:22', NULL, 1, 'community', 9, NULL, 221, 134),
+(209, 'Stalking reported - Farmgate flyover', 'Person repeatedly following students. Report to police if you notice.', 'warning', 'high', 'Farmgate Flyover', 23.75300000, 90.38600000, 0.55, '2026-02-15 21:45:22', NULL, 1, 'community', 4, NULL, 145, 78);
 
 -- --------------------------------------------------------
 
@@ -203,6 +407,15 @@ CREATE TABLE `alert_responses` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `alert_responses`
+--
+
+INSERT INTO `alert_responses` (`id`, `alert_id`, `responder_id`, `response_time`, `current_latitude`, `current_longitude`, `eta_minutes`, `status`, `message`, `created_at`, `updated_at`) VALUES
+(1, 1, 5, '2026-02-15 15:11:48', 23.80690000, 90.36870000, 0, 'arrived', 'I am here. You are safe now.', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(2, 1, 6, '2026-02-15 15:11:48', 23.80500000, 90.36900000, 2, 'arrived', 'On my way - 2 min away.', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(3, 3, 1, '2026-02-15 15:11:48', 23.75160000, 90.37750000, 0, 'arrived', 'Police contacted. Stay calm.', '2026-02-15 15:11:48', '2026-02-15 15:11:48');
 
 --
 -- Triggers `alert_responses`
@@ -267,13 +480,12 @@ CREATE TABLE `area_safety_scores` (
 --
 
 INSERT INTO `area_safety_scores` (`id`, `area_name`, `ward_number`, `union_name`, `division_id`, `district_id`, `upazila_id`, `safety_score`, `incident_rate_score`, `resolution_rate_score`, `response_time_score`, `user_ratings_score`, `critical_incidents_score`, `total_incidents`, `resolved_incidents`, `critical_incidents`, `response_time_avg_hours`, `last_updated`, `created_at`) VALUES
-(1, 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 5.47, 10.00, 4.48, 0.00, 5.00, 6.00, 29, 13, 12, 161.65, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
-(2, 'Gulshan', '19', 'Gulshan', 1, 1, 2, 4.91, 10.00, 1.85, 0.00, 5.00, 7.00, 27, 5, 9, 82.60, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
-(3, 'Mirpur', '10', 'Mirpur', 1, 1, 3, 5.55, 10.00, 2.08, 0.00, 10.00, 5.33, 24, 5, 14, 85.68, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
-(4, 'Uttara', '1', 'Uttara', 1, 1, 4, 4.67, 10.00, 2.22, 0.00, 5.00, 3.67, 27, 6, 19, 132.58, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
-(5, 'Banani', '18', 'Banani', 1, 1, 5, 8.63, 10.00, 7.50, 10.00, 5.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:34', '2025-11-16 14:35:50'),
-(6, 'Wari', '15', 'Wari', 1, 1, 6, 9.38, 10.00, 7.50, 10.00, 10.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:33', '2025-11-16 14:35:50'),
-(7, 'Motijheel', '12', 'Motijheel', 1, 1, 7, 8.63, 10.00, 7.50, 10.00, 5.00, 10.00, 0, 0, 0, 0.00, '2026-01-24 12:51:33', '2025-11-16 14:35:50');
+(1, 'Dhanmondi', '52', NULL, 1, 1, 1, 7.50, 7.00, 8.00, 7.50, 7.50, 8.00, 12, 9, 1, 1.20, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(2, 'Mirpur', '1', NULL, 1, 1, 2, 6.80, 6.50, 7.00, 6.80, 7.00, 6.50, 18, 12, 3, 1.50, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(3, 'Uttara', '1', NULL, 1, 1, 3, 7.20, 7.00, 7.50, 7.20, 7.20, 7.00, 8, 6, 1, 1.00, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(4, 'Gulshan', '19', NULL, 1, 1, 4, 7.80, 8.00, 8.00, 7.50, 7.80, 8.00, 6, 5, 0, 0.80, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(5, 'Mohammadpur', '15', NULL, 1, 1, 6, 6.50, 6.00, 6.50, 6.50, 6.80, 6.00, 15, 9, 2, 1.80, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(6, 'Badda', '11', NULL, 1, 1, 7, 6.90, 6.50, 7.00, 7.00, 7.00, 6.50, 10, 7, 2, 1.40, '2026-02-15 21:11:47', '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -300,171 +512,147 @@ CREATE TABLE `audit_logs` (
 --
 
 INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `table_name`, `record_id`, `old_values`, `new_values`, `ip_address`, `user_agent`, `request_url`, `created_at`) VALUES
-(1, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-20 12:19:12'),
-(2, 1, 'INSERT', 'incident_reports', 104, NULL, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-20 18:23:31'),
-(3, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-22 13:23:28'),
-(4, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-22 19:21:21'),
-(5, 1, 'INSERT', 'incident_reports', 105, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(6, 1, 'INSERT', 'incident_reports', 106, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(7, 1, 'INSERT', 'incident_reports', 107, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(8, 1, 'INSERT', 'incident_reports', 108, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(9, 1, 'INSERT', 'incident_reports', 109, NULL, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(10, 1, 'INSERT', 'incident_reports', 110, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(11, 1, 'INSERT', 'incident_reports', 111, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(12, 1, 'INSERT', 'incident_reports', 112, NULL, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(13, 1, 'INSERT', 'incident_reports', 113, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(14, 1, 'INSERT', 'incident_reports', 114, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-22 19:59:26'),
-(15, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-22 21:46:15'),
-(16, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 10:47:26'),
-(17, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 18:16:46'),
-(18, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 18:19:56'),
-(19, 3, 'INSERT', 'users', 3, NULL, '{\"email\": \"admin@test.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 18:23:13'),
-(20, 1, 'UPDATE', 'incident_reports', 112, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 18:39:47'),
-(21, 3, 'admin_approval', 'incident_report', 112, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 18:39:47'),
-(22, 1, 'UPDATE', 'incident_reports', 104, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 18:39:55'),
-(23, 3, 'admin_approval', 'incident_report', 104, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 18:39:55'),
-(24, 4, 'INSERT', 'users', 4, NULL, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 19:31:48'),
-(25, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 19:33:15'),
-(26, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 19:33:53'),
-(27, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2025-11-23 14:33:53\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2025-11-23 19:33:53'),
-(28, 4, 'admin_approval', 'community_group', 21, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"community_group\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 19:36:20'),
-(29, 1, 'UPDATE', 'incident_reports', 114, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 19:45:37'),
-(30, 4, 'admin_approval', 'incident_report', 114, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 19:45:37'),
-(31, 1, 'UPDATE', 'incident_reports', 110, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 19:45:39'),
-(32, 4, 'admin_approval', 'incident_report', 110, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 19:45:39'),
-(33, 1, 'UPDATE', 'incident_reports', 109, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 19:45:48'),
-(34, 4, 'admin_approval', 'incident_report', 109, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 19:45:48'),
-(35, 2, 'UPDATE', 'incident_reports', 103, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:04:29'),
-(36, 4, 'admin_approval', 'incident_report', 103, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:04:29'),
-(37, 1, 'UPDATE', 'incident_reports', 107, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:22'),
-(38, 4, 'admin_approval', 'incident_report', 107, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:22'),
-(39, 1, 'UPDATE', 'incident_reports', 3, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:38'),
-(40, 4, 'admin_approval', 'incident_report', 3, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:38'),
-(41, 1, 'UPDATE', 'incident_reports', 105, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:42'),
-(42, 4, 'admin_approval', 'incident_report', 105, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:42'),
-(43, 1, 'UPDATE', 'incident_reports', 106, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:47'),
-(44, 4, 'admin_approval', 'incident_report', 106, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:47'),
-(45, 1, 'UPDATE', 'incident_reports', 111, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:51'),
-(46, 4, 'admin_approval', 'incident_report', 111, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:51'),
-(47, 1, 'UPDATE', 'incident_reports', 102, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:55'),
-(48, 4, 'admin_approval', 'incident_report', 102, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:55'),
-(49, 1, 'UPDATE', 'incident_reports', 113, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:09:59'),
-(50, 4, 'admin_approval', 'incident_report', 113, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:09:59'),
-(51, 1, 'UPDATE', 'incident_reports', 49, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:16:17'),
-(52, 4, 'admin_approval', 'incident_report', 49, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:16:17'),
-(53, 1, 'UPDATE', 'incident_reports', 101, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:16:23'),
-(54, 4, 'admin_approval', 'incident_report', 101, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:16:23'),
-(55, 1, 'UPDATE', 'incident_reports', 56, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:16:42'),
-(56, 4, 'admin_approval', 'incident_report', 56, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:16:42'),
-(57, 1, 'UPDATE', 'incident_reports', 57, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:16:54'),
-(58, 4, 'admin_approval', 'incident_report', 57, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:16:54'),
-(59, 1, 'UPDATE', 'incident_reports', 6, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:16:59'),
-(60, 4, 'admin_approval', 'incident_report', 6, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:16:59'),
-(61, 1, 'UPDATE', 'incident_reports', 5, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:03'),
-(62, 4, 'admin_approval', 'incident_report', 5, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:03'),
-(63, 1, 'UPDATE', 'incident_reports', 2, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:07'),
-(64, 4, 'admin_approval', 'incident_report', 2, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:07'),
-(65, 1, 'UPDATE', 'incident_reports', 10, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:12'),
-(66, 4, 'admin_approval', 'incident_report', 10, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:12'),
-(67, 1, 'UPDATE', 'incident_reports', 8, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:16'),
-(68, 4, 'admin_approval', 'incident_report', 8, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:16'),
-(69, 1, 'UPDATE', 'incident_reports', 11, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:22'),
-(70, 4, 'admin_approval', 'incident_report', 11, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:22'),
-(71, 1, 'UPDATE', 'incident_reports', 25, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:34'),
-(72, 4, 'admin_approval', 'incident_report', 25, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:34'),
-(73, 1, 'UPDATE', 'incident_reports', 12, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:38'),
-(74, 4, 'admin_approval', 'incident_report', 12, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:38'),
-(75, 1, 'UPDATE', 'incident_reports', 22, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:41'),
-(76, 4, 'admin_approval', 'incident_report', 22, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:41'),
-(77, 1, 'UPDATE', 'incident_reports', 14, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:46'),
-(78, 4, 'admin_approval', 'incident_report', 14, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:46'),
-(79, 1, 'UPDATE', 'incident_reports', 13, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:50'),
-(80, 4, 'admin_approval', 'incident_report', 13, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:50'),
-(81, 1, 'UPDATE', 'incident_reports', 35, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:54'),
-(82, 4, 'admin_approval', 'incident_report', 35, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:54'),
-(83, 1, 'UPDATE', 'incident_reports', 32, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:17:57'),
-(84, 4, 'admin_approval', 'incident_report', 32, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:17:57'),
-(85, 1, 'UPDATE', 'incident_reports', 24, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:00'),
-(86, 4, 'admin_approval', 'incident_report', 24, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:00'),
-(87, 1, 'UPDATE', 'incident_reports', 40, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:04'),
-(88, 4, 'admin_approval', 'incident_report', 40, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:04'),
-(89, 1, 'UPDATE', 'incident_reports', 43, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:07'),
-(90, 4, 'admin_approval', 'incident_report', 43, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:07'),
-(91, 1, 'UPDATE', 'incident_reports', 41, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:10'),
-(92, 4, 'admin_approval', 'incident_report', 41, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:10'),
-(93, 1, 'UPDATE', 'incident_reports', 55, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:13'),
-(94, 4, 'admin_approval', 'incident_report', 55, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:13'),
-(95, 1, 'UPDATE', 'incident_reports', 46, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2025-11-23 20:18:17'),
-(96, 4, 'admin_approval', 'incident_report', 46, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"incident_report\",\"notes\":\"\"}', NULL, NULL, NULL, '2025-11-23 20:18:17'),
-(97, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-23 22:55:18'),
-(98, 1, 'sos_alert', 'walk_sessions', 2, NULL, '{\"session_token\":\"e73051fe72f264daf9f4245a2b2b0a937e21115ed1a53fa1ede22ac8dc9ad61b\",\"status\":\"emergency\",\"contacts_notified\":0}', NULL, NULL, NULL, '2025-11-23 23:07:28'),
-(99, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-24 04:38:32'),
-(100, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2025-11-23 23:38:32\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2025-11-24 04:38:32'),
-(101, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-24 04:47:17'),
-(102, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-24 07:58:14'),
-(103, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-24 08:02:09'),
-(104, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2025-11-24 03:02:09\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2025-11-24 08:02:09'),
-(105, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-24 08:02:09'),
-(106, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2025-11-24 03:02:09\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2025-11-24 08:02:09'),
-(107, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-11-26 21:58:24'),
-(108, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-06 09:23:03'),
-(109, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-08 06:34:25'),
-(110, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-08 12:47:23'),
-(111, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:24:41'),
-(112, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-15 05:25:30'),
-(113, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2025-12-30 08:14:15'),
-(114, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-17 17:40:08'),
-(115, 1, 'INSERT', 'incident_reports', 115, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-01-17 17:45:09'),
-(116, 5, 'INSERT', 'users', 5, NULL, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:35:36'),
-(117, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:35:45'),
-(118, 6, 'INSERT', 'users', 6, NULL, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:42:18'),
-(119, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 08:42:26'),
-(120, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:12:55'),
-(121, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:13:12'),
-(122, 6, 'panic_alert_from_walk', 'walk_sessions', 3, NULL, '{\"panic_alert_id\":5,\"walk_session_token\":\"58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\"}', NULL, NULL, NULL, '2026-01-24 09:16:22'),
-(123, 6, 'sos_alert', 'walk_sessions', 3, NULL, '{\"session_token\":\"58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":5}', NULL, NULL, NULL, '2026-01-24 09:16:22'),
-(124, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:58:34'),
-(125, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 09:58:58'),
-(126, 6, 'panic_alert_from_walk', 'walk_sessions', 4, NULL, '{\"panic_alert_id\":6,\"walk_session_token\":\"6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\"}', NULL, NULL, NULL, '2026-01-24 09:59:30'),
-(127, 6, 'sos_alert', 'walk_sessions', 4, NULL, '{\"session_token\":\"6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":6}', NULL, NULL, NULL, '2026-01-24 09:59:30'),
-(128, 6, 'panic_alert_from_walk', 'walk_sessions', 5, NULL, '{\"panic_alert_id\":7,\"walk_session_token\":\"7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\"}', NULL, NULL, NULL, '2026-01-24 10:02:51'),
-(129, 6, 'sos_alert', 'walk_sessions', 5, NULL, '{\"session_token\":\"7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":7}', NULL, NULL, NULL, '2026-01-24 10:02:51'),
-(130, 6, 'community_alert_broadcast', 'panic_alerts', 8, NULL, '{\"panic_alert_id\":8,\"nearby_users_notified\":0,\"broadcast_radius\":5000,\"walk_session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\"}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
-(131, 6, 'panic_alert_from_walk', 'walk_sessions', 6, NULL, '{\"panic_alert_id\":8,\"walk_session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\"}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
-(132, 6, 'sos_alert', 'walk_sessions', 6, NULL, '{\"session_token\":\"8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":8,\"community_users_notified\":0}', NULL, NULL, NULL, '2026-01-24 10:17:41'),
-(133, 5, 'community_alert_broadcast', 'panic_alerts', 9, NULL, '{\"panic_alert_id\":9,\"nearby_users_notified\":0,\"broadcast_radius\":5000,\"walk_session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\"}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
-(134, 5, 'panic_alert_from_walk', 'walk_sessions', 7, NULL, '{\"panic_alert_id\":9,\"walk_session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\"}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
-(135, 5, 'sos_alert', 'walk_sessions', 7, NULL, '{\"session_token\":\"811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":9,\"community_users_notified\":0}', NULL, NULL, NULL, '2026-01-24 10:22:47'),
-(136, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 11:58:05'),
-(137, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 12:01:00'),
-(138, 5, 'INSERT', 'incident_reports', 116, NULL, '{\"status\": \"pending\", \"severity\": \"critical\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-01-24 12:14:54'),
-(139, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 12:16:41'),
-(140, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-01-24 07:16:41\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-01-24 12:16:41'),
-(141, 4, 'panic_alert_from_walk', 'walk_sessions', 8, NULL, '{\"panic_alert_id\":10,\"walk_session_token\":\"21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7\"}', NULL, NULL, NULL, '2026-01-24 12:55:11'),
-(142, 4, 'sos_alert', 'walk_sessions', 8, NULL, '{\"session_token\":\"21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":10}', NULL, NULL, NULL, '2026-01-24 12:55:11'),
-(143, 4, 'admin_approval', 'safe_space', 1, NULL, '{\"action\":\"approve\",\"approval_status\":\"approved\",\"item_type\":\"safe_space\",\"notes\":\"\"}', NULL, NULL, NULL, '2026-01-24 13:07:49'),
-(144, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 13:45:11'),
-(145, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-24 13:48:30'),
-(146, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-01-24 08:48:30\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-01-24 13:48:30'),
-(147, 4, 'panic_alert_from_walk', 'walk_sessions', 9, NULL, '{\"panic_alert_id\":11,\"walk_session_token\":\"1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656\"}', NULL, NULL, NULL, '2026-01-24 14:41:28'),
-(148, 4, 'sos_alert', 'walk_sessions', 9, NULL, '{\"session_token\":\"1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":11}', NULL, NULL, NULL, '2026-01-24 14:41:28'),
-(149, 4, 'panic_alert_from_walk', 'walk_sessions', 10, NULL, '{\"panic_alert_id\":12,\"walk_session_token\":\"3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066\"}', NULL, NULL, NULL, '2026-01-24 14:53:00'),
-(150, 4, 'sos_alert', 'walk_sessions', 10, NULL, '{\"session_token\":\"3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":12}', NULL, NULL, NULL, '2026-01-24 14:53:00'),
-(151, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-26 03:58:48'),
-(152, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-01-26 12:27:58'),
-(153, 5, 'UPDATE', 'users', 5, '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"hulahuhu152@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:15:30'),
-(154, 4, 'UPDATE', 'users', 4, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:34:33'),
-(155, 4, 'admin_login', 'users', 4, NULL, '{\"login_time\":\"2026-02-09 14:34:34\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-09 19:34:34'),
-(156, 4, 'admin_create_alert', 'alerts', 7, NULL, '{\"title\":\"hulaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"severity\":\"medium\",\"type\":\"warning\",\"location\":\"dfdsfsdfdf\"}', NULL, NULL, NULL, '2026-02-09 19:35:54'),
-(157, 6, 'UPDATE', 'users', 6, '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabu018717@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-09 19:58:27'),
-(158, 6, 'panic_alert_from_walk', 'walk_sessions', 11, NULL, '{\"panic_alert_id\":13,\"walk_session_token\":\"0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\"}', NULL, NULL, NULL, '2026-02-09 19:58:54'),
-(159, 6, 'sos_alert', 'walk_sessions', 11, NULL, '{\"session_token\":\"0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":13}', NULL, NULL, NULL, '2026-02-09 19:58:54'),
-(160, 4, 'panic_alert_from_walk', 'walk_sessions', 12, NULL, '{\"panic_alert_id\":15,\"walk_session_token\":\"79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb\"}', NULL, NULL, NULL, '2026-02-09 20:01:23'),
-(161, 4, 'sos_alert', 'walk_sessions', 12, NULL, '{\"session_token\":\"79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":15}', NULL, NULL, NULL, '2026-02-09 20:01:23'),
-(162, 4, 'community_alert_broadcast', 'panic_alerts', 16, NULL, '{\"broadcast_radius\":5000,\"nearby_users_count\":0,\"community_alert_id\":8}', NULL, NULL, NULL, '2026-02-09 20:12:45'),
-(163, 4, 'community_alert_broadcast', 'panic_alerts', 17, NULL, '{\"broadcast_radius\":5000,\"nearby_users_count\":0,\"community_alert_id\":9}', NULL, NULL, NULL, '2026-02-09 20:12:54'),
-(164, 4, 'panic_alert_from_walk', 'walk_sessions', 13, NULL, '{\"panic_alert_id\":18,\"walk_session_token\":\"d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9\"}', NULL, NULL, NULL, '2026-02-09 20:13:01'),
-(165, 4, 'sos_alert', 'walk_sessions', 13, NULL, '{\"session_token\":\"d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9\",\"status\":\"emergency\",\"contacts_notified\":0,\"panic_alert_id\":18}', NULL, NULL, NULL, '2026-02-09 20:13:01');
+(1, 9, 'INSERT', 'incident_reports', 1, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(2, 5, 'INSERT', 'incident_reports', 2, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(3, 5, 'INSERT', 'incident_reports', 3, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(4, 5, 'INSERT', 'incident_reports', 4, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(5, 10, 'INSERT', 'incident_reports', 5, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(6, 5, 'INSERT', 'incident_reports', 6, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(7, 9, 'INSERT', 'incident_reports', 7, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(8, 9, 'INSERT', 'incident_reports', 8, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(9, 9, 'INSERT', 'incident_reports', 9, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(10, 7, 'INSERT', 'incident_reports', 10, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(11, 6, 'INSERT', 'incident_reports', 11, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(12, 3, 'INSERT', 'incident_reports', 12, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(13, 4, 'INSERT', 'incident_reports', 13, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(14, 10, 'INSERT', 'incident_reports', 14, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(15, 4, 'INSERT', 'incident_reports', 15, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(16, 9, 'INSERT', 'incident_reports', 16, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(17, 4, 'INSERT', 'incident_reports', 17, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(18, 3, 'INSERT', 'incident_reports', 18, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(19, 7, 'INSERT', 'incident_reports', 19, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(20, 5, 'INSERT', 'incident_reports', 20, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(21, 4, 'INSERT', 'incident_reports', 21, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(22, 6, 'INSERT', 'incident_reports', 22, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(23, 10, 'INSERT', 'incident_reports', 23, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(24, 2, 'INSERT', 'incident_reports', 24, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(25, 5, 'INSERT', 'incident_reports', 25, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(26, 9, 'INSERT', 'incident_reports', 26, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(27, 6, 'INSERT', 'incident_reports', 27, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(28, 2, 'INSERT', 'incident_reports', 28, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(29, 8, 'INSERT', 'incident_reports', 29, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(30, 9, 'INSERT', 'incident_reports', 30, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(31, 2, 'INSERT', 'incident_reports', 31, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(32, 10, 'INSERT', 'incident_reports', 32, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(33, 5, 'INSERT', 'incident_reports', 33, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(34, 5, 'INSERT', 'incident_reports', 34, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(35, 3, 'INSERT', 'incident_reports', 35, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(36, 9, 'INSERT', 'incident_reports', 36, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(37, 9, 'INSERT', 'incident_reports', 37, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(38, 2, 'INSERT', 'incident_reports', 38, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(39, 9, 'INSERT', 'incident_reports', 39, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(40, 4, 'INSERT', 'incident_reports', 40, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(41, 2, 'INSERT', 'incident_reports', 41, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(42, 7, 'INSERT', 'incident_reports', 42, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(43, 3, 'INSERT', 'incident_reports', 43, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(44, 6, 'INSERT', 'incident_reports', 44, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(45, 5, 'INSERT', 'incident_reports', 45, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(46, 4, 'INSERT', 'incident_reports', 46, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(47, 8, 'INSERT', 'incident_reports', 47, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(48, 7, 'INSERT', 'incident_reports', 48, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(49, 7, 'INSERT', 'incident_reports', 49, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(50, 9, 'INSERT', 'incident_reports', 50, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(51, 7, 'INSERT', 'incident_reports', 51, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(52, 4, 'INSERT', 'incident_reports', 52, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(53, 8, 'INSERT', 'incident_reports', 53, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(54, 8, 'INSERT', 'incident_reports', 54, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(55, 8, 'INSERT', 'incident_reports', 55, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(56, 2, 'INSERT', 'incident_reports', 56, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(57, 6, 'INSERT', 'incident_reports', 57, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(58, 1, 'INSERT', 'incident_reports', 58, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(59, 6, 'INSERT', 'incident_reports', 59, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(60, 6, 'INSERT', 'incident_reports', 60, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(61, 9, 'INSERT', 'incident_reports', 61, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(62, 6, 'INSERT', 'incident_reports', 62, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(63, 10, 'INSERT', 'incident_reports', 63, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(64, 9, 'INSERT', 'incident_reports', 64, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(65, 1, 'INSERT', 'incident_reports', 65, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(66, 1, 'INSERT', 'incident_reports', 66, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(67, 1, 'INSERT', 'incident_reports', 67, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(68, 10, 'INSERT', 'incident_reports', 68, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(69, 7, 'INSERT', 'incident_reports', 69, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(70, 8, 'INSERT', 'incident_reports', 70, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(71, 4, 'INSERT', 'incident_reports', 71, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(72, 8, 'INSERT', 'incident_reports', 72, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(73, 2, 'INSERT', 'incident_reports', 73, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(74, 2, 'INSERT', 'incident_reports', 74, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(75, 6, 'INSERT', 'incident_reports', 75, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(76, 2, 'INSERT', 'incident_reports', 76, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(77, 5, 'INSERT', 'incident_reports', 77, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(78, 9, 'INSERT', 'incident_reports', 78, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(79, 8, 'INSERT', 'incident_reports', 79, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(80, 6, 'INSERT', 'incident_reports', 80, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(81, 8, 'INSERT', 'incident_reports', 81, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(82, 10, 'INSERT', 'incident_reports', 82, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(83, 9, 'INSERT', 'incident_reports', 83, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(84, 8, 'INSERT', 'incident_reports', 84, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(85, 2, 'INSERT', 'incident_reports', 85, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(86, 3, 'INSERT', 'incident_reports', 86, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(87, 8, 'INSERT', 'incident_reports', 87, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(88, 3, 'INSERT', 'incident_reports', 88, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(89, 8, 'INSERT', 'incident_reports', 89, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(90, 7, 'INSERT', 'incident_reports', 90, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(91, 5, 'INSERT', 'incident_reports', 91, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(92, 5, 'INSERT', 'incident_reports', 92, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(93, 5, 'INSERT', 'incident_reports', 93, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(94, 7, 'INSERT', 'incident_reports', 94, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(95, 6, 'INSERT', 'incident_reports', 95, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(96, 10, 'INSERT', 'incident_reports', 96, NULL, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(97, 1, 'INSERT', 'incident_reports', 97, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(98, 10, 'INSERT', 'incident_reports', 98, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(99, 9, 'INSERT', 'incident_reports', 99, NULL, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(100, 10, 'INSERT', 'incident_reports', 100, NULL, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 20:15:54'),
+(101, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 20:26:29'),
+(102, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(103, 2, 'UPDATE', 'users', 2, '{\"email\": \"safrin2330183@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"safrin2330183@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(104, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(105, 4, 'UPDATE', 'users', 4, '{\"email\": \"bonnyafrin98@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"bonnyafrin98@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(106, 5, 'UPDATE', 'users', 5, '{\"email\": \"manik2330217@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"manik2330217@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(107, 6, 'UPDATE', 'users', 6, '{\"email\": \"sadiaafrinbonny183@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"sadiaafrinbonny183@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(108, 7, 'UPDATE', 'users', 7, '{\"email\": \"msakib2330048@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"msakib2330048@bscse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(109, 8, 'UPDATE', 'users', 8, '{\"email\": \"sidratul@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"sidratul@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(110, 9, 'UPDATE', 'users', 9, '{\"email\": \"sanjida@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"sanjida@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(111, 10, 'UPDATE', 'users', 10, '{\"email\": \"aurna@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"aurna@cse.uiu.ac.bd\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(112, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(113, 9, 'UPDATE', 'incident_reports', 1, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(114, 5, 'UPDATE', 'incident_reports', 2, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(115, 5, 'UPDATE', 'incident_reports', 3, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(116, 5, 'UPDATE', 'incident_reports', 4, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(117, 10, 'UPDATE', 'incident_reports', 5, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(118, 2, 'UPDATE', 'incident_reports', 24, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(119, 5, 'UPDATE', 'incident_reports', 2, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"resolved\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(120, 5, 'UPDATE', 'incident_reports', 3, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"resolved\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(121, 9, 'UPDATE', 'incident_reports', 7, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"resolved\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(122, 9, 'UPDATE', 'incident_reports', 8, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"resolved\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(123, 4, 'UPDATE', 'incident_reports', 13, '{\"status\": \"pending\", \"severity\": \"low\", \"assigned_to\": null}', '{\"status\": \"resolved\", \"severity\": \"low\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(124, 9, 'UPDATE', 'incident_reports', 1, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(125, 5, 'UPDATE', 'incident_reports', 4, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(126, 10, 'UPDATE', 'incident_reports', 5, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(127, 9, 'UPDATE', 'incident_reports', 9, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(128, 3, 'UPDATE', 'incident_reports', 12, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"under_review\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(129, 7, 'UPDATE', 'incident_reports', 10, '{\"status\": \"pending\", \"severity\": \"medium\", \"assigned_to\": null}', '{\"status\": \"investigating\", \"severity\": \"medium\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(130, 10, 'UPDATE', 'incident_reports', 14, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"investigating\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(131, 3, 'UPDATE', 'incident_reports', 18, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"investigating\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(132, 2, 'UPDATE', 'incident_reports', 24, '{\"status\": \"pending\", \"severity\": \"high\", \"assigned_to\": null}', '{\"status\": \"investigating\", \"severity\": \"high\", \"assigned_to\": null}', NULL, NULL, NULL, '2026-02-15 21:11:48'),
+(133, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 22:35:50'),
+(134, 11, 'INSERT', 'users', 11, NULL, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 22:47:30'),
+(135, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 22:49:28'),
+(136, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 22:49:48'),
+(137, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-16 17:49:48\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-16 22:49:48'),
+(138, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:08:49'),
+(139, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:15:03'),
+(140, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:17:39'),
+(141, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-16 18:17:39\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-16 23:17:39');
 
 -- --------------------------------------------------------
 
@@ -484,6 +672,28 @@ CREATE TABLE `certificates` (
   `expires_at` date DEFAULT NULL,
   `is_verified` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `certificates`
+--
+
+INSERT INTO `certificates` (`id`, `user_id`, `course_id`, `enrollment_id`, `certificate_number`, `certificate_file_path`, `verification_code`, `issued_at`, `expires_at`, `is_verified`) VALUES
+(1, 1, 1, 1, 'CERT-2026-001', NULL, 'V001', '2026-02-15 21:11:48', NULL, 1),
+(2, 1, 2, 2, 'CERT-2026-002', NULL, 'V002', '2026-02-15 21:11:48', NULL, 1),
+(3, 2, 1, 4, 'CERT-2026-003', NULL, 'V003', '2026-02-15 21:11:48', NULL, 1),
+(4, 3, 2, 6, 'CERT-2026-004', NULL, 'V004', '2026-02-15 21:11:48', NULL, 1),
+(5, 3, 3, 7, 'CERT-2026-005', NULL, 'V005', '2026-02-15 21:11:48', NULL, 1),
+(6, 4, 1, 8, 'CERT-2026-006', NULL, 'V006', '2026-02-15 21:11:48', NULL, 1),
+(7, 5, 3, 11, 'CERT-2026-007', NULL, 'V007', '2026-02-15 21:11:48', NULL, 1),
+(8, 6, 1, 12, 'CERT-2026-008', NULL, 'V008', '2026-02-15 21:11:48', NULL, 1),
+(9, 7, 2, 14, 'CERT-2026-009', NULL, 'V009', '2026-02-15 21:11:48', NULL, 1),
+(10, 8, 1, 15, 'CERT-2026-010', NULL, 'V010', '2026-02-15 21:11:48', NULL, 1),
+(11, 8, 3, 16, 'CERT-2026-011', NULL, 'V011', '2026-02-15 21:11:48', NULL, 1),
+(12, 9, 1, 17, 'CERT-2026-012', NULL, 'V012', '2026-02-15 21:11:48', NULL, 1),
+(13, 9, 4, 18, 'CERT-2026-013', NULL, 'V013', '2026-02-15 21:11:48', NULL, 1),
+(14, 10, 1, 19, 'CERT-2026-014', NULL, 'V014', '2026-02-15 21:11:48', NULL, 1),
+(15, 10, 2, 20, 'CERT-2026-015', NULL, 'V015', '2026-02-15 21:11:48', NULL, 1),
+(16, 10, 3, 21, 'CERT-2026-016', NULL, 'V016', '2026-02-15 21:11:48', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -511,8 +721,27 @@ CREATE TABLE `course_enrollments` (
 --
 
 INSERT INTO `course_enrollments` (`id`, `user_id`, `course_id`, `progress_percentage`, `status`, `started_at`, `completed_at`, `certificate_issued`, `certificate_id`, `rating`, `feedback`, `last_accessed_at`) VALUES
-(1, 2, 5, 0.00, 'enrolled', '2025-11-16 15:13:17', NULL, 0, NULL, NULL, NULL, '2025-11-16 15:13:17'),
-(2, 1, 3, 0.00, 'enrolled', '2025-12-08 06:41:13', NULL, 0, NULL, NULL, NULL, '2025-12-08 06:41:13');
+(1, 1, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Very helpful!', '2026-02-15 21:11:47'),
+(2, 1, 2, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 4, 'Good cyber awareness content.', '2026-02-15 21:11:47'),
+(3, 1, 3, 75.00, 'in_progress', '2026-02-15 21:11:47', NULL, 0, NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(4, 2, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Essential for everyone.', '2026-02-15 21:11:47'),
+(5, 2, 4, 50.00, 'in_progress', '2026-02-15 21:11:47', NULL, 0, NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(6, 3, 2, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Learned a lot about online safety.', '2026-02-15 21:11:47'),
+(7, 3, 3, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 4, NULL, '2026-02-15 21:11:47'),
+(8, 4, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Empowering.', '2026-02-15 21:11:47'),
+(9, 4, 4, 30.00, 'enrolled', '2026-02-15 21:11:47', NULL, 0, NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(10, 5, 1, 80.00, 'in_progress', '2026-02-15 21:11:47', NULL, 0, NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(11, 5, 3, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Life saving knowledge.', '2026-02-15 21:11:47'),
+(12, 6, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 4, NULL, '2026-02-15 21:11:47'),
+(13, 6, 2, 60.00, 'in_progress', '2026-02-15 21:11:47', NULL, 0, NULL, NULL, NULL, '2026-02-15 21:11:47'),
+(14, 7, 2, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Must for students.', '2026-02-15 21:11:47'),
+(15, 8, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Excellent instructor.', '2026-02-15 21:11:47'),
+(16, 8, 3, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 4, NULL, '2026-02-15 21:11:47'),
+(17, 9, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Women should take this.', '2026-02-15 21:11:47'),
+(18, 9, 4, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Important legal info.', '2026-02-15 21:11:47'),
+(19, 10, 1, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, NULL, '2026-02-15 21:11:47'),
+(20, 10, 2, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Very relevant.', '2026-02-15 21:11:47'),
+(21, 10, 3, 100.00, 'completed', '2026-02-15 21:11:47', NULL, 0, NULL, 5, 'Ready for emergencies.', '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -556,7 +785,7 @@ CREATE TABLE `districts` (
 --
 
 INSERT INTO `districts` (`id`, `division_id`, `name`, `bbs_code`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Dhaka', '30', '2025-11-16 13:30:00', '2025-11-16 13:30:00');
+(1, 1, 'Dhaka', '3026', '2026-02-15 20:01:29', '2026-02-15 20:01:29');
 
 -- --------------------------------------------------------
 
@@ -577,7 +806,14 @@ CREATE TABLE `divisions` (
 --
 
 INSERT INTO `divisions` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
-(1, 'Dhaka', 'DHK', '2025-11-16 13:30:00', '2025-11-16 13:30:00');
+(1, 'Dhaka', 'DHK', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(2, 'Chittagong', 'CTG', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(3, 'Rajshahi', 'RAJ', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(4, 'Khulna', 'KHU', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(5, 'Sylhet', 'SYL', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(6, 'Barisal', 'BAR', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(7, 'Rangpur', 'RAN', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(8, 'Mymensingh', 'MYM', '2026-02-15 20:01:29', '2026-02-15 20:01:29');
 
 -- --------------------------------------------------------
 
@@ -604,8 +840,18 @@ CREATE TABLE `emergency_contacts` (
 --
 
 INSERT INTO `emergency_contacts` (`id`, `user_id`, `contact_name`, `phone_number`, `relationship`, `priority`, `is_verified`, `notification_methods`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Anik', '01871745957', 'Brother', 1, 0, 'sms', 1, '2025-11-24 00:08:39', '2025-11-24 00:08:39'),
-(2, 6, 'Anik', '01871745957', 'Brother', 1, 0, 'sms,call', 1, '2026-01-24 09:14:29', '2026-01-24 09:14:29');
+(1, 1, 'Abir Hossain', '01711002233', 'Brother', 1, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(2, 1, 'Laila Begum', '01822334455', 'Mother', 2, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(3, 2, 'Kamal Ahmed', '01911223344', 'Father', 1, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(4, 3, 'Sultana Razia', '01511223344', 'Friend', 1, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(5, 5, 'Karim Ullah', '01311223344', 'Spouse', 1, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(6, 10, 'Nabila Islam', '01611223344', 'Sister', 1, 1, 'sms,call', 1, '2026-02-15 20:22:50', '2026-02-15 20:22:50'),
+(7, 4, 'Rahim Uddin', '01876543210', 'Father', 1, 1, 'sms,call', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(8, 4, 'Fatema Begum', '01776543211', 'Mother', 2, 1, 'sms,call', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(9, 6, 'Karim Ahmed', '01976543212', 'Brother', 1, 1, 'sms,call', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(10, 7, 'Nasrin Akter', '01676543213', 'Sister', 1, 1, 'sms,call,whatsapp', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(11, 8, 'Jamil Hossain', '01576543214', 'Father', 1, 1, 'sms,call', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(12, 9, 'Taslima Akter', '01876543215', 'Mother', 1, 1, 'sms,call', 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -643,39 +889,106 @@ CREATE TABLE `emergency_services` (
 --
 
 INSERT INTO `emergency_services` (`id`, `name`, `name_bn`, `type`, `address`, `address_bn`, `phone`, `emergency_phone`, `email`, `website`, `latitude`, `longitude`, `location`, `operating_hours`, `has_womens_cell`, `has_emergency_unit`, `verified`, `rating`, `total_ratings`, `image_url`, `created_at`, `updated_at`) VALUES
-(1, 'Dhanmondi Police Station', 'ধানমন্ডি থানা', 'police_station', 'Road 27, Dhanmondi, Dhaka', NULL, '02-9116453', '999', NULL, NULL, 23.74650000, 90.37620000, 0xe6100000010100000055302aa913985640c976be9f1abf3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(2, 'Gulshan Police Station', 'গুলশান থানা', 'police_station', 'Gulshan Avenue, Gulshan, Dhaka', NULL, '02-9858008', '999', NULL, NULL, 23.79250000, 90.40780000, 0xe61000000101000000c3d32b65199a56407b14ae47e1ca3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(3, 'Banani Police Station', 'বনানী থানা', 'police_station', 'Banani, Dhaka', NULL, '02-9870011', '999', NULL, NULL, 23.79370000, 90.40660000, 0xe610000001010000006ea301bc059a5640d0d556ec2fcb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(4, 'Uttara West Police Station', 'উত্তরা পশ্চিম থানা', 'police_station', 'Sector 6, Uttara, Dhaka', NULL, '02-8931122', '999', NULL, NULL, 23.87590000, 90.37950000, 0xe610000001010000003f355eba4998564000917efb3ae03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(5, 'Uttara East Police Station', 'উত্তরা পূর্ব থানা', 'police_station', 'Sector 10, Uttara, Dhaka', NULL, '02-8954411', '999', NULL, NULL, 23.86890000, 90.40120000, 0xe61000000101000000efc9c342ad995640917efb3a70de3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(6, 'Mirpur Police Station', 'মিরপুর থানা', 'police_station', 'Mirpur-10, Dhaka', NULL, '02-9002233', '999', NULL, NULL, 23.80690000, 90.36870000, 0xe610000001010000004182e2c798975640742497ff90ce3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(7, 'Mohammadpur Police Station', 'মোহাম্মদপুর থানা', 'police_station', 'Mohammadpur, Dhaka', NULL, '02-9116789', '999', NULL, NULL, 23.76620000, 90.35890000, 0xe6100000010100000034a2b437f8965640f931e6ae25c43740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(8, 'Motijheel Police Station', 'মতিঝিল থানা', 'police_station', 'Motijheel, Dhaka', NULL, '02-9559812', '999', NULL, NULL, 23.73320000, 90.41760000, 0xe61000000101000000d0b359f5b99a56405d6dc5feb2bb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(9, 'Paltan Police Station', 'পল্টন থানা', 'police_station', 'Paltan, Dhaka', NULL, '02-9559123', '999', NULL, NULL, 23.73550000, 90.41120000, 0xe610000001010000005f07ce19519a56403f355eba49bc3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(10, 'Ramna Police Station', 'রমনা থানা', 'police_station', 'Ramna, Dhaka', NULL, '02-8317089', '999', NULL, NULL, 23.74210000, 90.40030000, 0xe61000000101000000af25e4839e995640925cfe43fabd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(11, 'Tejgaon Police Station', 'তেজগাঁও থানা', 'police_station', 'Tejgaon Industrial Area, Dhaka', NULL, '02-8871234', '999', NULL, NULL, 23.75870000, 90.39320000, 0xe61000000101000000613255302a995640a779c7293ac23740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(12, 'Badda Police Station', 'বাড্ডা থানা', 'police_station', 'Badda, Dhaka', NULL, '02-9887123', '999', NULL, NULL, 23.78090000, 90.42670000, 0xe61000000101000000014d840d4f9b56404772f90fe9c73740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(13, 'Khilgaon Police Station', 'খিলগাঁও থানা', 'police_station', 'Khilgaon, Dhaka', NULL, '02-7291234', '999', NULL, NULL, 23.75100000, 90.43320000, 0xe6100000010100000024287e8cb99b5640c74b378941c03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(14, 'Dhaka Medical College Hospital', 'ঢাকা মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Secretariat Road, Dhaka', NULL, '02-55165001', '199', NULL, NULL, 23.72570000, 90.39760000, 0xe61000000101000000ef384547729956400bb5a679c7b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(15, 'Square Hospital', 'স্কয়ার হাসপাতাল', 'hospital', '18/F Bir Uttam Qazi Nuruzzaman Sarak, Dhaka', NULL, '02-8159457', '10616', NULL, NULL, 23.75220000, 90.38780000, 0xe61000000101000000e25817b7d19856401b0de02d90c03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(16, 'United Hospital', 'ইউনাইটেড হাসপাতাল', 'hospital', 'Plot 15, Road 71, Gulshan, Dhaka', NULL, '02-8836444', '10666', NULL, NULL, 23.79560000, 90.41450000, 0xe610000001010000004a0c022b879a564096b20c71accb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(17, 'Labaid Hospital', 'ল্যাবএইড হাসপাতাল', 'hospital', 'House 1, Road 4, Dhanmondi, Dhaka', NULL, '02-9116551', '10606', NULL, NULL, 23.74120000, 90.37560000, 0xe610000001010000002b1895d40998564092cb7f48bfbd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(18, 'Apollo Hospital', 'অ্যাপোলো হাসপাতাল', 'hospital', 'Plot 81, Block E, Bashundhara, Dhaka', NULL, '02-8401661', '10678', NULL, NULL, 23.81950000, 90.43120000, 0xe610000001010000004182e2c7989b56406f1283c0cad13740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(19, 'Evercare Hospital', 'এভারকেয়ার হাসপাতাল', 'hospital', 'Plot 81, Block E, Bashundhara, Dhaka', NULL, '10678', '10678', NULL, NULL, 23.81670000, 90.42890000, 0xe610000001010000004850fc18739b5640a9a44e4013d13740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(20, 'Ibn Sina Hospital', 'ইবনে সিনা হাসপাতাল', 'hospital', 'House 48, Road 9/A, Dhanmondi, Dhaka', NULL, '02-9116910', '10656', NULL, NULL, 23.74890000, 90.37120000, 0xe610000001010000009d11a5bdc197564072f90fe9b7bf3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(21, 'Popular Medical College Hospital', 'পপুলার মেডিকেল কলেজ হাসপাতাল', 'hospital', 'House 16, Road 2, Dhanmondi, Dhaka', NULL, '02-8610610', '10636', NULL, NULL, 23.73980000, 90.38010000, 0xe610000001010000006a4df38e53985640af94658863bd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(22, 'Sir Salimullah Medical College Hospital', 'স্যার সলিমুল্লাহ মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Mitford Road, Dhaka', NULL, '02-7319002', '199', NULL, NULL, 23.70890000, 90.40120000, 0xe61000000101000000efc9c342ad99564068226c787ab53740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(23, 'Bangabandhu Sheikh Mujib Medical University', 'বঙ্গবন্ধু শেখ মুজিব মেডিকেল বিশ্ববিদ্যালয়', 'hospital', 'Shahbag, Dhaka', NULL, '02-9661051', '199', NULL, NULL, 23.73920000, 90.39540000, 0xe61000000101000000a835cd3b4e995640053411363cbd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(24, 'One Stop Crisis Centre - DMC', 'ওয়ান স্টপ ক্রাইসিস সেন্টার', 'womens_helpdesk', 'Dhaka Medical College Hospital', NULL, '02-55165088', NULL, NULL, NULL, 23.72570000, 90.39760000, 0xe61000000101000000ef384547729956400bb5a679c7b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(25, 'BRAC Women & Girls Centre', 'ব্র্যাক নারী ও কিশোরী কেন্দ্র', 'ngo', 'BRAC Centre, Mohakhali, Dhaka', NULL, '02-9881265', NULL, NULL, NULL, 23.77870000, 90.40120000, 0xe61000000101000000efc9c342ad9956402c6519e258c73740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(26, 'Nari-O-Shishu Nirjaton Protirodh Cell', 'নারী ও শিশু নির্যাতন প্রতিরোধ সেল', 'womens_helpdesk', 'Police Headquarters, Dhaka', NULL, '02-8313633', NULL, NULL, NULL, 23.73850000, 90.41000000, 0xe610000001010000000ad7a3703d9a5640931804560ebd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(27, 'Acid Survivors Foundation', 'এসিড সারভাইভারস ফাউন্ডেশন', 'ngo', 'House 12, Road 22, Gulshan 1, Dhaka', NULL, '02-8859943', NULL, NULL, NULL, 23.78450000, 90.41560000, 0xe61000000101000000ed0dbe30999a564046b6f3fdd4c83740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(28, 'Manusher Jonno Foundation', 'মানুষের জন্য ফাউন্ডেশন', 'ngo', 'House 4, Road 50, Gulshan 2, Dhaka', NULL, '02-9886472', NULL, NULL, NULL, 23.79120000, 90.40890000, 0xe6100000010100000067d5e76a2b9a56405f984c158cca3740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(29, 'Bangladesh Mahila Parishad', 'বাংলাদেশ মহিলা পরিষদ', 'ngo', '28/5 Topkhana Road, Dhaka', NULL, '02-9558673', NULL, NULL, NULL, 23.73420000, 90.40890000, 0xe6100000010100000067d5e76a2b9a564024b9fc87f4bb3740, '9AM-5PM', 1, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(30, 'Dhaka Fire Station - Headquarters', 'ঢাকা ফায়ার স্টেশন - সদর দপ্তর', 'fire_station', '37 Naya Paltan, Dhaka', NULL, '02-9330088', '199', NULL, NULL, 23.73890000, 90.40980000, 0xe61000000101000000a779c7293a9a5640b003e78c28bd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(31, 'Mirpur Fire Station', 'মিরপুর ফায়ার স্টেশন', 'fire_station', 'Mirpur-10, Dhaka', NULL, '02-8031199', '199', NULL, NULL, 23.80760000, 90.36560000, 0xe61000000101000000bada8afd65975640e63fa4dfbece3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(32, 'Uttara Fire Station', 'উত্তরা ফায়ার স্টেশন', 'fire_station', 'Sector 7, Uttara, Dhaka', NULL, '02-8953199', '199', NULL, NULL, 23.87010000, 90.39120000, 0xe610000001010000007e8cb96b09995640e63fa4dfbede3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36'),
-(33, 'Gulshan Fire Station', 'গুলশান ফায়ার স্টেশন', 'fire_station', 'Gulshan, Dhaka', NULL, '02-9856199', '199', NULL, NULL, 23.78890000, 90.41230000, 0xe6100000010100000003098a1f639a56407dd0b359f5c93740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-09 14:49:36', '2026-02-09 14:49:36');
+(12, 'Mohammadpur Thana', 'মোহাম্মদপুর থানা', 'police_station', 'Mohammadpur, Dhaka', NULL, '01320040200', '999', NULL, NULL, 23.76200000, 90.36500000, 0xe610000001010000008fc2f5285c975640508d976e12c33740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(13, 'Badda Thana', 'বাড্ডা থানা', 'police_station', 'Badda, Dhaka', NULL, '01320040500', '999', NULL, NULL, 23.78500000, 90.44200000, 0xe610000001010000003f355eba499c5640295c8fc2f5c83740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(14, 'Paltan Thana', 'পল্টন থানা', 'police_station', 'Paltan, Dhaka', NULL, '01320040100', '999', NULL, NULL, 23.73000000, 90.41200000, 0xe61000000101000000ee7c3f355e9a56407b14ae47e1ba3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(15, 'Motijheel Thana', 'মতিঝিল থানা', 'police_station', 'Motijheel C/A, Dhaka', NULL, '01320040350', '999', NULL, NULL, 23.72500000, 90.41800000, 0xe61000000101000000986e1283c09a56409a99999999b93740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(16, 'Khilgaon Thana', 'খিলগাঁও থানা', 'police_station', 'Khilgaon, Dhaka', NULL, '01320040600', '999', NULL, NULL, 23.75220000, 90.43350000, 0xe6100000010100000039b4c876be9b56401b0de02d90c03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(17, 'Jatrabari Thana', 'যাত্রাবাড়ী থানা', 'police_station', 'Jatrabari, Dhaka', NULL, '01320040700', '999', NULL, NULL, 23.71850000, 90.43480000, 0xe61000000101000000401361c3d39b56400e2db29defb73740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(18, 'Demra Thana', 'ডেমরা থানা', 'police_station', 'Demra, Dhaka', NULL, '01320040900', '999', NULL, NULL, 23.71020000, 90.44450000, 0xe610000001010000009cc420b0729c5640849ecdaacfb53740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(19, 'Rampura Thana', 'রামপুরা থানা', 'police_station', 'Rampura, Dhaka', NULL, '01320041000', '999', NULL, NULL, 23.76250000, 90.42480000, 0xe61000000101000000d0d556ec2f9b56403333333333c33740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(20, 'Pallabi Thana', 'পল্লবী থানা', 'police_station', 'Pallabi, Mirpur, Dhaka', NULL, '01320041100', '999', NULL, NULL, 23.81250000, 90.35820000, 0xe61000000101000000575bb1bfec9656400000000000d03740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(21, 'Adabor Thana', 'আদাবর থানা', 'police_station', 'Adabor, Dhaka', NULL, '01320041300', '999', NULL, NULL, 23.74720000, 90.36480000, 0xe610000001010000002c6519e2589756403a92cb7f48bf3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(22, 'Sher-e-Bangla Nagar Thana', 'শেরেবাংলা নগর থানা', 'police_station', 'Sher-e-Bangla Nagar, Dhaka', NULL, '01320041400', '999', NULL, NULL, 23.78200000, 90.38000000, 0xe61000000101000000b81e85eb51985640d578e92631c83740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(23, 'Shahbagh Thana', 'শাহবাগ থানা', 'police_station', 'Shahbagh, Dhaka', NULL, '01320041500', '999', NULL, NULL, 23.73700000, 90.39500000, 0xe61000000101000000e17a14ae47995640e9263108acbc3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(24, 'Kotwali Thana', 'কোতোয়ালি থানা', 'police_station', 'Kotwali, Old Dhaka', NULL, '01320040150', '999', NULL, NULL, 23.72200000, 90.40800000, 0xe61000000101000000273108ac1c9a564046b6f3fdd4b83740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(25, 'Cantonment Thana', 'ক্যান্টনমেন্ট থানা', 'police_station', 'Dhaka Cantonment', NULL, '01320041700', '999', NULL, NULL, 23.83500000, 90.40000000, 0xe610000001010000009a99999999995640f6285c8fc2d53740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(26, 'Turag Thana', 'তুরাগ থানা', 'police_station', 'Turag, Dhaka', NULL, '01320041800', '999', NULL, NULL, 23.87800000, 90.38500000, 0xe61000000101000000713d0ad7a398564054e3a59bc4e03740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(27, 'Banani Thana', 'বনানী থানা', 'police_station', 'Banani, Dhaka', NULL, '01320041200', '999', NULL, NULL, 23.79370000, 90.40330000, 0xe61000000101000000849ecdaacf995640d0d556ec2fcb3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(28, 'Gulshan Thana', 'গুলশান থানা', 'police_station', 'Gulshan 1, Dhaka', NULL, '01320041150', '999', NULL, NULL, 23.77970000, 90.41540000, 0xe610000001010000008ab0e1e9959a5640f2b0506b9ac73740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(29, 'Uttara West Thana', 'উত্তরা পশ্চিম থানা', 'police_station', 'Sector 3, Uttara, Dhaka', NULL, '01320041550', '999', NULL, NULL, 23.86310000, 90.39210000, 0xe61000000101000000be30992a18995640772d211ff4dc3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(30, 'Dhanmondi Thana', 'ধানমন্ডি থানা', 'police_station', 'Road 6, Dhanmondi, Dhaka', NULL, '01320040300', '999', NULL, NULL, 23.74080000, 90.38110000, 0xe610000001010000005c2041f16398564076e09c11a5bd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(31, 'Tejgaon Thana', 'তেজগাঁও থানা', 'police_station', 'Tejgaon, Dhaka', NULL, '01320040400', '999', NULL, NULL, 23.75940000, 90.39080000, 0xe61000000101000000b7d100de029956401895d40968c23740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(32, 'Dhaka Medical College Hospital', 'ঢাকা মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Bakshibazar, Dhaka', NULL, '02-55165088', '10655', NULL, NULL, 23.72510000, 90.39760000, 0xe61000000101000000ef3845477299564061545227a0b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(33, 'Bangabandhu Sheikh Mujib Medical University', 'বঙ্গবন্ধু শেখ মুজিব মেডিকেল বিশ্ববিদ্যালয়', 'hospital', 'Shahbagh, Dhaka', NULL, '02-55165760', '999', NULL, NULL, 23.73910000, 90.39560000, 0xe610000001010000000c93a982519956403e7958a835bd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(34, 'Kurmitola General Hospital', 'কুর্মিটোলা জেনারেল হাসপাতাল', 'hospital', 'Airport Road, Dhaka', NULL, '02-55062347', '999', NULL, NULL, 23.82410000, 90.41260000, 0xe610000001010000001895d409689a564034a2b437f8d23740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(35, 'Square Hospital', 'স্কয়ার হাসপাতাল', 'hospital', 'Panthapath, Dhaka', NULL, '02-48115951', '10616', NULL, NULL, 23.75310000, 90.38160000, 0xe61000000101000000d50968226c9856401b9e5e29cbc03740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(36, 'Evercare Hospital', 'এভারকেয়ার হাসপাতাল', 'hospital', 'Bashundhara R/A, Dhaka', NULL, '02-8431661', '10678', NULL, NULL, 23.81030000, 90.43120000, 0xe610000001010000004182e2c7989b5640e5f21fd26fcf3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(37, 'United Hospital', 'ইউনাইটেড হাসপাতাল', 'hospital', 'Gulshan 2, Dhaka', NULL, '02-9852466', '10666', NULL, NULL, 23.80410000, 90.41560000, 0xe61000000101000000ed0dbe30999a5640aeb6627fd9cd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(38, 'Birdem General Hospital', 'বারডেম জেনারেল হাসপাতাল', 'hospital', 'Shahbagh, Dhaka', NULL, '02-9661551', '999', NULL, NULL, 23.73810000, 90.39590000, 0xe61000000101000000211ff46c56995640772d211ff4bc3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(39, 'National Heart Foundation', 'জাতীয় হৃদরোগ ফাউন্ডেশন', 'hospital', 'Mirpur-2, Dhaka', NULL, '02-58051355', '999', NULL, NULL, 23.80420000, 90.36210000, 0xe610000001010000006c787aa52c97564076711b0de0cd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(40, 'Suhrawardy Medical College Hospital', 'শহীদ সোহরাওয়ার্দী মেডিকেল কলেজ হাসপাতাল', 'hospital', 'Sher-e-Bangla Nagar, Dhaka', NULL, '02-9130800', '999', NULL, NULL, 23.77050000, 90.37120000, 0xe610000001010000009d11a5bdc19756406891ed7c3fc53740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(41, 'Ibn Sina Specialized Hospital', 'ইবনে সিনা স্পেশালাইজড হাসপাতাল', 'hospital', 'Dhanmondi, Dhaka', NULL, '02-9121206', '10615', NULL, NULL, 23.74560000, 90.37230000, 0xe61000000101000000401361c3d3975640c9e53fa4dfbe3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(42, 'Labaid Specialized Hospital', 'ল্যাবএইড স্পেশালাইজড হাসপাতাল', 'hospital', 'Dhanmondi, Dhaka', NULL, '02-58610793', '10606', NULL, NULL, 23.74120000, 90.38240000, 0xe61000000101000000637fd93d7998564092cb7f48bfbd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(43, 'Holy Family Red Crescent Hospital', 'হলি ফ্যামিলি রেড ক্রিসেন্ট হাসপাতাল', 'hospital', 'Eskaton, Dhaka', NULL, '02-48311721', '999', NULL, NULL, 23.74520000, 90.40210000, 0xe610000001010000002f6ea301bc995640adfa5c6dc5be3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(44, 'Sir Salimullah Medical College', 'স্যার সলিমুল্লাহ মেডিকেল কলেজ', 'hospital', 'Mitford, Dhaka', NULL, '02-57316104', '999', NULL, NULL, 23.71010000, 90.39950000, 0xe6100000010100000021b0726891995640bde3141dc9b53740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(45, 'National Institute of Cancer Research', 'জাতীয় ক্যান্সার গবেষণা ইনস্টিটিউট', 'hospital', 'Mohakhali, Dhaka', NULL, '02-9880078', '999', NULL, NULL, 23.77560000, 90.40120000, 0xe61000000101000000efc9c342ad99564011c7bab88dc63740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(46, 'Enam Medical College', 'এনাম মেডিকেল কলেজ', 'hospital', 'Savar (Dhaka Office)', NULL, '01716358146', '999', NULL, NULL, 23.84560000, 90.25820000, 0xe61000000101000000f1f44a5986905640637fd93d79d83740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(47, 'Delta Hospital', 'ডেল্টা হাসপাতাল', 'hospital', 'Mirpur-1, Dhaka', NULL, '02-58050442', '999', NULL, NULL, 23.79120000, 90.35230000, 0xe610000001010000005f984c158c9656405f984c158cca3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(48, 'Popular Specialized Hospital', 'পপুলার স্পেশালাইজড হাসপাতাল', 'hospital', 'Dhanmondi, Dhaka', NULL, '02-9669480', '10636', NULL, NULL, 23.74010000, 90.38310000, 0xe610000001010000003fc6dcb58498564005c58f3177bd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(49, 'Central Hospital', 'সেন্ট্রাল হাসপাতাল', 'hospital', 'Green Road, Dhaka', NULL, '02-9660015', '999', NULL, NULL, 23.74410000, 90.38620000, 0xe61000000101000000c66d3480b79856401ff46c567dbe3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(50, 'Kidney Foundation Hospital', 'কিডনি ফাউন্ডেশন হাসপাতাল', 'hospital', 'Mirpur-2, Dhaka', NULL, '02-58054708', '999', NULL, NULL, 23.80550000, 90.36010000, 0xe6100000010100000089d2dee00b97564091ed7c3f35ce3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(51, 'Infectious Diseases Hospital', 'সংক্রামক ব্যাধি হাসপাতাল', 'hospital', 'Mohakhali, Dhaka', NULL, '02-9898155', '999', NULL, NULL, 23.77820000, 90.40250000, 0xe61000000101000000f6285c8fc299564048bf7d1d38c73740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:04', '2026-02-15 16:10:04'),
+(52, 'Fire Service HQ', 'ফায়ার সার্ভিস সদর দপ্তর', 'fire_station', 'Kazi Alauddin Road, Dhaka', NULL, '02-223355555', '16163', NULL, NULL, 23.72250000, 90.40720000, 0xe6100000010100000099bb96900f9a5640295c8fc2f5b83740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(53, 'Mohammadpur Fire Station', 'মোহাম্মদপুর ফায়ার স্টেশন', 'fire_station', 'Mohammadpur, Dhaka', NULL, '02-9112222', '999', NULL, NULL, 23.75880000, 90.35880000, 0xe6100000010100000082734694f69656406e3480b740c23740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(54, 'Siddique Bazar Fire Station', 'সিদ্দিক বাজার ফায়ার স্টেশন', 'fire_station', 'Gulistan, Dhaka', NULL, '02-9555555', '999', NULL, NULL, 23.72350000, 90.40950000, 0xe6100000010100000091ed7c3f359a5640f0a7c64b37b93740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(55, 'Mirpur Fire Station', 'মিরপুর ফায়ার স্টেশন', 'fire_station', 'Mirpur-10, Dhaka', NULL, '02-9010214', '999', NULL, NULL, 23.80680000, 90.36880000, 0xe61000000101000000f2b0506b9a975640ad69de718ace3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(56, 'Kurmitola Fire Station', 'কুর্মিটোলা ফায়ার স্টেশন', 'fire_station', 'Airport Road, Dhaka', NULL, '02-8931111', '999', NULL, NULL, 23.82650000, 90.41320000, 0xe6100000010100000043ad69de719a5640dd24068195d33740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(57, 'Tejgaon Fire Station', 'তেজগাঁও ফায়ার স্টেশন', 'fire_station', 'Tejgaon Industrial Area, Dhaka', NULL, '02-9113333', '999', NULL, NULL, 23.76540000, 90.39540000, 0xe61000000101000000a835cd3b4e995640c05b2041f1c33740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(58, 'Khilgaon Fire Station', 'খিলগাঁও ফায়ার স্টেশন', 'fire_station', 'Khilgaon, Dhaka', NULL, '02-7212121', '999', NULL, NULL, 23.75350000, 90.43120000, 0xe610000001010000004182e2c7989b564037894160e5c03740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(59, 'Postagola Fire Station', 'পোস্তগোলা ফায়ার স্টেশন', 'fire_station', 'Postagola, Dhaka', NULL, '02-7440022', '999', NULL, NULL, 23.69230000, 90.43540000, 0xe610000001010000006b2bf697dd9b56405305a3923ab13740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(60, 'Lalbagh Fire Station', 'লালবাগ ফায়ার স্টেশন', 'fire_station', 'Lalbagh, Old Dhaka', NULL, '02-7313333', '999', NULL, NULL, 23.71880000, 90.38880000, 0xe61000000101000000d42b6519e2985640645ddc4603b83740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(61, 'Hazaribagh Fire Station', 'হাজারীবাগ ফায়ার স্টেশন', 'fire_station', 'Hazaribagh, Dhaka', NULL, '02-9661122', '999', NULL, NULL, 23.73450000, 90.36540000, 0xe61000000101000000567daeb66297564079e9263108bc3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(62, 'Uttara Fire Station', 'উত্তরা ফায়ার স্টেশন', 'fire_station', 'Sector-3, Uttara, Dhaka', NULL, '02-8911111', '999', NULL, NULL, 23.86450000, 90.39540000, 0xe61000000101000000a835cd3b4e9956405a643bdf4fdd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(63, 'Savar Fire Station', 'সাভার ফায়ার স্টেশন', 'fire_station', 'Savar, Dhaka', NULL, '02-7741555', '999', NULL, NULL, 23.84120000, 90.26540000, 0xe61000000101000000f0164850fc9056402c6519e258d73740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(64, 'Palashbari Fire Station', 'পলাশবাড়ী ফায়ার স্টেশন', 'fire_station', 'Ashulia, Dhaka', NULL, '01730336644', '999', NULL, NULL, 23.91230000, 90.28540000, 0xe61000000101000000d1915cfe439256400b24287e8ce93740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(65, 'Demra Fire Station', 'ডেমরা ফায়ার স্টেশন', 'fire_station', 'Demra, Dhaka', NULL, '02-7500111', '999', NULL, NULL, 23.71230000, 90.44540000, 0xe61000000101000000dc68006f819c5640d8f0f44a59b63740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(66, 'Keraniganj Fire Station', 'কেরানীগঞ্জ ফায়ার স্টেশন', 'fire_station', 'Keraniganj, Dhaka', NULL, '02-7762222', '999', NULL, NULL, 23.68230000, 90.38540000, 0xe6100000010100000038f8c264aa985640910f7a36abae3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(67, 'Baridhara Fire Station', 'বারিধারা ফায়ার স্টেশন', 'fire_station', 'Baridhara, Dhaka', NULL, '02-9883333', '999', NULL, NULL, 23.80120000, 90.42540000, 0xe61000000101000000faedebc0399b5640228e75711bcd3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(68, 'Gulshan Fire Station', 'গুলশান ফায়ার স্টেশন', 'fire_station', 'Gulshan-2, Dhaka', NULL, '02-8822222', '999', NULL, NULL, 23.79230000, 90.41540000, 0xe610000001010000008ab0e1e9959a5640ed9e3c2cd4ca3740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(69, 'Purbachal Fire Station', 'পূর্বাচল ফায়ার স্টেশন', 'fire_station', 'Purbachal, Dhaka', NULL, '01730336699', '999', NULL, NULL, 23.83230000, 90.51540000, 0xe61000000101000000f0164850fca05640f775e09c11d53740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(70, 'Basundhara Fire Station', 'বসুন্ধরা ফায়ার স্টেশন', 'fire_station', 'Bashundhara R/A, Dhaka', NULL, '02-8401111', '999', NULL, NULL, 23.81540000, 90.43540000, 0xe610000001010000006b2bf697dd9b56408d28ed0dbed03740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(71, 'Tongi Fire Station', 'টঙ্গী ফায়ার স্টেশন', 'fire_station', 'Tongi, Dhaka Border', NULL, '02-9811111', '999', NULL, NULL, 23.89540000, 90.40540000, 0xe610000001010000001973d712f2995640a1d634ef38e53740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(72, 'Victim Support Centre', 'ভিকটিম সাপোর্ট সেন্টার', 'womens_helpdesk', 'Tejgaon Thana Complex, Dhaka', NULL, '01713398328', '109', NULL, NULL, 23.76020000, 90.39120000, 0xe610000001010000007e8cb96b09995640516b9a779cc23740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(73, 'National Helpline for Violence Against Women', 'জাতীয় নারী নির্যাতন প্রতিরোধ হেল্পলাইন', 'womens_helpdesk', 'Secretariat, Dhaka', NULL, '109', '109', NULL, NULL, 23.73120000, 90.40120000, 0xe61000000101000000efc9c342ad995640d0d556ec2fbb3740, '24/7', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(74, 'DMP Womens Help Desk', 'ডিএমপি নারী সহায়তা ডেস্ক', 'womens_helpdesk', 'DMP HQ, Minto Road', NULL, '01713373155', '999', NULL, NULL, 23.74310000, 90.40010000, 0xe610000001010000004bc8073d9b99564058a835cd3bbe3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(75, 'One Stop Crisis Centre (DMC)', 'ওয়ান স্টপ ক্রাইসিস সেন্টার (ডিএমসি)', 'womens_helpdesk', 'DMCH, Dhaka', NULL, '01711446544', '109', NULL, NULL, 23.72510000, 90.39760000, 0xe61000000101000000ef3845477299564061545227a0b93740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(76, 'Bangladesh Mahila Parishad', 'বাংলাদেশ মহিলা পরিষদ', 'womens_helpdesk', 'Sufia Kamal Bhaban, Segunbagicha', NULL, '02-9582156', '999', NULL, NULL, 23.73450000, 90.40670000, 0xe6100000010100000020d26f5f079a564079e9263108bc3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(77, 'Naripokkho', 'নারীপক্ষ', 'womens_helpdesk', 'Dhanmondi, Dhaka', NULL, '02-9111457', '999', NULL, NULL, 23.74560000, 90.37560000, 0xe610000001010000002b1895d409985640c9e53fa4dfbe3740, '10:00-18:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(78, 'BNWLA Help Desk', 'বিএনডব্লিউএলএ হেল্প ডেস্ক', 'womens_helpdesk', 'Adabor, Dhaka', NULL, '02-9110031', '999', NULL, NULL, 23.77120000, 90.36210000, 0xe610000001010000006c787aa52c975640daacfa5c6dc53740, '09:00-17:00', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(79, 'Ain o Salish Kendra (ASK)', 'আইন ও সালিশ কেন্দ্র', 'womens_helpdesk', 'Lalmatia, Dhaka', NULL, '01711565638', '999', NULL, NULL, 23.75540000, 90.36870000, 0xe610000001010000004182e2c798975640fe65f7e461c13740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(80, 'BUP Womens Cell', 'বিইউপি নারী সেল', 'womens_helpdesk', 'Mirpur Cantonment', NULL, '01769021500', '999', NULL, NULL, 23.83780000, 90.35410000, 0xe61000000101000000dfe00b93a9965640bc96900f7ad63740, '08:00-16:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(81, 'BRAC Legal Aid Center', 'ব্র্যাক আইন সহায়তা কেন্দ্র', 'womens_helpdesk', 'Mohakhali, Dhaka', NULL, '01713063544', '999', NULL, NULL, 23.77820000, 90.40120000, 0xe61000000101000000efc9c342ad99564048bf7d1d38c73740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(82, 'Police Womens Network', 'পুলিশ উইমেন নেটওয়ার্ক', 'womens_helpdesk', 'Police HQ, Dhaka', NULL, '01713398300', '999', NULL, NULL, 23.72560000, 90.41230000, 0xe6100000010100000003098a1f639a564044faedebc0b93740, '24/7', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(83, 'Mohammadpur Womens Desk', 'মোহাম্মদপুর নারী ডেস্ক', 'womens_helpdesk', 'Mohammadpur Thana', NULL, '01320040200', '999', NULL, NULL, 23.76210000, 90.36510000, 0xe6100000010100000041f163cc5d975640174850fc18c33740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(84, 'Gulshan Womens Desk', 'গুলশান নারী ডেস্ক', 'womens_helpdesk', 'Gulshan Thana', NULL, '01320041150', '999', NULL, NULL, 23.77980000, 90.41550000, 0xe610000001010000003bdf4f8d979a5640ba6b09f9a0c73740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(85, 'Uttara Womens Desk', 'উত্তরা নারী ডেস্ক', 'womens_helpdesk', 'Uttara Thana', NULL, '01320041550', '999', NULL, NULL, 23.86320000, 90.39220000, 0xe61000000101000000705f07ce199956403ee8d9acfadc3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(86, 'Mirpur Womens Desk', 'মিরপুর নারী ডেস্ক', 'womens_helpdesk', 'Mirpur Thana', NULL, '01320041600', '999', NULL, NULL, 23.80690000, 90.36890000, 0xe61000000101000000a4dfbe0e9c975640742497ff90ce3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(87, 'Dhanmondi Womens Desk', 'ধানমন্ডি নারী ডেস্ক', 'womens_helpdesk', 'Dhanmondi Thana', NULL, '01320040300', '999', NULL, NULL, 23.74090000, 90.38120000, 0xe610000001010000000e4faf94659856403d9b559fabbd3740, '24/7', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(88, 'Shakti Foundation Helpdesk', 'শক্তি ফাউন্ডেশন হেল্পডেস্ক', 'womens_helpdesk', 'Mirpur-2, Dhaka', NULL, '02-9023456', '999', NULL, NULL, 23.80540000, 90.36230000, 0xe61000000101000000d0d556ec2f975640ca32c4b12ece3740, '09:00-18:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(89, 'ActionAid Womens Center', 'অ্যাকশনএইড নারী কেন্দ্র', 'womens_helpdesk', 'Gulshan, Dhaka', NULL, '02-8837111', '999', NULL, NULL, 23.79120000, 90.41230000, 0xe6100000010100000003098a1f639a56405f984c158cca3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(90, 'Blast Legal Aid', 'ব্লাস্ট আইন সহায়তা', 'womens_helpdesk', 'Old Railway District Office', NULL, '02-9662344', '999', NULL, NULL, 23.72340000, 90.41560000, 0xe61000000101000000ed0dbe30999a564029ed0dbe30b93740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(91, 'Care Bangladesh Helpline', 'কেয়ার বাংলাদেশ হেল্পলাইন', 'womens_helpdesk', 'RAOWA Complex, Mohakhali', NULL, '02-9112344', '999', NULL, NULL, 23.77450000, 90.39560000, 0xe610000001010000000c93a9825199564083c0caa145c63740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(92, 'BRAC HQ', 'ব্র্যাক প্রধান কার্যালয়', 'ngo', '75 Mohakhali, Dhaka', NULL, '02-222281245', '999', NULL, NULL, 23.77760000, 90.40340000, 0xe6100000010100000036cd3b4ed19956409e5e29cb10c73740, '09:00-17:00', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(93, 'ASA NGO', 'আশা এনজিও', 'ngo', 'Shyamoli, Dhaka', NULL, '02-9116344', '999', NULL, NULL, 23.77120000, 90.36450000, 0xe6100000010100000017d9cef753975640daacfa5c6dc53740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(94, 'Proshika', 'প্রশিকা', 'ngo', 'Mirpur-2, Dhaka', NULL, '02-8016021', '999', NULL, NULL, 23.80560000, 90.36210000, 0xe610000001010000006c787aa52c97564058a835cd3bce3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(95, 'BDRCS HQ', 'বাংলাদেশ রেড ক্রিসেন্ট সোসাইটি', 'ngo', 'Mogbazar, Dhaka', NULL, '02-9330188', '999', NULL, NULL, 23.75120000, 90.40340000, 0xe6100000010100000036cd3b4ed199564055c1a8a44ec03740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(96, 'CARE Bangladesh', 'কেয়ার বাংলাদেশ', 'ngo', 'Mohakhali, Dhaka', NULL, '02-9112344', '999', NULL, NULL, 23.77450000, 90.39560000, 0xe610000001010000000c93a9825199564083c0caa145c63740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(97, 'Save the Children', 'সেভ দ্য চিলড্রেন', 'ngo', 'Gulshan-2, Dhaka', NULL, '02-9861690', '999', NULL, NULL, 23.79450000, 90.41230000, 0xe6100000010100000003098a1f639a564008ac1c5a64cb3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(98, 'ICDDR,B', 'আইসিডিডিআর,বি', 'ngo', 'Mohakhali, Dhaka', NULL, '02-9827001', '999', NULL, NULL, 23.77910000, 90.40450000, 0xe61000000101000000d9cef753e39956404850fc1873c73740, '24/7', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(99, 'Plan International', 'প্ল্যান ইন্টারন্যাশনাল', 'ngo', 'Gulshan-1, Dhaka', NULL, '02-9861440', '999', NULL, NULL, 23.78120000, 90.41560000, 0xe61000000101000000ed0dbe30999a56409ca223b9fcc73740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(100, 'ActionAid Bangladesh', 'অ্যাকশনএইড বাংলাদেশ', 'ngo', 'Gulshan, Dhaka', NULL, '02-8837111', '999', NULL, NULL, 23.79120000, 90.41230000, 0xe6100000010100000003098a1f639a56405f984c158cca3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(101, 'World Vision', 'ওয়ার্ল্ড ভিশন', 'ngo', 'Gulshan-2, Dhaka', NULL, '02-9821001', '999', NULL, NULL, 23.80120000, 90.41560000, 0xe61000000101000000ed0dbe30999a5640228e75711bcd3740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(102, 'Oxfam Bangladesh', 'অক্সফাম বাংলাদেশ', 'ngo', 'Banani, Dhaka', NULL, '02-9852444', '999', NULL, NULL, 23.79340000, 90.40450000, 0xe61000000101000000d9cef753e39956407aa52c431ccb3740, '09:00-17:00', 1, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(103, 'Islamic Relief', 'ইসলামিক রিলিফ', 'ngo', 'Baridhara, Dhaka', NULL, '02-9842344', '999', NULL, NULL, 23.79450000, 90.42340000, 0xe61000000101000000174850fc189b564008ac1c5a64cb3740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(104, 'Christian Aid', 'ক্রিশ্চিয়ান এইড', 'ngo', 'Gulshan, Dhaka', NULL, '02-9856788', '999', NULL, NULL, 23.78450000, 90.41560000, 0xe61000000101000000ed0dbe30999a564046b6f3fdd4c83740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(105, 'WaterAid Bangladesh', 'ওয়াটারএইড বাংলাদেশ', 'ngo', 'Gulshan, Dhaka', NULL, '02-8815433', '999', NULL, NULL, 23.77890000, 90.41450000, 0xe610000001010000004a0c022b879a5640bada8afd65c73740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(106, 'Heifer International', 'হাইফার ইন্টারন্যাশনাল', 'ngo', 'Uttara, Dhaka', NULL, '02-8956744', '999', NULL, NULL, 23.86540000, 90.39560000, 0xe610000001010000000c93a982519956405af5b9da8add3740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(107, 'Friendship NGO', 'ফ্রেন্ডশিপ এনজিও', 'ngo', 'Baridhara, Dhaka', NULL, '02-9856433', '999', NULL, NULL, 23.79560000, 90.42560000, 0xe610000001010000005e4bc8073d9b564096b20c71accb3740, '09:00-17:00', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(108, 'Sajida Foundation', 'সাজিদা ফাউন্ডেশন', 'ngo', 'Gulshan, Dhaka', NULL, '02-9854322', '999', NULL, NULL, 23.77560000, 90.41560000, 0xe61000000101000000ed0dbe30999a564011c7bab88dc63740, '09:00-17:00', 0, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(109, 'DAM (Ahsania Mission)', 'ঢাকা আহ্ছানিয়া মিশন', 'ngo', 'Dhanmondi, Dhaka', NULL, '02-9123422', '999', NULL, NULL, 23.74560000, 90.38560000, 0xe610000001010000009b559fabad985640c9e53fa4dfbe3740, '09:00-17:00', 1, 1, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(110, 'Practical Action', 'প্র্যাকটিক্যাল অ্যাকশন', 'ngo', 'Uttara, Dhaka', NULL, '02-8954322', '999', NULL, NULL, 23.87560000, 90.39560000, 0xe610000001010000000c93a98251995640aa60545227e03740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05'),
+(111, 'Muslim Aid', 'মুসলিম এইড', 'ngo', 'Mohammadpur, Dhaka', NULL, '02-9123411', '999', NULL, NULL, 23.75560000, 90.36560000, 0xe61000000101000000bada8afd659756408cdb68006fc13740, '09:00-17:00', 0, 0, 1, 0.0, 0, NULL, '2026-02-15 16:10:05', '2026-02-15 16:10:05');
 
 -- --------------------------------------------------------
 
@@ -706,17 +1019,11 @@ CREATE TABLE `group_alerts` (
 --
 
 INSERT INTO `group_alerts` (`id`, `group_id`, `posted_by`, `alert_type`, `title`, `message`, `location_details`, `severity`, `is_verified`, `verified_by`, `views_count`, `acknowledgments`, `status`, `expires_at`, `created_at`) VALUES
-(1, 1, 1, 'safety_warning', 'Suspicious Activity Near Dhanmondi Lake', 'Multiple reports of suspicious individuals near Dhanmondi Lake area. Please be cautious and report any unusual activity.', 'Near Dhanmondi Lake, Road 27', 'medium', 1, NULL, 0, 0, 'active', '2025-11-23 13:52:50', '2025-11-16 13:52:50'),
-(2, 1, 1, 'missing_person', 'Missing Person Alert - Young Girl', 'A 12-year-old girl named Fatima has been missing since yesterday. Last seen near Dhanmondi Market. Please share and contact if you have any information.', 'Dhanmondi Market Area', 'high', 1, NULL, 0, 0, 'active', '2025-11-19 13:52:50', '2025-11-16 13:52:50'),
-(3, 2, 1, 'safety_warning', 'Road Construction Alert', 'Major road construction on Gulshan Avenue. Expect traffic delays. Drive carefully.', 'Gulshan Avenue, Block 1', 'low', 1, NULL, 0, 0, 'active', '2025-11-21 13:52:50', '2025-11-16 13:52:50'),
-(4, 2, 1, 'emergency', 'Emergency: Power Outage in Gulshan-2', 'Widespread power outage reported in Gulshan-2 area. Expected to be resolved within 2 hours. Stay safe.', 'Gulshan-2, Block 5-8', 'medium', 1, NULL, 0, 0, 'active', '2025-11-17 13:52:50', '2025-11-16 13:52:50'),
-(5, 3, 1, 'suspicious_activity', 'Unusual Activity Near Mirpur Stadium', 'Reports of unusual gathering near Mirpur Stadium. Authorities have been notified. Please avoid the area if possible.', 'Mirpur Stadium Area', 'medium', 0, NULL, 0, 0, 'active', '2025-11-18 13:52:50', '2025-11-16 13:52:50'),
-(6, 1, 1, 'safety_warning', 'Suspicious Activity Near Dhanmondi Lake', 'Multiple reports of suspicious individuals near Dhanmondi Lake area. Please be cautious and report any unusual activity.', 'Near Dhanmondi Lake, Road 27', 'medium', 1, NULL, 0, 0, 'active', '2025-11-23 14:14:09', '2025-11-16 14:14:09'),
-(7, 1, 1, 'missing_person', 'Missing Person Alert - Young Girl', 'A 12-year-old girl named Fatima has been missing since yesterday. Last seen near Dhanmondi Market. Please share and contact if you have any information.', 'Dhanmondi Market Area', 'high', 1, NULL, 0, 0, 'active', '2025-11-19 14:14:09', '2025-11-16 14:14:09'),
-(8, 2, 1, 'safety_warning', 'Road Construction Alert', 'Major road construction on Gulshan Avenue. Expect traffic delays. Drive carefully.', 'Gulshan Avenue, Block 1', 'low', 1, NULL, 0, 0, 'active', '2025-11-21 14:14:09', '2025-11-16 14:14:09'),
-(9, 2, 1, 'emergency', 'Emergency: Power Outage in Gulshan-2', 'Widespread power outage reported in Gulshan-2 area. Expected to be resolved within 2 hours. Stay safe.', 'Gulshan-2, Block 5-8', 'medium', 1, NULL, 0, 0, 'active', '2025-11-17 14:14:09', '2025-11-16 14:14:09'),
-(10, 3, 1, 'suspicious_activity', 'Unusual Activity Near Mirpur Stadium', 'Reports of unusual gathering near Mirpur Stadium. Authorities have been notified. Please avoid the area if possible.', 'Mirpur Stadium Area', 'medium', 0, NULL, 0, 0, 'active', '2025-11-18 14:14:09', '2025-11-16 14:14:09'),
-(11, 21, 4, 'safety_warning', 'hhhhhhhhhhhh', 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh', 'Vashantek dawanpara', 'high', 0, NULL, 0, 0, 'active', '2026-01-24 14:35:00', '2026-01-24 14:35:21');
+(1, 1, 1, 'safety_warning', 'Street light out near Road 27', 'The street light near house 603 has been out for 2 days. Report to DCC.', 'Dhanmondi Road 27', 'low', 0, NULL, 15, 5, 'active', NULL, '2026-02-15 21:11:48'),
+(2, 1, 3, 'suspicious_activity', 'Unknown person asking for directions', 'Be cautious. Someone was asking detailed questions about residents. Possibly surveying.', 'Dhanmondi block B', 'medium', 0, NULL, 28, 12, 'active', NULL, '2026-02-15 21:11:48'),
+(3, 2, 5, 'general', 'Community meeting this Saturday', 'Safety watch meeting at Mirpur 10 community center, 4 PM.', 'Mirpur 10 Community Center', 'low', 1, NULL, 42, 18, 'active', NULL, '2026-02-15 21:11:48'),
+(4, 3, 10, 'safety_warning', 'Uttara sector 3 - New safe route', 'We have mapped a well-lit route from metro to sector 3. Check the app.', 'Uttara Sector 3', 'low', 1, NULL, 35, 20, 'resolved', NULL, '2026-02-15 21:11:48'),
+(5, 5, 9, 'emergency', 'Medical emergency - Resolved', 'Elderly neighbor had fall. Ambulance arrived. All good now.', 'Mohammadpur block C', 'high', 1, NULL, 55, 30, 'resolved', NULL, '2026-02-15 21:11:48');
 
 -- --------------------------------------------------------
 
@@ -756,13 +1063,6 @@ CREATE TABLE `group_media` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `group_media`
---
-
-INSERT INTO `group_media` (`id`, `group_id`, `alert_id`, `uploaded_by`, `file_name`, `file_path`, `file_type`, `file_size_bytes`, `mime_type`, `thumbnail_path`, `description`, `is_public`, `views_count`, `download_count`, `status`, `created_at`) VALUES
-(1, 21, 11, 4, 'Screenshot 2025-11-14 053006.png', 'uploads/group_media/group_21_6974844943b67_1769243721_Screenshot_2025-11-14_053006.png', 'image', 12188, 'image/png', 'uploads/group_media/group_21_6974844943b67_1769243721_Screenshot_2025-11-14_053006.png', NULL, 1, 0, 0, 'active', '2026-01-24 14:35:21');
-
 -- --------------------------------------------------------
 
 --
@@ -784,16 +1084,21 @@ CREATE TABLE `group_members` (
 --
 
 INSERT INTO `group_members` (`id`, `group_id`, `user_id`, `role`, `joined_at`, `status`, `contribution_score`) VALUES
-(1, 1, 1, 'founder', '2025-11-16 13:52:50', 'active', 150),
-(2, 2, 1, 'founder', '2025-11-16 13:52:50', 'active', 120),
-(3, 3, 1, 'founder', '2025-11-16 13:52:50', 'active', 95),
-(4, 4, 1, 'founder', '2025-11-16 13:52:50', 'active', 110),
-(5, 5, 1, 'founder', '2025-11-16 13:52:50', 'active', 85),
-(6, 1, 2, 'member', '2025-11-16 14:03:24', 'active', 0),
-(7, 4, 2, 'member', '2025-11-16 14:04:05', 'active', 0),
-(29, 21, 2, 'founder', '2025-11-16 15:31:31', 'active', 0),
-(30, 21, 4, 'member', '2025-11-23 19:36:46', 'active', 8),
-(31, 1, 4, 'member', '2026-01-24 14:36:37', 'active', 0);
+(1, 1, 1, 'founder', '2026-02-15 20:26:03', 'active', 0),
+(2, 1, 2, 'member', '2026-02-15 20:26:03', 'active', 0),
+(3, 1, 3, 'moderator', '2026-02-15 20:26:03', 'active', 0),
+(4, 2, 4, 'founder', '2026-02-15 20:26:03', 'active', 0),
+(5, 2, 5, 'member', '2026-02-15 20:26:03', 'active', 0),
+(6, 3, 10, 'founder', '2026-02-15 20:26:03', 'active', 0),
+(7, 4, 7, 'member', '2026-02-15 20:26:03', 'active', 0),
+(8, 5, 9, 'member', '2026-02-15 20:26:03', 'active', 0),
+(9, 1, 6, 'member', '2026-02-15 21:11:47', 'active', 15),
+(10, 1, 9, 'member', '2026-02-15 21:11:47', 'active', 8),
+(11, 2, 8, 'member', '2026-02-15 21:11:47', 'active', 10),
+(12, 3, 6, 'member', '2026-02-15 21:11:47', 'active', 5),
+(13, 3, 7, 'member', '2026-02-15 21:11:47', 'active', 12),
+(14, 4, 10, 'member', '2026-02-15 21:11:47', 'active', 7),
+(15, 5, 6, 'moderator', '2026-02-15 21:11:47', 'active', 20);
 
 -- --------------------------------------------------------
 
@@ -822,16 +1127,11 @@ CREATE TABLE `helpline_numbers` (
 --
 
 INSERT INTO `helpline_numbers` (`id`, `name`, `name_bn`, `number`, `category`, `description`, `description_bn`, `organization`, `is_toll_free`, `operating_hours`, `priority`, `is_active`, `created_at`) VALUES
-(1, 'National Emergency Service', 'জাতীয় জরুরি সেবা', '999', 'emergency', 'Police, Fire, Ambulance - All emergency services', 'পুলিশ, ফায়ার সার্ভিস, অ্যাম্বুলেন্স', 'Bangladesh Government', 1, '24/7', 1, 1, '2026-02-09 14:49:36'),
-(2, 'Women & Children Helpline', 'মহিলা ও শিশু হেল্পলাইন', '10921', 'womens_rights', 'Ministry of Women and Children Affairs helpline for women safety', 'মহিলা ও শিশু বিষয়ক মন্ত্রণালয়ের হেল্পলাইন', 'Ministry of Women and Children Affairs', 1, '24/7', 2, 1, '2026-02-09 14:49:36'),
-(3, 'Domestic Violence Helpline', 'পারিবারিক নির্যাতন হটলাইন', '109', 'domestic_violence', 'Report domestic violence and get immediate help', 'পারিবারিক নির্যাতনের রিপোর্ট করুন', 'Government of Bangladesh', 1, '24/7', 3, 1, '2026-02-09 14:49:36'),
-(4, 'Child Helpline', 'শিশু হেল্পলাইন', '1098', 'child_protection', 'Report child abuse, trafficking, or missing children', 'শিশু নির্যাতন, পাচার বা নিখোঁজ শিশুর রিপোর্ট', 'Ministry of Social Welfare', 1, '24/7', 4, 1, '2026-02-09 14:49:36'),
-(5, 'RAB Helpline', 'র‍্যাব হেল্পলাইন', '01779-529900', 'emergency', 'Rapid Action Battalion emergency contact', 'র‍্যাপিড অ্যাকশন ব্যাটালিয়ন জরুরি যোগাযোগ', 'RAB', 0, '24/7', 5, 1, '2026-02-09 14:49:36'),
-(6, 'BNWLA Legal Aid', 'বিএনডব্লিউএলএ আইনি সহায়তা', '01730017055', 'legal_aid', 'Bangladesh National Women Lawyers Association - Free legal aid for women', 'নারীদের জন্য বিনামূল্যে আইনি সহায়তা', 'BNWLA', 0, '9AM-5PM', 6, 1, '2026-02-09 14:49:36'),
-(7, 'Ain O Salish Kendra', 'আইন ও সালিশ কেন্দ্র', '01711876643', 'legal_aid', 'Human rights and legal aid organization', 'মানবাধিকার ও আইনি সহায়তা সংস্থা', 'ASK', 0, '9AM-5PM', 7, 1, '2026-02-09 14:49:36'),
-(8, 'BLAST Legal Aid', 'ব্লাস্ট আইনি সহায়তা', '01711579898', 'legal_aid', 'Bangladesh Legal Aid and Services Trust', 'বাংলাদেশ লিগ্যাল এইড অ্যান্ড সার্ভিসেস ট্রাস্ট', 'BLAST', 0, '9AM-5PM', 8, 1, '2026-02-09 14:49:36'),
-(9, 'Kaan Pete Roi', 'কান পেতে রই', '01779-554391', 'mental_health', 'Emotional support and mental health helpline', 'মানসিক সহায়তা হেল্পলাইন', 'Kaan Pete Roi', 0, '6PM-10PM', 9, 1, '2026-02-09 14:49:36'),
-(10, 'Fire Service', 'ফায়ার সার্ভিস', '199', 'emergency', 'Fire emergency and rescue services', 'অগ্নিকাণ্ড ও উদ্ধার সেবা', 'Fire Service & Civil Defence', 1, '24/7', 10, 1, '2026-02-09 14:49:36');
+(1, 'National Emergency', 'জাতীয় জরুরি সেবা', '999', 'emergency', 'Police, Fire, Ambulance', NULL, NULL, 1, '24/7', 1, 1, '2026-02-15 14:01:49'),
+(2, 'Women Helpline', 'নারী ও শিশু সহায়তা', '109', 'womens_rights', 'Violence against women/children', NULL, NULL, 1, '24/7', 2, 1, '2026-02-15 14:01:49'),
+(3, 'Government Info', 'সরকারি তথ্য সেবা', '333', 'emergency', 'Citizen services and info', NULL, NULL, 1, '24/7', 3, 1, '2026-02-15 14:01:49'),
+(4, 'Child Helpline', 'চাইল্ড হেল্পলাইন', '1098', 'child_protection', 'Child rights and protection', NULL, NULL, 1, '24/7', 4, 1, '2026-02-15 14:01:49'),
+(5, 'Legal Aid', 'আইনি সহায়তা', '16430', 'legal_aid', 'National legal aid services', NULL, NULL, 1, '24/7', 5, 1, '2026-02-15 14:01:49');
 
 -- --------------------------------------------------------
 
@@ -868,122 +1168,106 @@ CREATE TABLE `incident_reports` (
 --
 
 INSERT INTO `incident_reports` (`id`, `user_id`, `title`, `description`, `category`, `severity`, `status`, `location_name`, `latitude`, `longitude`, `address`, `incident_date`, `reported_date`, `updated_date`, `resolved_at`, `is_anonymous`, `is_public`, `evidence_files`, `witness_count`, `response_time_minutes`, `assigned_to`) VALUES
-(1, 1, 'Test Report #1', 'This is a test description for incident report number 1. The details are randomized.', 'stalking', 'high', 'resolved', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 00:25:24', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(2, 1, 'Test Report #2', 'This is a test description for incident report number 2. The details are randomized.', 'vandalism', 'medium', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 23:22:19', '2025-11-12 21:01:55', '2025-11-23 20:17:07', NULL, 1, 1, NULL, 5, NULL, NULL),
-(3, 1, 'Test Report #3', 'This is a test description for incident report number 3. The details are randomized.', 'vandalism', 'medium', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 02:06:26', '2025-11-12 21:01:55', '2025-11-23 20:09:38', NULL, 1, 1, NULL, 1, NULL, NULL),
-(4, 1, 'Test Report #4', 'This is a test description for incident report number 4. The details are randomized.', 'other', 'critical', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 22:16:12', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(5, 1, 'Test Report #5', 'This is a test description for incident report number 5. The details are randomized.', 'other', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 06:42:43', '2025-11-12 21:01:55', '2025-11-23 20:17:03', NULL, 1, 0, NULL, 4, NULL, NULL),
-(6, 1, 'Test Report #6', 'This is a test description for incident report number 6. The details are randomized.', 'stalking', 'high', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 07:58:01', '2025-11-12 21:01:55', '2025-11-23 20:16:59', NULL, 0, 0, NULL, 3, NULL, NULL),
-(7, 1, 'Test Report #7', 'This is a test description for incident report number 7. The details are randomized.', 'vandalism', 'medium', 'resolved', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 19:25:44', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(8, 1, 'Test Report #8', 'This is a test description for incident report number 8. The details are randomized.', 'assault', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-06 07:12:04', '2025-11-12 21:01:55', '2025-11-23 20:17:16', NULL, 1, 1, NULL, 3, NULL, NULL),
-(9, 1, 'Test Report #9', 'This is a test description for incident report number 9. The details are randomized.', 'stalking', 'high', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-10 13:26:35', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 1, NULL, NULL),
-(10, 1, 'Test Report #10', 'This is a test description for incident report number 10. The details are randomized.', 'discrimination', 'medium', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 22:48:13', '2025-11-12 21:01:55', '2025-11-23 20:17:12', NULL, 0, 0, NULL, 0, NULL, NULL),
-(11, 1, 'Test Report #11', 'This is a test description for incident report number 11. The details are randomized.', 'vandalism', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 14:19:08', '2025-11-12 21:01:55', '2025-11-23 20:17:22', NULL, 1, 0, NULL, 5, NULL, NULL),
-(12, 1, 'Test Report #12', 'This is a test description for incident report number 12. The details are randomized.', 'other', 'critical', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 01:06:35', '2025-11-12 21:01:55', '2025-11-23 20:17:38', NULL, 1, 1, NULL, 5, NULL, NULL),
-(13, 1, 'Test Report #13', 'This is a test description for incident report number 13. The details are randomized.', 'vandalism', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 01:46:05', '2025-11-12 21:01:55', '2025-11-23 20:17:50', NULL, 1, 1, NULL, 1, NULL, NULL),
-(14, 1, 'Test Report #14', 'This is a test description for incident report number 14. The details are randomized.', 'vandalism', 'medium', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 06:08:43', '2025-11-12 21:01:55', '2025-11-23 20:17:46', NULL, 0, 1, NULL, 2, NULL, NULL),
-(15, 1, 'Test Report #15', 'This is a test description for incident report number 15. The details are randomized.', 'other', 'medium', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 01:46:22', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 0, NULL, NULL),
-(16, 1, 'Test Report #16', 'This is a test description for incident report number 16. The details are randomized.', 'theft', 'low', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 06:46:07', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 3, NULL, NULL),
-(17, 1, 'Test Report #17', 'This is a test description for incident report number 17. The details are randomized.', 'assault', 'medium', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 12:12:07', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 4, NULL, NULL),
-(18, 1, 'Test Report #18', 'This is a test description for incident report number 18. The details are randomized.', 'other', 'high', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 11:24:46', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(19, 1, 'Test Report #19', 'This is a test description for incident report number 19. The details are randomized.', 'stalking', 'low', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 07:51:34', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(20, 1, 'Test Report #20', 'This is a test description for incident report number 20. The details are randomized.', 'theft', 'low', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 05:21:15', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 5, NULL, NULL),
-(21, 1, 'Test Report #21', 'This is a test description for incident report number 21. The details are randomized.', 'cyberbullying', 'high', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 13:37:18', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(22, 1, 'Test Report #22', 'This is a test description for incident report number 22. The details are randomized.', 'other', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 20:02:16', '2025-11-12 21:01:55', '2025-11-23 20:17:41', NULL, 0, 0, NULL, 5, NULL, NULL),
-(23, 1, 'Test Report #23', 'This is a test description for incident report number 23. The details are randomized.', 'harassment', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 13:43:02', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 4, NULL, NULL),
-(24, 1, 'Test Report #24', 'This is a test description for incident report number 24. The details are randomized.', 'cyberbullying', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-06 12:45:40', '2025-11-12 21:01:55', '2025-11-23 20:18:00', NULL, 0, 0, NULL, 5, NULL, NULL),
-(25, 1, 'Test Report #25', 'This is a test description for incident report number 25. The details are randomized.', 'assault', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 11:43:25', '2025-11-12 21:01:55', '2025-11-23 20:17:34', NULL, 0, 0, NULL, 0, NULL, NULL),
-(26, 1, 'Test Report #26', 'This is a test description for incident report number 26. The details are randomized.', 'discrimination', 'critical', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 03:06:51', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 2, NULL, NULL),
-(27, 1, 'Test Report #27', 'This is a test description for incident report number 27. The details are randomized.', 'vandalism', 'medium', 'resolved', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 01:29:25', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 5, NULL, NULL),
-(28, 1, 'Test Report #28', 'This is a test description for incident report number 28. The details are randomized.', 'assault', 'low', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-10 19:30:24', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 0, NULL, NULL),
-(29, 1, 'Test Report #29', 'This is a test description for incident report number 29. The details are randomized.', 'harassment', 'critical', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-10 01:02:47', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(30, 1, 'Test Report #30', 'This is a test description for incident report number 30. The details are randomized.', 'vandalism', 'low', 'resolved', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 12:32:35', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 4, NULL, NULL),
-(31, 1, 'Test Report #31', 'This is a test description for incident report number 31. The details are randomized.', 'other', 'medium', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 01:52:11', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 2, NULL, NULL),
-(32, 1, 'Test Report #32', 'This is a test description for incident report number 32. The details are randomized.', 'discrimination', 'critical', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 10:35:15', '2025-11-12 21:01:55', '2025-11-23 20:17:57', NULL, 1, 1, NULL, 5, NULL, NULL),
-(33, 1, 'Test Report #33', 'This is a test description for incident report number 33. The details are randomized.', 'discrimination', 'medium', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 16:11:47', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(34, 1, 'Test Report #34', 'This is a test description for incident report number 34. The details are randomized.', 'harassment', 'high', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 22:28:03', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 4, NULL, NULL),
-(35, 1, 'Test Report #35', 'This is a test description for incident report number 35. The details are randomized.', 'cyberbullying', 'low', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 23:37:23', '2025-11-12 21:01:55', '2025-11-23 20:17:54', NULL, 1, 1, NULL, 3, NULL, NULL),
-(36, 1, 'Test Report #36', 'This is a test description for incident report number 36. The details are randomized.', 'harassment', 'critical', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 02:00:48', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(37, 1, 'Test Report #37', 'This is a test description for incident report number 37. The details are randomized.', 'theft', 'critical', 'resolved', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 04:50:32', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 1, NULL, NULL),
-(38, 1, 'Test Report #38', 'This is a test description for incident report number 38. The details are randomized.', 'other', 'high', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-06 12:38:44', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(39, 1, 'Test Report #39', 'This is a test description for incident report number 39. The details are randomized.', 'harassment', 'critical', 'resolved', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 16:40:55', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(40, 1, 'Test Report #40', 'This is a test description for incident report number 40. The details are randomized.', 'cyberbullying', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 10:08:24', '2025-11-12 21:01:55', '2025-11-23 20:18:04', NULL, 0, 0, NULL, 3, NULL, NULL),
-(41, 1, 'Test Report #41', 'This is a test description for incident report number 41. The details are randomized.', 'theft', 'medium', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 07:38:30', '2025-11-12 21:01:55', '2025-11-23 20:18:10', NULL, 0, 0, NULL, 1, NULL, NULL),
-(42, 1, 'Test Report #42', 'This is a test description for incident report number 42. The details are randomized.', 'discrimination', 'medium', 'resolved', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-10 23:53:32', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(43, 1, 'Test Report #43', 'This is a test description for incident report number 43. The details are randomized.', 'cyberbullying', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 00:50:23', '2025-11-12 21:01:55', '2025-11-23 20:18:07', NULL, 0, 0, NULL, 1, NULL, NULL),
-(44, 1, 'Test Report #44', 'This is a test description for incident report number 44. The details are randomized.', 'other', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 21:08:28', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 5, NULL, NULL),
-(45, 1, 'Test Report #45', 'This is a test description for incident report number 45. The details are randomized.', 'vandalism', 'high', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 21:45:50', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 1, NULL, NULL),
-(46, 1, 'Test Report #46', 'This is a test description for incident report number 46. The details are randomized.', 'vandalism', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 08:09:51', '2025-11-12 21:01:55', '2025-11-23 20:18:17', NULL, 0, 1, NULL, 1, NULL, NULL),
-(47, 1, 'Test Report #47', 'This is a test description for incident report number 47. The details are randomized.', 'assault', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 12:25:08', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(48, 1, 'Test Report #48', 'This is a test description for incident report number 48. The details are randomized.', 'vandalism', 'medium', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 11:15:01', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 4, NULL, NULL),
-(49, 1, 'Test Report #49', 'This is a test description for incident report number 49. The details are randomized.', 'assault', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 03:14:55', '2025-11-12 21:01:55', '2025-11-23 20:16:17', NULL, 0, 1, NULL, 0, NULL, NULL),
-(50, 1, 'Test Report #50', 'This is a test description for incident report number 50. The details are randomized.', 'assault', 'high', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 03:21:28', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(51, 1, 'Test Report #51', 'This is a test description for incident report number 51. The details are randomized.', 'vandalism', 'critical', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 15:22:04', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 1, NULL, NULL),
-(52, 1, 'Test Report #52', 'This is a test description for incident report number 52. The details are randomized.', 'assault', 'medium', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 03:19:48', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 1, NULL, NULL),
-(53, 1, 'Test Report #53', 'This is a test description for incident report number 53. The details are randomized.', 'other', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 18:58:51', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 2, NULL, NULL),
-(54, 1, 'Test Report #54', 'This is a test description for incident report number 54. The details are randomized.', 'theft', 'critical', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 03:09:20', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(55, 1, 'Test Report #55', 'This is a test description for incident report number 55. The details are randomized.', 'cyberbullying', 'high', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 20:02:41', '2025-11-12 21:01:55', '2025-11-23 20:18:13', NULL, 1, 1, NULL, 4, NULL, NULL),
-(56, 1, 'Test Report #56', 'This is a test description for incident report number 56. The details are randomized.', 'cyberbullying', 'low', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-06 22:04:07', '2025-11-12 21:01:55', '2025-11-23 20:16:42', NULL, 0, 0, NULL, 4, NULL, NULL),
-(57, 1, 'Test Report #57', 'This is a test description for incident report number 57. The details are randomized.', 'vandalism', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 05:35:20', '2025-11-12 21:01:55', '2025-11-23 20:16:54', NULL, 1, 0, NULL, 2, NULL, NULL),
-(58, 1, 'Test Report #58', 'This is a test description for incident report number 58. The details are randomized.', 'cyberbullying', 'low', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 11:16:43', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(59, 1, 'Test Report #59', 'This is a test description for incident report number 59. The details are randomized.', 'discrimination', 'low', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 21:44:05', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 2, NULL, NULL),
-(60, 1, 'Test Report #60', 'This is a test description for incident report number 60. The details are randomized.', 'assault', 'medium', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-10 07:21:43', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 1, NULL, NULL),
-(61, 1, 'Test Report #61', 'This is a test description for incident report number 61. The details are randomized.', 'other', 'high', 'pending', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 12:37:48', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 3, NULL, NULL),
-(62, 1, 'Test Report #62', 'This is a test description for incident report number 62. The details are randomized.', 'vandalism', 'medium', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 17:33:31', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 0, NULL, NULL),
-(63, 1, 'Test Report #63', 'This is a test description for incident report number 63. The details are randomized.', 'stalking', 'critical', 'resolved', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 20:34:12', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 0, NULL, NULL),
-(64, 1, 'Test Report #64', 'This is a test description for incident report number 64. The details are randomized.', 'stalking', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 02:29:45', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 4, NULL, NULL),
-(65, 1, 'Test Report #65', 'This is a test description for incident report number 65. The details are randomized.', 'vandalism', 'low', 'resolved', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 17:27:50', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 1, NULL, NULL),
-(66, 1, 'Test Report #66', 'This is a test description for incident report number 66. The details are randomized.', 'assault', 'medium', 'pending', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 11:11:43', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(67, 1, 'Test Report #67', 'This is a test description for incident report number 67. The details are randomized.', 'assault', 'low', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 22:22:51', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(68, 1, 'Test Report #68', 'This is a test description for incident report number 68. The details are randomized.', 'cyberbullying', 'critical', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 01:52:36', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 0, NULL, NULL),
-(69, 1, 'Test Report #69', 'This is a test description for incident report number 69. The details are randomized.', 'cyberbullying', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-03 19:36:31', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 4, NULL, NULL),
-(70, 1, 'Test Report #70', 'This is a test description for incident report number 70. The details are randomized.', 'vandalism', 'medium', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 20:57:23', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 2, NULL, NULL),
-(71, 1, 'Test Report #71', 'This is a test description for incident report number 71. The details are randomized.', 'other', 'medium', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 16:57:46', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 3, NULL, NULL),
-(72, 1, 'Test Report #72', 'This is a test description for incident report number 72. The details are randomized.', 'assault', 'low', 'resolved', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 19:34:56', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 0, NULL, NULL),
-(73, 1, 'Test Report #73', 'This is a test description for incident report number 73. The details are randomized.', 'stalking', 'high', 'pending', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 02:36:54', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(74, 1, 'Test Report #74', 'This is a test description for incident report number 74. The details are randomized.', 'discrimination', 'medium', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 17:22:42', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 5, NULL, NULL),
-(75, 1, 'Test Report #75', 'This is a test description for incident report number 75. The details are randomized.', 'cyberbullying', 'high', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 06:00:48', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 3, NULL, NULL),
-(76, 1, 'Test Report #76', 'This is a test description for incident report number 76. The details are randomized.', 'stalking', 'low', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 18:57:37', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 0, NULL, NULL),
-(77, 1, 'Test Report #77', 'This is a test description for incident report number 77. The details are randomized.', 'cyberbullying', 'medium', 'pending', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 07:04:24', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 1, NULL, NULL),
-(78, 1, 'Test Report #78', 'This is a test description for incident report number 78. The details are randomized.', 'discrimination', 'medium', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-04 08:22:44', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 5, NULL, NULL),
-(79, 1, 'Test Report #79', 'This is a test description for incident report number 79. The details are randomized.', 'discrimination', 'medium', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 09:47:14', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 3, NULL, NULL),
-(80, 1, 'Test Report #80', 'This is a test description for incident report number 80. The details are randomized.', 'discrimination', 'high', 'pending', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 13:52:58', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 5, NULL, NULL),
-(81, 1, 'Test Report #81', 'This is a test description for incident report number 81. The details are randomized.', 'cyberbullying', 'medium', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-07 16:38:25', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 2, NULL, NULL),
-(82, 1, 'Test Report #82', 'This is a test description for incident report number 82. The details are randomized.', 'assault', 'critical', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 09:17:32', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 5, NULL, NULL),
-(83, 1, 'Test Report #83', 'This is a test description for incident report number 83. The details are randomized.', 'stalking', 'low', 'under_review', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 09:56:23', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 2, NULL, NULL),
-(84, 1, 'Test Report #84', 'This is a test description for incident report number 84. The details are randomized.', 'harassment', 'low', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 11:25:39', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 0, NULL, NULL),
-(85, 1, 'Test Report #85', 'This is a test description for incident report number 85. The details are randomized.', 'other', 'high', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 17:31:41', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 2, NULL, NULL),
-(86, 1, 'Test Report #86', 'This is a test description for incident report number 86. The details are randomized.', 'harassment', 'critical', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 18:28:30', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(87, 1, 'Test Report #87', 'This is a test description for incident report number 87. The details are randomized.', 'stalking', 'medium', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 05:41:16', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 4, NULL, NULL),
-(88, 1, 'Test Report #88', 'This is a test description for incident report number 88. The details are randomized.', 'vandalism', 'low', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 23:04:57', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(89, 1, 'Test Report #89', 'This is a test description for incident report number 89. The details are randomized.', 'harassment', 'medium', 'pending', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 21:07:58', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 2, NULL, NULL),
-(90, 1, 'Test Report #90', 'This is a test description for incident report number 90. The details are randomized.', 'discrimination', 'low', 'resolved', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 18:14:14', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 3, NULL, NULL),
-(91, 1, 'Test Report #91', 'This is a test description for incident report number 91. The details are randomized.', 'harassment', 'high', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-05 20:12:20', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 1, NULL, NULL),
-(92, 1, 'Test Report #92', 'This is a test description for incident report number 92. The details are randomized.', 'assault', 'critical', 'resolved', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-08 09:41:51', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 4, NULL, NULL),
-(93, 1, 'Test Report #93', 'This is a test description for incident report number 93. The details are randomized.', 'discrimination', 'high', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 08:44:13', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(94, 1, 'Test Report #94', 'This is a test description for incident report number 94. The details are randomized.', 'harassment', 'critical', 'under_review', 'Mirpur', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-01 07:39:49', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(95, 1, 'Test Report #95', 'This is a test description for incident report number 95. The details are randomized.', 'other', 'critical', 'pending', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 07:01:52', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 3, NULL, NULL),
-(96, 1, 'Test Report #96', 'This is a test description for incident report number 96. The details are randomized.', 'stalking', 'low', 'pending', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-09 07:09:00', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 5, NULL, NULL),
-(97, 1, 'Test Report #97', 'This is a test description for incident report number 97. The details are randomized.', 'assault', 'critical', 'under_review', 'Uttara', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-11 08:12:59', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 1, NULL, 0, NULL, NULL),
-(98, 1, 'Test Report #98', 'This is a test description for incident report number 98. The details are randomized.', 'stalking', 'critical', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-12 02:51:05', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 0, NULL, 1, NULL, NULL),
-(99, 1, 'Test Report #99', 'This is a test description for incident report number 99. The details are randomized.', 'discrimination', 'critical', 'under_review', 'Gulshan', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 01:58:13', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 1, 1, NULL, 5, NULL, NULL),
-(100, 1, 'Test Report #100', 'This is a test description for incident report number 100. The details are randomized.', 'cyberbullying', 'critical', 'pending', 'Dhanmondi', NULL, NULL, 'Dhaka, Bangladesh', '2025-11-02 15:56:24', '2025-11-12 21:01:55', '2025-11-12 21:01:55', NULL, 0, 0, NULL, 3, NULL, NULL),
-(101, 1, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'harassment', 'high', 'under_review', 'Dhaka', 0.00000000, 0.00000000, '', '0000-00-00 00:00:00', '2025-11-13 15:43:04', '2025-11-23 20:16:23', NULL, 0, 0, NULL, 4, NULL, NULL),
-(102, 1, 'tui kuttarbaccha chup', 'kanki magi vhodar moddhe eto kotha rakhos ken chup chap thakbi', 'theft', 'medium', 'under_review', 'Dhaka', 0.00000000, 0.00000000, '', '2025-11-11 15:44:00', '2025-11-13 15:45:02', '2025-11-23 20:09:55', NULL, 0, 0, NULL, 4, NULL, NULL),
-(103, 2, 'ahuhuhuhuhuhu', 'assssssssssssssadfdsfasssssssssssssssssssssssssssssssssssssssssssssssssssssdfdsgfdgfd fdfg', 'assault', 'medium', 'under_review', 'Dhaka', 0.00000000, 0.00000000, 'BIssas bari 203', '2025-11-06 13:23:00', '2025-11-16 13:24:40', '2025-11-23 20:04:29', NULL, 0, 1, '[{\"path\":\"uploads/evidence/69197c382aaf1_1763277880_pc1.png\",\"name\":\"pc1.png\",\"type\":\"image/png\",\"size\":489956,\"extension\":\"png\"},{\"path\":\"uploads/evidence/69197c382b425_1763277880_pc2.png\",\"name\":\"pc2.png\",\"type\":\"image/png\",\"size\":489919,\"extension\":\"png\"},{\"path\":\"uploads/evidence/69197c382d0a8_1763277880_pc3.png\",\"name\":\"pc3.png\",\"type\":\"image/png\",\"size\":377289,\"extension\":\"png\"},{\"path\":\"uploads/evidence/69197c382fdf3_1763277880_pc4.png\",\"name\":\"pc4.png\",\"type\":\"image/png\",\"size\":370331,\"extension\":\"png\"}]', 3, NULL, NULL),
-(104, 1, 'amake churi marse', 'amake buke churi marar try kora hoyeche  ami kisu korar agei amar bag niye chole gese', 'vandalism', 'critical', 'under_review', 'Dhaka', 0.00000000, 0.00000000, 'vashantek, 203 bissas bari', '2025-11-19 18:21:00', '2025-11-20 18:23:31', '2025-11-23 18:39:55', NULL, 0, 1, '[{\"path\":\"uploads/evidence/691f08439749d_1763641411_Screenshot_2025-11-15_215740.png\",\"name\":\"Screenshot 2025-11-15 215740.png\",\"type\":\"image/png\",\"size\":157676,\"extension\":\"png\"}]', 7, NULL, NULL),
-(105, 1, 'Test Report - Dhanpara Area #1', 'This is a test incident report for Dhanpara area. Testing zone status functionality.', 'harassment', 'medium', 'under_review', 'Dhanpara', 23.75000000, 90.37000000, 'Dhanpara, Dhaka, Bangladesh', '2025-11-17 19:59:26', '2025-11-17 19:59:26', '2025-11-23 20:09:42', NULL, 0, 1, NULL, 0, NULL, NULL),
-(106, 1, 'Test Report - Dhanpara Area #2', 'Second test incident report for Dhanpara area. This should trigger yellow zone status.', 'theft', 'high', 'under_review', 'Dhanpara', 23.75050000, 90.37050000, 'Dhanpara, Dhaka, Bangladesh', '2025-11-19 19:59:26', '2025-11-19 19:59:26', '2025-11-23 20:09:47', NULL, 0, 1, NULL, 0, NULL, NULL),
-(107, 1, 'Test Report - Dhanpara Area #3', 'Third test incident report for Dhanpara area. Zone should now be marked as YELLOW (moderate risk).', 'vandalism', 'medium', 'under_review', 'Dhanpara', 23.75100000, 90.37100000, 'Dhanpara, Dhaka, Bangladesh', '2025-11-21 19:59:26', '2025-11-21 19:59:26', '2025-11-23 20:09:22', NULL, 0, 1, NULL, 0, NULL, NULL),
-(108, 1, 'Test Report - Mirpur Area #1', 'First test incident report for Mirpur area. Testing red zone status.', 'assault', 'high', 'pending', 'Mirpur', 23.81670000, 90.36670000, 'Mirpur, Dhaka, Bangladesh', '2025-11-12 19:59:26', '2025-11-12 19:59:26', '2025-11-22 19:59:26', NULL, 0, 1, NULL, 0, NULL, NULL),
-(109, 1, 'Test Report - Mirpur Area #2', 'Second test incident report for Mirpur area.', 'stalking', 'critical', 'under_review', 'Mirpur', 23.81700000, 90.36700000, 'Mirpur, Dhaka, Bangladesh', '2025-11-14 19:59:26', '2025-11-14 19:59:26', '2025-11-23 19:45:48', NULL, 0, 1, NULL, 0, NULL, NULL),
-(110, 1, 'Test Report - Mirpur Area #3', 'Third test incident report for Mirpur area. Zone should be YELLOW now.', 'harassment', 'medium', 'under_review', 'Mirpur', 23.81750000, 90.36750000, 'Mirpur, Dhaka, Bangladesh', '2025-11-16 19:59:26', '2025-11-16 19:59:26', '2025-11-23 19:45:39', NULL, 0, 1, NULL, 0, NULL, NULL),
-(111, 1, 'Test Report - Mirpur Area #4', 'Fourth test incident report for Mirpur area. Still YELLOW.', 'theft', 'high', 'under_review', 'Mirpur', 23.81800000, 90.36800000, 'Mirpur, Dhaka, Bangladesh', '2025-11-18 19:59:26', '2025-11-18 19:59:26', '2025-11-23 20:09:51', NULL, 0, 1, NULL, 0, NULL, NULL),
-(112, 1, 'Test Report - Mirpur Area #5', 'Fifth test incident report for Mirpur area. Zone should now be marked as RED (unsafe - high risk).', 'assault', 'critical', 'under_review', 'Mirpur', 23.81850000, 90.36850000, 'Mirpur, Dhaka, Bangladesh', '2025-11-20 19:59:26', '2025-11-20 19:59:26', '2025-11-23 18:39:47', NULL, 0, 1, NULL, 0, NULL, NULL),
-(113, 1, 'Test Report - Gulshan Area #1', 'First test incident report for Gulshan area. Should stay GREEN (safe).', 'vandalism', 'low', 'under_review', 'Gulshan', 23.79470000, 90.41440000, 'Gulshan, Dhaka, Bangladesh', '2025-11-15 19:59:26', '2025-11-15 19:59:26', '2025-11-23 20:09:59', NULL, 0, 1, NULL, 0, NULL, NULL),
-(114, 1, 'Test Report - Gulshan Area #2', 'Second test incident report for Gulshan area. Zone should remain GREEN (safe - 0-2 reports).', 'cyberbullying', 'low', 'under_review', 'Gulshan', 23.79500000, 90.41470000, 'Gulshan, Dhaka, Bangladesh', '2025-11-17 19:59:26', '2025-11-17 19:59:26', '2025-11-23 19:45:37', NULL, 0, 1, NULL, 0, NULL, NULL),
-(115, 1, 'cchududhdhdhdhddhd', 'jiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiisssssssssssssssssssss', 'discrimination', 'low', 'pending', '67, Changgyeonggung-ro, Euljiro-dong', 37.56820000, 126.99770000, 'Road No. 2, Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', '2026-01-14 17:43:00', '2026-01-17 17:45:09', '2026-01-17 17:45:09', NULL, 0, 1, NULL, 6, NULL, NULL),
-(116, 5, 'chor amake marse', 'chor amar theke taka newyar shomoy ami taka dei nai dekhe amake ekta thappor marse', 'theft', 'critical', 'pending', 'UIU Road, Satarkul', 23.79835915, 90.45009065, 'Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', '2026-01-23 23:11:00', '2026-01-24 12:14:54', '2026-01-24 12:14:54', NULL, 0, 1, '[{\"path\":\"uploads/evidence/6974635e99ea9_1769235294_Screenshot_2025-12-30_113043.png\",\"name\":\"Screenshot 2025-12-30 113043.png\",\"type\":\"image/png\",\"size\":798426,\"extension\":\"png\"}]', 0, NULL, NULL);
+(1, 9, 'Stalking near Dhanmondi market', 'Unknown male followed me from the market for 15 minutes. Lost him near the lake.', 'stalking', 'medium', 'under_review', 'Dhanmondi Market Area', 23.70158186, 90.42591610, 'Near Dhanmondi Lake, Dhaka', '2026-02-04 13:02:25', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(2, 5, 'Eve-teasing at bus stand', 'Verbal harassment while waiting for bus. Multiple witnesses.', 'stalking', 'low', 'resolved', 'Mirpur 10 Bus Stand', 23.76666909, 90.41712910, 'Mirpur 10, Dhaka', '2026-01-01 02:26:08', '2026-02-15 20:15:54', '2026-02-15 21:11:48', '2026-02-13 21:11:48', 0, 0, NULL, 0, NULL, NULL),
+(3, 5, 'Pickpocket attempt at mall', 'Someone tried to take my phone. Security helped.', 'other', 'low', 'resolved', 'Bashundhara City Mall', 23.84021393, 90.38167970, 'Panthapath, Dhaka', '2026-02-04 22:45:19', '2026-02-15 20:15:54', '2026-02-15 21:11:48', '2026-02-13 21:11:48', 0, 0, NULL, 0, NULL, NULL),
+(4, 5, 'Unwanted advances at workplace', 'Colleague making inappropriate comments. Reported to HR.', 'harassment', 'medium', 'under_review', 'Gulshan 2 Office', 23.78605621, 90.35299695, 'Gulshan 2, Dhaka', '2026-01-19 01:17:20', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(5, 10, 'Online harassment - Fake profile', 'Someone created fake social media profile with my photos.', 'cyberbullying', 'high', 'under_review', 'Online', 23.81711796, 90.39841179, 'Cyber incident', '2026-01-03 22:31:52', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(6, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.80098146, 90.37978952, 'Dhaka, Bangladesh', '2026-01-21 10:55:59', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(7, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'resolved', 'Dhaka Metropolitan Area', 23.76198158, 90.37642487, 'Dhaka, Bangladesh', '2026-01-03 14:46:03', '2026-02-15 20:15:54', '2026-02-15 21:11:48', '2026-02-13 21:11:48', 0, 0, NULL, 0, NULL, NULL),
+(8, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'resolved', 'Dhaka Metropolitan Area', 23.76063662, 90.43157408, 'Dhaka, Bangladesh', '2026-02-08 21:10:59', '2026-02-15 20:15:54', '2026-02-15 21:11:48', '2026-02-13 21:11:48', 0, 0, NULL, 0, NULL, NULL),
+(9, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'high', 'under_review', 'Dhaka Metropolitan Area', 23.72938437, 90.43908205, 'Dhaka, Bangladesh', '2026-02-08 15:49:50', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(10, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'investigating', 'Dhaka Metropolitan Area', 23.82810457, 90.43302071, 'Dhaka, Bangladesh', '2026-01-27 10:53:54', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(11, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'low', 'pending', 'Dhaka Metropolitan Area', 23.83165114, 90.40809127, 'Dhaka, Bangladesh', '2026-01-12 14:45:32', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(12, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'under_review', 'Dhaka Metropolitan Area', 23.71975529, 90.36584622, 'Dhaka, Bangladesh', '2026-01-18 12:15:19', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(13, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'resolved', 'Dhaka Metropolitan Area', 23.79720174, 90.38544734, 'Dhaka, Bangladesh', '2026-02-07 01:52:40', '2026-02-15 20:15:54', '2026-02-15 21:11:48', '2026-02-13 21:11:48', 0, 0, NULL, 0, NULL, NULL),
+(14, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'investigating', 'Dhaka Metropolitan Area', 23.83890923, 90.38412801, 'Dhaka, Bangladesh', '2026-02-11 14:48:49', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(15, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.83637057, 90.39193765, 'Dhaka, Bangladesh', '2026-01-16 14:08:29', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(16, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.80412488, 90.41967004, 'Dhaka, Bangladesh', '2026-01-18 21:57:29', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(17, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.83748660, 90.37291737, 'Dhaka, Bangladesh', '2026-01-18 07:02:09', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(18, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'high', 'investigating', 'Dhaka Metropolitan Area', 23.70061210, 90.44044521, 'Dhaka, Bangladesh', '2026-01-23 20:04:53', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(19, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.83042149, 90.43614777, 'Dhaka, Bangladesh', '2026-02-01 21:50:55', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(20, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.72016573, 90.41131156, 'Dhaka, Bangladesh', '2026-01-30 11:19:38', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(21, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.74363728, 90.35711020, 'Dhaka, Bangladesh', '2026-01-22 04:48:44', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(22, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'pending', 'Dhaka Metropolitan Area', 23.76347875, 90.40562485, 'Dhaka, Bangladesh', '2026-01-23 21:21:00', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(23, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'high', 'pending', 'Dhaka Metropolitan Area', 23.70270541, 90.43665239, 'Dhaka, Bangladesh', '2026-01-12 19:01:53', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(24, 2, 'Wallet stolen on bus', 'Wallet taken from bag during rush hour. Lost 2000 BDT.', 'theft', 'high', 'investigating', 'Mirpur-Dhanmondi Route', 23.84332099, 90.44216495, 'Route 7 bus', '2026-02-03 22:39:38', '2026-02-15 20:15:54', '2026-02-15 21:11:48', NULL, 0, 0, NULL, 0, NULL, NULL),
+(25, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'high', 'pending', 'Dhaka Metropolitan Area', 23.81297605, 90.40533534, 'Dhaka, Bangladesh', '2026-01-23 21:01:41', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(26, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.81828153, 90.41688897, 'Dhaka, Bangladesh', '2026-02-14 21:17:53', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(27, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'high', 'pending', 'Dhaka Metropolitan Area', 23.84872232, 90.43487920, 'Dhaka, Bangladesh', '2026-01-12 19:13:43', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(28, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.83145799, 90.39057422, 'Dhaka, Bangladesh', '2026-01-18 18:43:57', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(29, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.75469778, 90.39833650, 'Dhaka, Bangladesh', '2026-01-14 03:56:31', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(30, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'low', 'pending', 'Dhaka Metropolitan Area', 23.72427268, 90.44250419, 'Dhaka, Bangladesh', '2026-01-06 22:10:03', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(31, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.84157995, 90.36497410, 'Dhaka, Bangladesh', '2026-02-11 03:16:16', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(32, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.75617408, 90.41118642, 'Dhaka, Bangladesh', '2026-02-12 20:14:47', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(33, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.74799887, 90.39688943, 'Dhaka, Bangladesh', '2026-01-17 12:22:44', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(34, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.75643811, 90.35116751, 'Dhaka, Bangladesh', '2026-02-11 14:42:46', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(35, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'high', 'pending', 'Dhaka Metropolitan Area', 23.81915742, 90.38183806, 'Dhaka, Bangladesh', '2026-01-09 02:07:37', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(36, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.81327214, 90.43492236, 'Dhaka, Bangladesh', '2026-02-14 08:32:12', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(37, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'low', 'pending', 'Dhaka Metropolitan Area', 23.84868751, 90.42537801, 'Dhaka, Bangladesh', '2026-02-05 17:08:45', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(38, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.78645979, 90.42145233, 'Dhaka, Bangladesh', '2026-02-07 01:45:53', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(39, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'pending', 'Dhaka Metropolitan Area', 23.80509825, 90.40432801, 'Dhaka, Bangladesh', '2026-01-28 10:36:57', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(40, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.82025563, 90.41007130, 'Dhaka, Bangladesh', '2026-01-27 04:33:46', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(41, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.73019008, 90.38149299, 'Dhaka, Bangladesh', '2026-02-13 21:49:36', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(42, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.74107836, 90.39035942, 'Dhaka, Bangladesh', '2026-01-09 18:30:34', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(43, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'low', 'pending', 'Dhaka Metropolitan Area', 23.76911071, 90.38891758, 'Dhaka, Bangladesh', '2026-01-25 15:37:08', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(44, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.77965948, 90.42841095, 'Dhaka, Bangladesh', '2026-01-15 06:49:37', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(45, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.70716611, 90.44841917, 'Dhaka, Bangladesh', '2026-02-04 22:27:16', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(46, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.70548978, 90.40072076, 'Dhaka, Bangladesh', '2026-01-19 14:37:48', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(47, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'high', 'pending', 'Dhaka Metropolitan Area', 23.82639625, 90.43764609, 'Dhaka, Bangladesh', '2026-02-08 15:25:13', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(48, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.74361181, 90.40039062, 'Dhaka, Bangladesh', '2026-01-29 17:23:38', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(49, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'pending', 'Dhaka Metropolitan Area', 23.84192866, 90.38398623, 'Dhaka, Bangladesh', '2026-02-08 06:49:06', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(50, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.83321483, 90.43970531, 'Dhaka, Bangladesh', '2026-02-06 09:55:42', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(51, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'low', 'pending', 'Dhaka Metropolitan Area', 23.73316338, 90.42570210, 'Dhaka, Bangladesh', '2026-01-05 08:06:53', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(52, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.78533256, 90.41030047, 'Dhaka, Bangladesh', '2026-01-14 17:35:18', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(53, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.82731177, 90.39397479, 'Dhaka, Bangladesh', '2026-01-30 22:38:19', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(54, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.82556953, 90.40471654, 'Dhaka, Bangladesh', '2026-01-10 11:32:11', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(55, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.79539255, 90.41228231, 'Dhaka, Bangladesh', '2026-01-09 03:54:30', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(56, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'high', 'pending', 'Dhaka Metropolitan Area', 23.82319181, 90.40338103, 'Dhaka, Bangladesh', '2026-01-09 10:11:29', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(57, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.72905445, 90.40771106, 'Dhaka, Bangladesh', '2026-01-14 18:59:01', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(58, 1, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'pending', 'Dhaka Metropolitan Area', 23.81135513, 90.40637704, 'Dhaka, Bangladesh', '2026-01-27 06:25:06', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(59, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.80986557, 90.41095216, 'Dhaka, Bangladesh', '2026-02-08 10:09:00', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(60, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.79581286, 90.35209833, 'Dhaka, Bangladesh', '2026-01-08 21:07:42', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(61, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.74412315, 90.44263262, 'Dhaka, Bangladesh', '2026-02-03 23:12:16', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(62, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.84005024, 90.39479422, 'Dhaka, Bangladesh', '2026-01-20 20:23:34', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(63, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'high', 'pending', 'Dhaka Metropolitan Area', 23.77464518, 90.36863843, 'Dhaka, Bangladesh', '2026-01-20 15:15:45', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(64, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.84676168, 90.40753601, 'Dhaka, Bangladesh', '2026-02-12 23:33:43', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(65, 1, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'low', 'pending', 'Dhaka Metropolitan Area', 23.72867987, 90.40860872, 'Dhaka, Bangladesh', '2026-01-16 00:37:20', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(66, 1, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.83607396, 90.42992406, 'Dhaka, Bangladesh', '2026-01-12 23:25:17', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(67, 1, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.82682631, 90.39922677, 'Dhaka, Bangladesh', '2026-02-11 03:32:03', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(68, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'high', 'pending', 'Dhaka Metropolitan Area', 23.79865001, 90.39321858, 'Dhaka, Bangladesh', '2026-01-08 15:26:02', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(69, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.76944532, 90.37448861, 'Dhaka, Bangladesh', '2026-02-07 10:37:51', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(70, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.70710566, 90.39262611, 'Dhaka, Bangladesh', '2026-02-14 16:00:44', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(71, 4, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'pending', 'Dhaka Metropolitan Area', 23.84335231, 90.39929750, 'Dhaka, Bangladesh', '2026-01-27 12:14:42', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(72, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'pending', 'Dhaka Metropolitan Area', 23.74479770, 90.39507432, 'Dhaka, Bangladesh', '2026-01-16 10:28:40', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(73, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.78987741, 90.39073973, 'Dhaka, Bangladesh', '2026-01-11 23:24:00', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(74, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'high', 'pending', 'Dhaka Metropolitan Area', 23.78027296, 90.37095010, 'Dhaka, Bangladesh', '2026-01-20 13:57:41', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(75, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'low', 'pending', 'Dhaka Metropolitan Area', 23.84138729, 90.39462767, 'Dhaka, Bangladesh', '2026-01-18 16:18:16', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(76, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'high', 'pending', 'Dhaka Metropolitan Area', 23.82311185, 90.39069155, 'Dhaka, Bangladesh', '2026-01-26 15:22:58', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(77, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.70516357, 90.43227557, 'Dhaka, Bangladesh', '2025-12-31 14:01:20', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(78, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.84566617, 90.39195515, 'Dhaka, Bangladesh', '2026-01-08 15:55:27', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(79, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.82214816, 90.39875003, 'Dhaka, Bangladesh', '2026-02-14 12:14:40', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(80, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.73369863, 90.41374683, 'Dhaka, Bangladesh', '2026-01-23 15:42:23', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(81, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'low', 'pending', 'Dhaka Metropolitan Area', 23.75331895, 90.44091944, 'Dhaka, Bangladesh', '2026-01-22 16:05:20', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(82, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'low', 'pending', 'Dhaka Metropolitan Area', 23.77526630, 90.39097399, 'Dhaka, Bangladesh', '2026-01-24 11:42:12', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(83, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'assault', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.78800810, 90.40417814, 'Dhaka, Bangladesh', '2026-02-12 02:50:28', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(84, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.70380866, 90.37399592, 'Dhaka, Bangladesh', '2026-01-05 21:33:27', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(85, 2, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'pending', 'Dhaka Metropolitan Area', 23.72188241, 90.37095681, 'Dhaka, Bangladesh', '2026-01-28 10:08:03', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(86, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'high', 'pending', 'Dhaka Metropolitan Area', 23.81981446, 90.39683284, 'Dhaka, Bangladesh', '2026-02-12 07:43:21', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(87, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'low', 'pending', 'Dhaka Metropolitan Area', 23.72724868, 90.38814111, 'Dhaka, Bangladesh', '2026-01-16 15:59:17', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(88, 3, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.74096272, 90.36971719, 'Dhaka, Bangladesh', '2026-01-07 05:47:46', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(89, 8, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.74426368, 90.41329475, 'Dhaka, Bangladesh', '2026-01-12 11:57:48', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(90, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'high', 'pending', 'Dhaka Metropolitan Area', 23.73448830, 90.39174890, 'Dhaka, Bangladesh', '2026-01-18 17:39:44', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(91, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.79842746, 90.37817756, 'Dhaka, Bangladesh', '2026-01-20 08:33:05', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(92, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.73599812, 90.43346652, 'Dhaka, Bangladesh', '2026-01-20 18:18:27', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(93, 5, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.81784781, 90.37899275, 'Dhaka, Bangladesh', '2026-01-04 14:14:49', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(94, 7, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'low', 'pending', 'Dhaka Metropolitan Area', 23.75666938, 90.35572108, 'Dhaka, Bangladesh', '2026-01-07 14:12:02', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(95, 6, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'cyberbullying', 'low', 'pending', 'Dhaka Metropolitan Area', 23.77427990, 90.35695671, 'Dhaka, Bangladesh', '2026-02-08 02:27:34', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(96, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'theft', 'high', 'pending', 'Dhaka Metropolitan Area', 23.72683646, 90.39091871, 'Dhaka, Bangladesh', '2026-01-23 07:38:35', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(97, 1, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'stalking', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.71958823, 90.42117313, 'Dhaka, Bangladesh', '2026-01-07 16:46:56', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(98, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.76535430, 90.44321983, 'Dhaka, Bangladesh', '2026-01-16 23:21:01', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(99, 9, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'harassment', 'low', 'pending', 'Dhaka Metropolitan Area', 23.70994915, 90.36191632, 'Dhaka, Bangladesh', '2026-01-18 15:02:24', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL),
+(100, 10, 'Safety Concern Reported', 'Automatically generated safety report for system testing in Dhaka region.', 'other', 'medium', 'pending', 'Dhaka Metropolitan Area', 23.73186574, 90.35329120, 'Dhaka, Bangladesh', '2026-01-24 12:53:59', '2026-02-15 20:15:54', '2026-02-15 20:15:54', NULL, 0, 0, NULL, 0, NULL, NULL);
 
 --
 -- Triggers `incident_reports`
@@ -1058,11 +1342,21 @@ CREATE TABLE `incident_zones` (
 --
 
 INSERT INTO `incident_zones` (`id`, `zone_name`, `area_name`, `latitude`, `longitude`, `location`, `report_count`, `zone_status`, `last_incident_date`, `first_incident_date`, `created_at`, `updated_at`) VALUES
-(1, 'Dhanpara', 'Dhanpara, Dhaka, Bangladesh', 23.75000000, 90.37000000, 0xe6100000010100000039b4c876be975640c74b378941c03740, 3, 'moderate', '2025-11-21 19:59:26', '2025-11-17 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
-(4, 'Mirpur', 'Mirpur, Dhaka, Bangladesh', 23.81670000, 90.36670000, 0xe61000000101000000dd24068195975640a8c64b3789d13740, 5, 'unsafe', '2025-11-20 19:59:26', '2025-11-12 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
-(9, 'Gulshan', 'Gulshan, Dhaka, Bangladesh', 23.79470000, 90.41440000, 0xe61000000101000000ad69de718a9a5640ec51b81e85cb3740, 2, 'safe', '2025-11-17 19:59:26', '2025-11-15 19:59:26', '2025-11-22 13:59:26', '2025-11-22 13:59:26'),
-(11, '67, Changgyeonggung-ro, Euljiro-dong', 'Road No. 2, Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', 37.56820000, 126.99770000, 0xe6100000010100000007ce1951dabf5f4029cb10c7bac84240, 1, 'safe', '2026-01-14 17:43:00', '2026-01-14 17:43:00', '2026-01-17 11:45:09', '2026-01-17 11:45:10'),
-(13, 'UIU Road, Satarkul', 'Block H, Bashundhara Residential Area, Dhaka, Dhaka Metropolitan, Dhaka District, Dhaka Division, 1229, Bangladesh', 23.79835915, 90.45009065, 0xe61000000101000000117f0349ce9c56405db6e74361cc3740, 1, 'safe', '2026-01-23 23:11:00', '2026-01-23 23:11:00', '2026-01-24 06:14:54', '2026-01-24 06:14:55');
+(1, 'Dhaka Metropolitan Area', 'Dhaka, Bangladesh', 23.70158186, 90.42591610, 0xe61000000101000000bc7db1529c965640e35c9a8d5bbb3740, 1, 'safe', '2026-01-24 12:53:59', '2026-02-04 13:02:25', '2026-02-15 14:15:54', '2026-02-15 14:15:54'),
+(101, 'Dhanmondi Lake Area', 'Dhanmondi, Dhaka', 23.74800000, 90.37800000, 0xe61000000101000000d578e92631985640736891ed7cbf3740, 12, 'moderate', '2026-02-13 21:11:48', '2026-01-16 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(102, 'Mirpur 10 Junction', 'Mirpur 10, Dhaka', 23.80700000, 90.36900000, 0xe61000000101000000560e2db29d9756403bdf4f8d97ce3740, 8, 'moderate', '2026-02-10 21:11:48', '2026-01-01 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(103, 'Uttara Sector 3', 'Uttara, Dhaka', 23.86300000, 90.39700000, 0xe61000000101000000c520b07268995640b0726891eddc3740, 4, 'safe', '2026-02-05 21:11:48', '2025-12-17 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(104, 'Gulshan 2 Circle', 'Gulshan 2, Dhaka', 23.79250000, 90.41620000, 0xe6100000010100000018265305a39a56407b14ae47e1ca3740, 3, 'safe', '2026-01-31 21:11:48', '2025-11-17 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(105, 'Mohammadpur Town Hall', 'Mohammadpur, Dhaka', 23.75950000, 90.36800000, 0xe61000000101000000643bdf4f8d975640df4f8d976ec23740, 6, 'moderate', '2026-02-12 21:11:48', '2026-01-26 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(106, 'Farmgate Bus Stand', 'Farmgate, Dhaka', 23.75400000, 90.38800000, 0xe6100000010100000046b6f3fdd49856401b2fdd2406c13740, 15, 'unsafe', '2026-02-14 21:11:48', '2026-01-21 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(107, 'Badda Madani Avenue', 'Badda, Dhaka', 23.79800000, 90.45000000, 0xe61000000101000000cdcccccccc9c56403f355eba49cc3740, 5, 'safe', '2026-02-08 21:11:48', '2026-01-06 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(108, 'Panthapath Bashundhara', 'Panthapath, Dhaka', 23.75100000, 90.39100000, 0xe610000001010000001b2fdd2406995640c74b378941c03740, 7, 'moderate', '2026-02-11 21:11:48', '2026-01-11 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(109, 'Tejgaon Industrial', 'Tejgaon, Dhaka', 23.76000000, 90.39000000, 0xe61000000101000000295c8fc2f5985640c3f5285c8fc23740, 9, 'moderate', '2026-02-09 21:11:48', '2025-12-27 21:11:48', '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(110, 'Kamalapur Rail Station Night', 'Kamalapur, Dhaka', 23.72950000, 90.42700000, 0xe6100000010100000017d9cef7539b5640986e1283c0ba3740, 22, 'unsafe', '2026-02-14 23:30:00', '2025-11-20 22:00:00', '2026-02-15 15:39:42', '2026-02-15 15:39:42'),
+(111, 'Gabtoli Bus Terminal Late Night', 'Gabtoli, Dhaka', 23.76800000, 90.35500000, 0xe610000001010000001f85eb51b8965640f853e3a59bc43740, 18, 'unsafe', '2026-02-13 01:15:00', '2025-12-01 00:30:00', '2026-02-15 15:39:42', '2026-02-15 15:39:42'),
+(112, 'Jatrabari Crossing', 'Jatrabari, Dhaka', 23.71800000, 90.43500000, 0xe61000000101000000a4703d0ad79b56402b8716d9ceb73740, 14, 'unsafe', '2026-02-12 21:45:00', '2026-01-05 20:00:00', '2026-02-15 15:39:42', '2026-02-15 15:39:42'),
+(113, 'Karwan Bazar Night Market', 'Karwan Bazar, Dhaka', 23.75200000, 90.39000000, 0xe61000000101000000295c8fc2f59856408d976e1283c03740, 12, 'unsafe', '2026-02-11 23:00:00', '2026-01-15 22:30:00', '2026-02-15 15:39:42', '2026-02-15 15:39:42'),
+(114, 'Demra Bus Stand Area', 'Demra, Dhaka', 23.71000000, 90.44500000, 0xe6100000010100000014ae47e17a9c5640f6285c8fc2b53740, 11, 'unsafe', '2026-02-10 22:20:00', '2026-01-20 21:00:00', '2026-02-15 15:39:42', '2026-02-15 15:39:42');
 
 -- --------------------------------------------------------
 
@@ -1093,26 +1387,145 @@ CREATE TABLE `leaf_nodes` (
 --
 
 INSERT INTO `leaf_nodes` (`id`, `name`, `category`, `latitude`, `longitude`, `location`, `safety_score`, `status`, `description`, `address`, `contact`, `hours`, `amenities`, `created_at`, `updated_at`) VALUES
-(1, 'Gulshan Lake Park', 'park', 23.79470000, 90.41440000, 0xe6100000010100000098dd9387859a564096218e7571cb3740, 8.5, 'safe', 'Well-maintained park with good lighting and security', 'Gulshan-2, Dhaka', '+880-2-9881234', '6:00 AM - 10:00 PM', '[\"lighting\",\"security\",\"restrooms\",\"parking\"]', '2025-11-22 13:28:41', '2025-11-22 13:28:41'),
-(2, 'Dhanmondi Lake', 'park', 23.74650000, 90.37000000, 0xe6100000010100000048e17a14ae975640c976be9f1abf3740, 7.8, 'safe', 'Popular recreational area with walking paths', 'Dhanmondi, Dhaka', '+880-2-9661234', '5:00 AM - 11:00 PM', '[\"lighting\",\"restrooms\",\"walking_paths\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(3, 'Ramna Park', 'park', 23.73060000, 90.40140000, 0xe610000001010000005227a089b09956402575029a08bb3740, 7.2, 'moderate', 'Historic park in central Dhaka', 'Ramna, Dhaka', '+880-2-9551234', '6:00 AM - 9:00 PM', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(4, 'Hatirjheel', 'recreational', 23.77560000, 90.40000000, 0xe610000001010000009a9999999999564011c7bab88dc63740, 8.0, 'safe', 'Modern recreational area with lake and walkways', 'Tejgaon, Dhaka', '+880-2-9885678', '24/7', '[\"lighting\",\"security\",\"restrooms\",\"parking\",\"walking_paths\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(5, 'Bashundhara City Shopping Mall', 'commercial', 23.75000000, 90.37500000, 0xe6100000010100000000000000009856400000000000c03740, 9.0, 'safe', 'Large shopping complex with security', 'Panthapath, Dhaka', '+880-2-9123456', '10:00 AM - 10:00 PM', '[\"security\",\"parking\",\"restrooms\",\"lighting\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(6, 'Dhaka University Area', 'educational', 23.73330000, 90.39330000, 0xe610000001010000001361c3d32b99564024287e8cb9bb3740, 6.5, 'moderate', 'University campus area with mixed safety', 'Ramna, Dhaka', '+880-2-9661900', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(7, 'Gulshan-1 Residential Area', 'residential', 23.79000000, 90.41000000, 0xe610000001010000000ad7a3703d9a56400ad7a3703dca3740, 9.2, 'safe', 'High-security residential neighborhood', 'Gulshan-1, Dhaka', '+880-2-9880000', '24/7', '[\"security\",\"lighting\",\"gated_community\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(8, 'Banani Lake Park', 'park', 23.79060000, 90.40560000, 0xe610000001010000007dd0b359f5995640b537f8c264ca3740, 8.3, 'safe', 'Scenic lake park in Banani', 'Banani, Dhaka', '+880-2-9882345', '6:00 AM - 10:00 PM', '[\"lighting\",\"security\",\"restrooms\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(9, 'Old Dhaka - Lalbagh Fort', 'historical', 23.71830000, 90.38890000, 0xe61000000101000000865ad3bce398564080b74082e2b73740, 6.0, 'moderate', 'Historic fort area, moderate safety', 'Lalbagh, Old Dhaka', '+880-2-9556789', '9:00 AM - 5:00 PM', '[\"security\",\"lighting\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(10, 'Uttara Sector 7', 'residential', 23.87000000, 90.38000000, 0xe61000000101000000b81e85eb519856401f85eb51b8de3740, 8.8, 'safe', 'Planned residential area with good security', 'Uttara, Dhaka', '+880-2-8960000', '24/7', '[\"security\",\"lighting\",\"gated_community\",\"parking\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(11, 'Mohakhali Bus Terminal', 'transport', 23.77780000, 90.40560000, 0xe610000001010000007dd0b359f59956402cd49ae61dc73740, 5.5, 'moderate', 'Bus terminal with moderate safety', 'Mohakhali, Dhaka', '+880-2-9883456', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(12, 'Shahbagh Area', 'commercial', 23.73610000, 90.39580000, 0xe610000001010000006ff085c954995640ea95b20c71bc3740, 7.0, 'moderate', 'Commercial area with mixed safety', 'Shahbagh, Dhaka', '+880-2-9661111', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(13, 'Wari Area', 'residential', 23.71000000, 90.40000000, 0xe610000001010000009a99999999995640f6285c8fc2b53740, 5.8, 'moderate', 'Older residential area', 'Wari, Dhaka', '+880-2-9551111', '24/7', '[\"lighting\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(14, 'Mirpur Botanical Garden', 'park', 23.81670000, 90.36670000, 0xe610000001010000005ddc460378975640a9a44e4013d13740, 7.5, 'safe', 'Botanical garden with good maintenance', 'Mirpur, Dhaka', '+880-2-9001234', '8:00 AM - 6:00 PM', '[\"lighting\",\"security\",\"restrooms\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(15, 'Banani Graveyard Road', 'residential', 23.78500000, 90.40200000, 0xe610000001010000007d3f355eba995640295c8fc2f5c83740, 6.2, 'moderate', 'Residential area with moderate lighting', 'Banani, Dhaka', '+880-2-9884567', '24/7', '[\"lighting\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(16, 'Kakrail Area', 'commercial', 23.73000000, 90.41000000, 0xe610000001010000000ad7a3703d9a56407b14ae47e1ba3740, 6.8, 'moderate', 'Commercial area with moderate safety', 'Kakrail, Dhaka', '+880-2-9552222', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(17, 'Baridhara Diplomatic Zone', 'residential', 23.80000000, 90.42000000, 0xe610000001010000007b14ae47e19a5640cdcccccccccc3740, 9.5, 'safe', 'High-security diplomatic area', 'Baridhara, Dhaka', '+880-2-9889999', '24/7', '[\"security\",\"lighting\",\"gated_community\",\"parking\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(18, 'Farmgate Area', 'commercial', 23.75560000, 90.38890000, 0xe61000000101000000865ad3bce39856408cdb68006fc13740, 6.5, 'moderate', 'Busy commercial area', 'Farmgate, Dhaka', '+880-2-9111111', '24/7', '[\"lighting\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(19, 'Motijheel Commercial Area', 'commercial', 23.72220000, 90.41670000, 0xe61000000101000000910f7a36ab9a5640d42b6519e2b83740, 6.0, 'moderate', 'Major commercial district', 'Motijheel, Dhaka', '+880-2-9553333', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42'),
-(20, 'Dhanmondi Residential Area', 'residential', 23.75000000, 90.37000000, 0xe6100000010100000048e17a14ae9756400000000000c03740, 8.0, 'safe', 'Well-planned residential area', 'Dhanmondi, Dhaka', '+880-2-9662222', '24/7', '[\"lighting\",\"security\"]', '2025-11-22 13:28:42', '2025-11-22 13:28:42');
+(1, 'Dhanmondi Metro Station', 'transportation', 23.75050000, 90.38550000, 0xe61000000101000000e9263108ac985640e3a59bc420c03740, 4.8, 'safe', NULL, 'Mirpur Road, Dhaka', NULL, NULL, NULL, '2026-02-15 14:19:40', '2026-02-15 14:19:40'),
+(2, 'Bashundhara City Shopping Mall', 'shopping_mall', 23.75110000, 90.39080000, 0xe61000000101000000b7d100de029956408e06f01648c03740, 4.7, 'safe', NULL, 'Panthapath, Dhaka', NULL, NULL, NULL, '2026-02-15 14:19:40', '2026-02-15 14:19:40'),
+(3, 'Ramna Park Main Gate', 'park', 23.73710000, 90.40100000, 0xe610000001010000008b6ce7fba9995640b1e1e995b2bc3740, 4.2, 'moderate', NULL, 'Ramna, Dhaka', NULL, NULL, NULL, '2026-02-15 14:19:40', '2026-02-15 14:19:40'),
+(4, 'Jamuna Future Park', 'shopping_mall', 23.81350000, 90.42420000, 0xe61000000101000000a5bdc117269b5640c74b378941d03740, 4.8, 'safe', NULL, 'Pragati Sarani, Dhaka', NULL, NULL, NULL, '2026-02-15 14:19:40', '2026-02-15 14:19:40'),
+(5, 'TSC, Dhaka University', 'education', 23.73310000, 90.39650000, 0xe610000001010000004c3789416099564096b20c71acbb3740, 4.5, 'safe', NULL, 'Nilkhet Road, Dhaka', NULL, NULL, NULL, '2026-02-15 14:19:40', '2026-02-15 14:19:40'),
+(6, 'Dhanmondi Rd 2 ATM', 'other', 23.74520000, 90.37520000, 0xe61000000101000000645ddc4603985640adfa5c6dc5be3740, 4.2, 'safe', NULL, 'Dhanmondi Rd 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(7, 'Dhanmondi Rd 4 Shop', 'other', 23.74480000, 90.37680000, 0xe610000001010000008048bf7d1d985640910f7a36abbe3740, 4.3, 'safe', NULL, 'Dhanmondi Rd 4, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(8, 'Dhanmondi Rd 8 Park', 'park', 23.74420000, 90.37820000, 0xe6100000010100000039d6c56d34985640e6ae25e483be3740, 4.5, 'safe', NULL, 'Dhanmondi Rd 8, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(9, 'Dhanmondi Rd 12 Bus Stop', 'transportation', 23.74380000, 90.37950000, 0xe610000001010000003f355eba49985640cac342ad69be3740, 4.0, 'moderate', NULL, 'Dhanmondi Rd 12, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(10, 'Dhanmondi Rd 16 Market', 'other', 23.74320000, 90.38080000, 0xe610000001010000004694f6065f9856402063ee5a42be3740, 4.1, 'safe', NULL, 'Dhanmondi Rd 16, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(11, 'Mirpur 1 Crossing', 'transportation', 23.80120000, 90.36220000, 0xe610000001010000001ea7e8482e975640228e75711bcd3740, 4.0, 'moderate', NULL, 'Mirpur 1, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(12, 'Mirpur 2 Market', 'other', 23.80200000, 90.36350000, 0xe6100000010100000025068195439756405a643bdf4fcd3740, 4.2, 'safe', NULL, 'Mirpur 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(13, 'Mirpur 6 Bus Stand', 'transportation', 23.80280000, 90.36480000, 0xe610000001010000002c6519e258975640933a014d84cd3740, 3.9, 'moderate', NULL, 'Mirpur 6, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(14, 'Mirpur 10 Market', 'other', 23.80350000, 90.36600000, 0xe610000001010000008195438b6c97564004560e2db2cd3740, 4.3, 'safe', NULL, 'Mirpur 10, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(15, 'Mirpur 12 Park', 'park', 23.80420000, 90.36720000, 0xe61000000101000000d6c56d348097564076711b0de0cd3740, 4.1, 'safe', NULL, 'Mirpur 12, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(16, 'Uttara Sector 1 Gate', 'transportation', 23.85800000, 90.39200000, 0xe610000001010000000c022b8716995640cff753e3a5db3740, 4.6, 'safe', NULL, 'Uttara Sector 1, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(17, 'Uttara Sector 2 Market', 'other', 23.85880000, 90.39350000, 0xe6100000010100000077be9f1a2f99564007ce1951dadb3740, 4.5, 'safe', NULL, 'Uttara Sector 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(18, 'Uttara Sector 4 Park', 'park', 23.85950000, 90.39480000, 0xe610000001010000007e1d38674499564079e9263108dc3740, 4.7, 'safe', NULL, 'Uttara Sector 4, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(19, 'Uttara Sector 5 Bus', 'transportation', 23.86020000, 90.39600000, 0xe61000000101000000d34d621058995640ea04341136dc3740, 4.4, 'safe', NULL, 'Uttara Sector 5, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(20, 'Uttara Sector 7 ATM', 'other', 23.86100000, 90.39720000, 0xe61000000101000000287e8cb96b99564023dbf97e6adc3740, 4.5, 'safe', NULL, 'Uttara Sector 7, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(21, 'Gulshan 1 Circle', 'transportation', 23.77800000, 90.41000000, 0xe610000001010000000ad7a3703d9a5640ba490c022bc73740, 4.8, 'safe', NULL, 'Gulshan 1, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(22, 'Gulshan 2 Lake Side', 'park', 23.79200000, 90.41500000, 0xe61000000101000000c3f5285c8f9a5640986e1283c0ca3740, 4.7, 'safe', NULL, 'Gulshan 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(23, 'Banani 11 Market', 'other', 23.78600000, 90.40500000, 0xe6100000010100000052b81e85eb995640f0a7c64b37c93740, 4.6, 'safe', NULL, 'Banani 11, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(24, 'Banani C Block', 'other', 23.78700000, 90.40650000, 0xe61000000101000000bc749318049a5640b6f3fdd478c93740, 4.5, 'safe', NULL, 'Banani C Block, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(25, 'Mohakhali Bus Stand', 'transportation', 23.77850000, 90.37250000, 0xe61000000101000000a4703d0ad79756409eefa7c64bc73740, 4.1, 'moderate', NULL, 'Mohakhali, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(26, 'Farmgate Flyover', 'transportation', 23.75300000, 90.38600000, 0xe6100000010100000062105839b498564054e3a59bc4c03740, 4.0, 'moderate', NULL, 'Farmgate, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(27, 'Kawran Bazar', 'other', 23.75100000, 90.38400000, 0xe610000001010000007f6abc7493985640c74b378941c03740, 3.8, 'moderate', NULL, 'Kawran Bazar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(28, 'Paltan Crossing', 'transportation', 23.73000000, 90.41200000, 0xe61000000101000000ee7c3f355e9a56407b14ae47e1ba3740, 3.9, 'moderate', NULL, 'Paltan, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(29, 'Motijheel CA', 'other', 23.72500000, 90.41800000, 0xe61000000101000000986e1283c09a56409a99999999b93740, 4.0, 'moderate', NULL, 'Motijheel, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(30, 'Badda Link Road', 'transportation', 23.79500000, 90.43800000, 0xe6100000010100000079e92631089c5640ec51b81e85cb3740, 4.3, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(31, 'Rampura Bridge', 'transportation', 23.76200000, 90.42500000, 0xe6100000010100000033333333339b5640508d976e12c33740, 4.2, 'moderate', NULL, 'Rampura, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(32, 'Malibagh Chowdhury', 'other', 23.75800000, 90.43000000, 0xe61000000101000000ec51b81e859b5640355eba490cc23740, 4.1, 'moderate', NULL, 'Malibagh, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(33, 'Khilgaon Taltola', 'other', 23.75200000, 90.43500000, 0xe61000000101000000a4703d0ad79b56408d976e1283c03740, 4.0, 'moderate', NULL, 'Khilgaon, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(34, 'Shyamoli Square', 'transportation', 23.77500000, 90.36800000, 0xe61000000101000000643bdf4f8d9756406666666666c63740, 4.2, 'moderate', NULL, 'Shyamoli, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(35, 'Adabor Bus Stand', 'transportation', 23.74700000, 90.36500000, 0xe610000001010000008fc2f5285c975640ac1c5a643bbf3740, 4.1, 'moderate', NULL, 'Adabor, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(36, 'Mohammadpur Town', 'other', 23.76000000, 90.36700000, 0xe61000000101000000736891ed7c975640c3f5285c8fc23740, 4.2, 'moderate', NULL, 'Mohammadpur, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(37, 'Agargaon Taltola', 'transportation', 23.77700000, 90.37500000, 0xe610000001010000000000000000985640f4fdd478e9c63740, 4.3, 'safe', NULL, 'Agargaon, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(38, 'Sher-e-Bangla Nagar', 'other', 23.78200000, 90.38000000, 0xe61000000101000000b81e85eb51985640d578e92631c83740, 4.4, 'safe', NULL, 'Sher-e-Bangla Nagar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(39, 'Tejgaon Industrial', 'other', 23.76400000, 90.38800000, 0xe6100000010100000046b6f3fdd4985640dd24068195c33740, 3.9, 'moderate', NULL, 'Tejgaon, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(40, 'Karwan Bazar', 'other', 23.75200000, 90.39000000, 0xe61000000101000000295c8fc2f59856408d976e1283c03740, 3.8, 'moderate', NULL, 'Karwan Bazar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(41, 'Shahbagh Crossing', 'transportation', 23.73700000, 90.39500000, 0xe61000000101000000e17a14ae47995640e9263108acbc3740, 4.4, 'moderate', NULL, 'Shahbagh, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(42, 'Nilkhet Market', 'other', 23.73200000, 90.39800000, 0xe61000000101000000b6f3fdd47899564008ac1c5a64bb3740, 4.0, 'moderate', NULL, 'Nilkhet, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(43, 'New Market', 'other', 23.73000000, 90.40100000, 0xe610000001010000008b6ce7fba99956407b14ae47e1ba3740, 4.2, 'moderate', NULL, 'New Market, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(44, 'Azimpur Gate', 'transportation', 23.72600000, 90.40400000, 0xe6100000010100000060e5d022db99564060e5d022dbb93740, 4.1, 'moderate', NULL, 'Azimpur, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(45, 'Bashundhara Gate', 'transportation', 23.81500000, 90.42000000, 0xe610000001010000007b14ae47e19a5640713d0ad7a3d03740, 4.5, 'safe', NULL, 'Bashundhara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(46, 'Kuratoli Intersection', 'transportation', 23.82000000, 90.42800000, 0xe6100000010100000008ac1c5a649b564052b81e85ebd13740, 4.4, 'safe', NULL, 'Kuratoli, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(47, 'NATORE Bus Stand', 'transportation', 23.75000000, 90.38200000, 0xe610000001010000009cc420b0729856400000000000c03740, 3.9, 'moderate', NULL, 'Farmgate, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(48, 'Gabtoli Bus Terminal', 'transportation', 23.76800000, 90.35500000, 0xe610000001010000001f85eb51b8965640f853e3a59bc43740, 3.7, 'moderate', NULL, 'Gabtoli, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(49, 'Mohammadpur Bus Stand', 'transportation', 23.76100000, 90.36600000, 0xe610000001010000008195438b6c975640894160e5d0c23740, 4.1, 'moderate', NULL, 'Mohammadpur, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(50, 'Jatrabari Crossing', 'transportation', 23.71800000, 90.43500000, 0xe61000000101000000a4703d0ad79b56402b8716d9ceb73740, 3.8, 'moderate', NULL, 'Jatrabari, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(51, 'Demra Bus Stand', 'transportation', 23.71000000, 90.44500000, 0xe6100000010100000014ae47e17a9c5640f6285c8fc2b53740, 3.9, 'moderate', NULL, 'Demra, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(52, 'Pallabi Market', 'other', 23.81200000, 90.35800000, 0xe61000000101000000f4fdd478e99656401d5a643bdfcf3740, 4.0, 'moderate', NULL, 'Pallabi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(53, 'Kalshi Metro Area', 'transportation', 23.82500000, 90.37200000, 0xe610000001010000002b8716d9ce9756403333333333d33740, 4.4, 'safe', NULL, 'Kalshi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(54, 'Bashundhara R/A Block A', 'other', 23.81800000, 90.42200000, 0xe610000001010000005eba490c029b5640c520b07268d13740, 4.6, 'safe', NULL, 'Bashundhara R/A, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(55, 'Bashundhara R/A Block B', 'other', 23.81900000, 90.42400000, 0xe610000001010000004260e5d0229b56408b6ce7fba9d13740, 4.5, 'safe', NULL, 'Bashundhara R/A, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(56, 'Baridhara DOHS', 'other', 23.80200000, 90.42000000, 0xe610000001010000007b14ae47e19a56405a643bdf4fcd3740, 4.8, 'safe', NULL, 'Baridhara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(57, 'Niketon Gulshan', 'other', 23.79000000, 90.41200000, 0xe61000000101000000ee7c3f355e9a56400ad7a3703dca3740, 4.6, 'safe', NULL, 'Niketon, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(58, 'Badda H block', 'other', 23.78800000, 90.43200000, 0xe61000000101000000cff753e3a59b56407d3f355ebac93740, 4.4, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(59, 'Badda Gulshan Link', 'transportation', 23.79200000, 90.43500000, 0xe61000000101000000a4703d0ad79b5640986e1283c0ca3740, 4.5, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(60, 'Shantinagar', 'other', 23.74000000, 90.40800000, 0xe61000000101000000273108ac1c9a56403d0ad7a370bd3740, 4.0, 'moderate', NULL, 'Shantinagar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(61, 'Moghbazar', 'other', 23.74500000, 90.41500000, 0xe61000000101000000c3f5285c8f9a56401f85eb51b8be3740, 4.1, 'moderate', NULL, 'Moghbazar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(62, 'Wireless Gate', 'transportation', 23.74800000, 90.41800000, 0xe61000000101000000986e1283c09a5640736891ed7cbf3740, 4.2, 'moderate', NULL, 'Wireless, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(63, 'Baily Road', 'other', 23.73500000, 90.40500000, 0xe6100000010100000052b81e85eb9956405c8fc2f528bc3740, 4.1, 'moderate', NULL, 'Baily Road, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(64, 'Green Road', 'other', 23.74200000, 90.39200000, 0xe610000001010000000c022b8716995640cba145b6f3bd3740, 4.2, 'safe', NULL, 'Green Road, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(65, 'Panthapath Signal', 'transportation', 23.75050000, 90.38950000, 0xe61000000101000000b0726891ed985640e3a59bc420c03740, 4.3, 'safe', NULL, 'Panthapath, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(66, 'Russel Square', 'park', 23.74350000, 90.38650000, 0xe61000000101000000dbf97e6abc9856407593180456be3740, 4.4, 'safe', NULL, 'Dhanmondi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(67, 'Satmasjid Road', 'other', 23.73800000, 90.37800000, 0xe61000000101000000d578e92631985640b0726891edbc3740, 4.2, 'moderate', NULL, 'Dhanmondi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(68, 'Kalabagan', 'other', 23.74650000, 90.38250000, 0xe6100000010100000014ae47e17a985640c976be9f1abf3740, 4.3, 'safe', NULL, 'Kalabagan, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(69, 'Elephant Road', 'other', 23.73400000, 90.39850000, 0xe610000001010000002fdd24068199564096438b6ce7bb3740, 4.1, 'moderate', NULL, 'Elephant Road, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(70, 'Science Lab', 'other', 23.73650000, 90.39650000, 0xe610000001010000004c37894160995640068195438bbc3740, 4.3, 'safe', NULL, 'Science Lab, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(71, 'Mirpur Road 1', 'transportation', 23.75250000, 90.38450000, 0xe61000000101000000f853e3a59b985640713d0ad7a3c03740, 4.2, 'moderate', NULL, 'Mirpur Road, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(72, 'Mirpur Road 2', 'transportation', 23.75500000, 90.38300000, 0xe610000001010000008d976e1283985640e17a14ae47c13740, 4.1, 'moderate', NULL, 'Mirpur Road, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(73, 'Asad Gate', 'transportation', 23.75600000, 90.37900000, 0xe61000000101000000c74b378941985640a8c64b3789c13740, 4.2, 'moderate', NULL, 'Asad Gate, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(74, 'College Gate', 'transportation', 23.73250000, 90.40200000, 0xe610000001010000007d3f355eba995640ec51b81e85bb3740, 4.2, 'moderate', NULL, 'College Gate, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(75, 'Dhanmondi 15', 'other', 23.74100000, 90.38100000, 0xe61000000101000000aaf1d24d6298564004560e2db2bd3740, 4.4, 'safe', NULL, 'Dhanmondi 15, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(76, 'Dhanmondi 27 Area', 'other', 23.74450000, 90.37950000, 0xe610000001010000003f355eba499856403bdf4f8d97be3740, 4.5, 'safe', NULL, 'Dhanmondi 27, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(77, 'Dhanmondi 32 Lake', 'park', 23.74700000, 90.37750000, 0xe610000001010000005c8fc2f528985640ac1c5a643bbf3740, 4.6, 'safe', NULL, 'Dhanmondi 32, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(78, 'Shishu Park', 'park', 23.74900000, 90.39000000, 0xe61000000101000000295c8fc2f598564039b4c876bebf3740, 4.5, 'safe', NULL, 'Dhanmondi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(79, 'Sobhanbag', 'other', 23.75400000, 90.37200000, 0xe610000001010000002b8716d9ce9756401b2fdd2406c13740, 4.2, 'safe', NULL, 'Sobhanbag, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(80, 'Monipur', 'other', 23.75700000, 90.37400000, 0xe610000001010000000e2db29def9756406f1283c0cac13740, 4.1, 'moderate', NULL, 'Monipur, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(81, 'Shewrapara', 'other', 23.77100000, 90.37000000, 0xe6100000010100000048e17a14ae9756404c37894160c53740, 4.2, 'moderate', NULL, 'Shewrapara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(82, 'Kazupara', 'other', 23.77400000, 90.36800000, 0xe61000000101000000643bdf4f8d975640a01a2fdd24c63740, 4.1, 'moderate', NULL, 'Kazupara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(83, 'Mirpur 14', 'other', 23.80500000, 90.36900000, 0xe61000000101000000560e2db29d975640ae47e17a14ce3740, 4.2, 'safe', NULL, 'Mirpur 14, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(84, 'Mirpur 14 Bus', 'transportation', 23.80550000, 90.36950000, 0xe61000000101000000cff753e3a597564091ed7c3f35ce3740, 4.0, 'moderate', NULL, 'Mirpur 14, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(85, 'Uttara Sector 6', 'other', 23.86050000, 90.39850000, 0xe610000001010000002fdd2406819956403f355eba49dc3740, 4.5, 'safe', NULL, 'Uttara Sector 6, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(86, 'Uttara Sector 8', 'other', 23.86150000, 90.39950000, 0xe6100000010100000021b0726891995640068195438bdc3740, 4.6, 'safe', NULL, 'Uttara Sector 8, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(87, 'Uttara Sector 10', 'other', 23.86250000, 90.40050000, 0xe610000001010000001283c0caa1995640cdccccccccdc3740, 4.5, 'safe', NULL, 'Uttara Sector 10, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(88, 'Uttara Sector 12', 'other', 23.86350000, 90.40150000, 0xe6100000010100000004560e2db2995640931804560edd3740, 4.6, 'safe', NULL, 'Uttara Sector 12, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(89, 'Uttara Sector 14', 'other', 23.86450000, 90.40250000, 0xe61000000101000000f6285c8fc29956405a643bdf4fdd3740, 4.5, 'safe', NULL, 'Uttara Sector 14, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(90, 'Gulshan 1 Block A', 'other', 23.77900000, 90.41100000, 0xe61000000101000000fca9f1d24d9a56408195438b6cc73740, 4.7, 'safe', NULL, 'Gulshan 1, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(91, 'Gulshan 1 Block B', 'other', 23.77950000, 90.41150000, 0xe6100000010100000075931804569a5640643bdf4f8dc73740, 4.8, 'safe', NULL, 'Gulshan 1, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(92, 'Gulshan 2 Block C', 'other', 23.79300000, 90.41650000, 0xe610000001010000002db29defa79a56405eba490c02cb3740, 4.7, 'safe', NULL, 'Gulshan 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(93, 'Gulshan 2 Block D', 'other', 23.79350000, 90.41700000, 0xe61000000101000000a69bc420b09a56404260e5d022cb3740, 4.6, 'safe', NULL, 'Gulshan 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(94, 'Banani Block A', 'other', 23.78650000, 90.40550000, 0xe61000000101000000cba145b6f3995640d34d621058c93740, 4.6, 'safe', NULL, 'Banani, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(95, 'Banani Block B', 'other', 23.78750000, 90.40650000, 0xe61000000101000000bc749318049a56409a99999999c93740, 4.5, 'safe', NULL, 'Banani, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(96, 'Badda A Block', 'other', 23.78600000, 90.43100000, 0xe61000000101000000dd240681959b5640f0a7c64b37c93740, 4.4, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(97, 'Badda B Block', 'other', 23.78700000, 90.43200000, 0xe61000000101000000cff753e3a59b5640b6f3fdd478c93740, 4.5, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(98, 'Rampura Bazar', 'other', 23.76100000, 90.42400000, 0xe610000001010000004260e5d0229b5640894160e5d0c23740, 4.1, 'moderate', NULL, 'Rampura, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(99, 'Rampura Bridge North', 'transportation', 23.76250000, 90.42550000, 0xe61000000101000000ac1c5a643b9b56403333333333c33740, 4.2, 'moderate', NULL, 'Rampura, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(100, 'Bashabo', 'other', 23.72800000, 90.42800000, 0xe6100000010100000008ac1c5a649b5640ee7c3f355eba3740, 3.9, 'moderate', NULL, 'Bashabo, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(101, 'Kodomtoli', 'other', 23.72200000, 90.43200000, 0xe61000000101000000cff753e3a59b564046b6f3fdd4b83740, 3.8, 'moderate', NULL, 'Kodomtoli, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(102, 'Sutrapur', 'other', 23.71600000, 90.42000000, 0xe610000001010000007b14ae47e19a56409eefa7c64bb73740, 3.7, 'moderate', NULL, 'Sutrapur, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(103, 'Lalbagh', 'other', 23.71200000, 90.40800000, 0xe61000000101000000273108ac1c9a564083c0caa145b63740, 3.9, 'moderate', NULL, 'Lalbagh, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(104, 'Chawkbazar', 'other', 23.70800000, 90.41200000, 0xe61000000101000000ee7c3f355e9a56406891ed7c3fb53740, 3.8, 'moderate', NULL, 'Chawkbazar, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(105, 'Saidabad', 'other', 23.72000000, 90.43800000, 0xe6100000010100000079e92631089c5640b81e85eb51b83740, 3.9, 'moderate', NULL, 'Saidabad, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(106, 'Matuail', 'transportation', 23.70500000, 90.44800000, 0xe61000000101000000e9263108ac9c564014ae47e17ab43740, 3.8, 'moderate', NULL, 'Matuail, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(107, 'Signboard', 'transportation', 23.69800000, 90.45200000, 0xe61000000101000000b0726891ed9c5640a69bc420b0b23740, 3.7, 'moderate', NULL, 'Signboard, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(108, 'Badda C Block', 'other', 23.78800000, 90.43300000, 0xe61000000101000000c1caa145b69b56407d3f355ebac93740, 4.4, 'safe', NULL, 'Badda, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(109, 'Panthapath Square', 'other', 23.75150000, 90.39050000, 0xe61000000101000000a245b6f3fd985640aaf1d24d62c03740, 4.3, 'safe', NULL, 'Panthapath, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(110, 'Dhanmondi 5A', 'other', 23.74400000, 90.37700000, 0xe61000000101000000e3a59bc4209856405839b4c876be3740, 4.4, 'safe', NULL, 'Dhanmondi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(111, 'Mirpur 11', 'other', 23.80380000, 90.36650000, 0xe61000000101000000fa7e6abc74975640598638d6c5cd3740, 4.2, 'safe', NULL, 'Mirpur 11, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(112, 'Uttara Sector 9', 'other', 23.86200000, 90.40000000, 0xe610000001010000009a99999999995640e9263108acdc3740, 4.5, 'safe', NULL, 'Uttara Sector 9, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(113, 'Gulshan Avenue', 'transportation', 23.78100000, 90.41300000, 0xe61000000101000000df4f8d976e9a56400e2db29defc73740, 4.7, 'safe', NULL, 'Gulshan, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(114, 'Banani Club', 'other', 23.78850000, 90.40800000, 0xe61000000101000000273108ac1c9a564060e5d022dbc93740, 4.6, 'safe', NULL, 'Banani, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(115, 'Shyamoli 10', 'other', 23.77450000, 90.36750000, 0xe61000000101000000ec51b81e8597564083c0caa145c63740, 4.2, 'moderate', NULL, 'Shyamoli, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(116, 'Tejgaon Link Road', 'transportation', 23.76500000, 90.38900000, 0xe6100000010100000037894160e5985640a4703d0ad7c33740, 4.0, 'moderate', NULL, 'Tejgaon, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(117, 'Mohakhali Flyover', 'transportation', 23.77900000, 90.37300000, 0xe610000001010000001d5a643bdf9756408195438b6cc73740, 4.2, 'moderate', NULL, 'Mohakhali, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(118, 'Nilkhet Corner', 'other', 23.73300000, 90.39750000, 0xe610000001010000003d0ad7a370995640cff753e3a5bb3740, 4.1, 'moderate', NULL, 'Nilkhet, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(119, 'Dhanmondi 2A', 'other', 23.74550000, 90.37550000, 0xe6100000010100000079e9263108985640022b8716d9be3740, 4.3, 'safe', NULL, 'Dhanmondi, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(120, 'Mirpur 3 Market', 'other', 23.80150000, 90.36280000, 0xe6100000010100000048bf7d1d3897564077be9f1a2fcd3740, 4.1, 'moderate', NULL, 'Mirpur 3, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(121, 'Uttara J block', 'other', 23.85750000, 90.39150000, 0xe61000000101000000931804560e995640ec51b81e85db3740, 4.6, 'safe', NULL, 'Uttara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(122, 'Gulshan 2 North', 'other', 23.79400000, 90.41750000, 0xe610000001010000001f85eb51b89a56402506819543cb3740, 4.6, 'safe', NULL, 'Gulshan 2, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(123, 'Bashundhara Block C', 'other', 23.82000000, 90.42600000, 0xe6100000010100000025068195439b564052b81e85ebd13740, 4.5, 'safe', NULL, 'Bashundhara, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(124, 'Farmgate South', 'other', 23.75250000, 90.38700000, 0xe6100000010100000054e3a59bc4985640713d0ad7a3c03740, 4.0, 'moderate', NULL, 'Farmgate, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(125, 'Dhanmondi 9', 'other', 23.74350000, 90.37850000, 0xe610000001010000004e621058399856407593180456be3740, 4.4, 'safe', NULL, 'Dhanmondi 9, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(126, 'Mirpur 7', 'other', 23.80300000, 90.36520000, 0xe61000000101000000f31fd26f5f97564021b0726891cd3740, 4.1, 'moderate', NULL, 'Mirpur 7, Dhaka', NULL, NULL, NULL, '2026-02-15 15:11:06', '2026-02-15 15:11:06'),
+(127, 'Uttara North Metro Station', 'transportation', 23.87000000, 90.39800000, 0xe61000000101000000b6f3fdd4789956401f85eb51b8de3740, 4.9, 'safe', 'MRT Line 6 - North end', 'Uttara Sector 15, Dhaka', NULL, '6AM-10PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(128, 'Farmgate Metro Station', 'transportation', 23.75450000, 90.38750000, 0xe61000000101000000cdcccccccc985640fed478e926c13740, 4.3, 'moderate', 'MRT Line 6 - Central', 'Farmgate, Dhaka', NULL, '6AM-10PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(129, 'Agargaon Metro Station', 'transportation', 23.77700000, 90.37700000, 0xe61000000101000000e3a59bc420985640f4fdd478e9c63740, 4.6, 'safe', 'MRT Line 6', 'Agargaon, Dhaka', NULL, '6AM-10PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(130, 'Shahbagh Metro Station', 'transportation', 23.73800000, 90.39700000, 0xe61000000101000000c520b07268995640b0726891edbc3740, 4.4, 'moderate', 'MRT Line 6', 'Shahbagh, Dhaka', NULL, '6AM-10PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(131, 'Farmgate Bus Stand', 'transportation', 23.75400000, 90.38800000, 0xe6100000010100000046b6f3fdd49856401b2fdd2406c13740, 3.8, 'moderate', 'Main bus interchange', 'Farmgate, Dhaka', NULL, '24/7', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(132, 'Mirpur 10 Bus Stand', 'transportation', 23.80650000, 90.36900000, 0xe61000000101000000560e2db29d9756405839b4c876ce3740, 4.2, 'moderate', 'Mirpur route buses', 'Mirpur 10, Dhaka', NULL, '5AM-11PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(133, 'Gulshan 2 Lake Park', 'park', 23.79500000, 90.41800000, 0xe61000000101000000986e1283c09a5640ec51b81e85cb3740, 4.7, 'safe', 'Lakeside walking path', 'Gulshan 2, Dhaka', NULL, '6AM-8PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(134, 'Suhrawardy Udyan', 'park', 23.73600000, 90.39600000, 0xe61000000101000000d34d62105899564023dbf97e6abc3740, 4.5, 'safe', 'Historic park, well-lit', 'Shahbagh, Dhaka', NULL, '6AM-9PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(135, 'Banani Lake', 'park', 23.78800000, 90.40800000, 0xe61000000101000000273108ac1c9a56407d3f355ebac93740, 4.4, 'safe', 'Walking area', 'Banani, Dhaka', NULL, '6AM-7PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(136, 'Brac University Campus', 'education', 23.75000000, 90.37200000, 0xe610000001010000002b8716d9ce9756400000000000c03740, 4.8, 'safe', 'University security', 'Mohakhali, Dhaka', NULL, '8AM-8PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(137, 'NSU Campus', 'education', 23.81700000, 90.42500000, 0xe6100000010100000033333333339b5640fed478e926d13740, 4.7, 'safe', 'North South University', 'Bashundhara, Dhaka', NULL, '8AM-10PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(138, 'DBBL ATM Dhanmondi 27', 'other', 23.74600000, 90.38000000, 0xe61000000101000000b81e85eb51985640e5d022dbf9be3740, 4.2, 'safe', '24/7 ATM, CCTV', 'Road 27, Dhanmondi', NULL, '24/7', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(139, 'Bashundhara City ATM Zone', 'other', 23.75100000, 90.39100000, 0xe610000001010000001b2fdd2406995640c74b378941c03740, 4.6, 'safe', 'Mall entrance area', 'Panthapath, Dhaka', NULL, '10AM-9PM', NULL, '2026-02-15 15:11:48', '2026-02-15 15:11:48');
 
 -- --------------------------------------------------------
 
@@ -1151,14 +1564,10 @@ CREATE TABLE `legal_aid_providers` (
 --
 
 INSERT INTO `legal_aid_providers` (`id`, `organization_name`, `contact_person`, `phone`, `email`, `address`, `city`, `district`, `division`, `specialization`, `language_support`, `fee_structure`, `is_verified`, `verified_by`, `rating`, `review_count`, `cases_handled`, `success_rate`, `availability_hours`, `is_24_7`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Ain o Salish Kendra (ASK)', 'Advocate Sultana Kamal', '+8801712345678', 'info@askbd.org', 'House 2/16, Block B, Lalmatia, Dhaka-1207', 'Dhaka', 'Dhaka', 'Dhaka', 'women_rights,human_rights,criminal,civil', 'bn,en', 'free', 1, NULL, 4.80, 150, 0, 0.00, '9:00 AM - 5:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(2, 'Bangladesh Legal Aid and Services Trust (BLAST)', 'Advocate Sara Hossain', '+8801712345679', 'info@blast.org.bd', 'House 39, Road 126, Gulshan-1, Dhaka-1212', 'Dhaka', 'Dhaka', 'Dhaka', 'human_rights,labor,family,civil', 'bn,en', 'free', 1, NULL, 4.70, 200, 0, 0.00, '9:00 AM - 6:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(3, 'Naripokkho', 'Advocate Khushi Kabir', '+8801712345680', 'info@naripokkho.org', 'House 2/14, Block A, Lalmatia, Dhaka-1207', 'Dhaka', 'Dhaka', 'Dhaka', 'women_rights,family,cyber', 'bn,en', 'free', 1, NULL, 4.90, 180, 0, 0.00, '10:00 AM - 4:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(4, 'Law Help Center', 'Advocate Rahman', '+8801712345681', 'help@lawcenter.bd', '24/1, Banglabazar, Old Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 'criminal,civil,property', 'bn', 'low_cost', 1, NULL, 4.50, 90, 0, 0.00, '9:00 AM - 8:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(5, 'Women\'s Legal Aid Services', 'Advocate Fatima Begum', '+8801712345682', 'wlas@bdlegal.org', 'House 15, Road 27, Dhanmondi, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 'women_rights,family,domestic_violence', 'bn,en', 'free', 1, NULL, 4.80, 120, 0, 0.00, '9:00 AM - 5:00 PM', 1, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(6, 'Cyber Legal Support Center', 'Advocate Ahmed Hassan', '+8801712345683', 'cyberlaw@bdlegal.org', 'House 45, Gulshan-2, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 'cyber,property,criminal', 'bn,en', 'standard', 1, NULL, 4.60, 75, 0, 0.00, '10:00 AM - 7:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(7, 'Chittagong Legal Aid Society', 'Advocate Karim', '+8801812345678', 'clas@bdlegal.org', 'Agrabad, Chittagong', 'Chittagong', 'Chittagong', 'Chittagong', 'criminal,civil,labor', 'bn', 'free', 1, NULL, 4.40, 60, 0, 0.00, '9:00 AM - 5:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24'),
-(8, 'Sylhet Legal Services', 'Advocate Hasan', '+8801912345678', 'sls@bdlegal.org', 'Zindabazar, Sylhet', 'Sylhet', 'Sylhet', 'Sylhet', 'family,property,civil', 'bn', 'low_cost', 1, NULL, 4.30, 45, 0, 0.00, '10:00 AM - 6:00 PM', 0, 'active', '2025-11-16 13:34:24', '2025-11-16 13:34:24');
+(1, 'Bangladesh Legal Aid and Services Trust (BLAST)', NULL, '01715220022', 'mail@blast.org.bd', '1/1, Pioneer Road, Kakrail, Dhaka', 'Dhaka', NULL, NULL, 'criminal,family,women_rights,human_rights', 'bn,en', 'free', 1, NULL, 0.00, 0, 0, 0.00, NULL, 0, 'active', '2026-02-15 20:18:27', '2026-02-15 20:18:27'),
+(2, 'Ain o Salish Kendra (ASK)', NULL, '01711632510', 'ask@citechco.net', '2/16, Block-B, Lalmatia, Dhaka', 'Dhaka', NULL, NULL, 'women_rights,human_rights,labor', 'bn,en', 'pro_bono', 1, NULL, 0.00, 0, 0, 0.00, NULL, 0, 'active', '2026-02-15 20:18:27', '2026-02-15 20:18:27'),
+(3, 'National Legal Aid Services Organization', NULL, '16430', 'nlaso@gmail.com', '145, New Baily Road, Dhaka', 'Dhaka', NULL, NULL, 'criminal,civil,family,property', 'bn,en', 'free', 1, NULL, 0.00, 0, 0, 0.00, NULL, 0, 'active', '2026-02-15 20:18:27', '2026-02-15 20:18:27'),
+(4, 'Bangladesh National Woman Lawyers Association (BNWLA)', NULL, '01711223344', 'bnwla@bdonline.com', 'Road 27, House 603, Dhanmondi, Dhaka', 'Dhaka', NULL, NULL, 'women_rights,cyber,family', 'bn,en', 'low_cost', 1, NULL, 0.00, 0, 0, 0.00, NULL, 0, 'active', '2026-02-15 20:18:27', '2026-02-15 20:18:27');
 
 -- --------------------------------------------------------
 
@@ -1191,8 +1600,9 @@ CREATE TABLE `legal_consultations` (
 --
 
 INSERT INTO `legal_consultations` (`id`, `user_id`, `report_id`, `provider_id`, `consultation_type`, `subject`, `description`, `preferred_date`, `preferred_time`, `status`, `scheduled_at`, `completed_at`, `provider_notes`, `user_feedback`, `rating`, `cost_bdt`, `created_at`) VALUES
-(1, 4, NULL, 1, 'emergency', 'crime issue', 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', '2026-01-26', '12:46:00', 'requested', NULL, NULL, NULL, NULL, NULL, 0.00, '2026-01-24 12:46:29'),
-(2, 4, NULL, 3, 'initial', 'crime issue', 'dcndcfjsd;afj jdifjdoaif;jsdaiofdj;asifiasdifjsd;iofjiosd;fidjif', '2026-01-24', '13:38:00', 'requested', NULL, NULL, NULL, NULL, NULL, 0.00, '2026-01-24 14:38:15');
+(1, 4, 15, 4, 'initial', 'Assault case - Legal options', 'Need advice on filing a case for workplace harassment.', NULL, NULL, 'scheduled', '2026-02-18 21:11:48', NULL, NULL, NULL, NULL, 0.00, '2026-02-15 21:11:48'),
+(2, 9, 9, 4, 'initial', 'Stalking - Restraining order', 'Someone has been following me. Need legal protection.', NULL, NULL, 'requested', NULL, NULL, NULL, NULL, NULL, 500.00, '2026-02-15 21:11:48'),
+(3, 2, 24, 1, 'follow_up', 'Theft case follow-up', 'Checking status of my police report.', NULL, NULL, 'completed', '2026-02-13 21:11:48', NULL, NULL, NULL, NULL, 0.00, '2026-02-15 21:11:48');
 
 -- --------------------------------------------------------
 
@@ -1221,14 +1631,11 @@ CREATE TABLE `legal_documents` (
 --
 
 INSERT INTO `legal_documents` (`id`, `title`, `document_type`, `category`, `description`, `file_path`, `file_url`, `language`, `download_count`, `is_premium`, `created_by`, `status`, `created_at`) VALUES
-(1, 'Complaint Form Template', 'form', 'General', 'Standard complaint form template that can be used for filing complaints with police or other authorities.', NULL, 'https://example.com/docs/complaint-form.pdf', 'both', 1, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(2, 'Domestic Violence Protection Guide', 'guideline', 'Family Law', 'Comprehensive guide on domestic violence laws, protection orders, and legal remedies available in Bangladesh.', NULL, 'https://example.com/docs/domestic-violence-guide.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(3, 'Labor Rights Handbook', 'guideline', 'Labor Law', 'Essential information about labor rights, minimum wage, working conditions, and how to file labor complaints.', NULL, 'https://example.com/docs/labor-rights-handbook.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(4, 'Cyber Crime Reporting Guide', 'guideline', 'Cyber Law', 'Step-by-step guide on how to report cyber crimes, what evidence to collect, and legal procedures.', NULL, 'https://example.com/docs/cyber-crime-guide.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(5, 'Women\'s Rights Legal Framework', 'law_reference', 'Women Rights', 'Complete reference of laws protecting women\'s rights in Bangladesh including marriage, divorce, and inheritance.', NULL, 'https://example.com/docs/womens-rights-framework.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(6, 'Legal Aid Application Form', 'form', 'Legal Aid', 'Form to apply for free legal aid services from government and NGO legal aid providers.', NULL, 'https://example.com/docs/legal-aid-application.pdf', 'both', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(7, 'Property Dispute Template', 'template', 'Property Law', 'Template for filing property disputes including land, house, and commercial property cases.', NULL, 'https://example.com/docs/property-dispute-template.pdf', 'bn', 0, 0, NULL, 'active', '2025-11-16 13:34:24'),
-(8, 'Human Rights Violation Report Format', 'form', 'Human Rights', 'Standard format for reporting human rights violations to relevant authorities and organizations.', NULL, 'https://example.com/docs/hr-violation-report.pdf', 'both', 1, 0, NULL, 'active', '2025-11-16 13:34:24');
+(1, 'GD (General Diary) Sample Form', 'template', 'Police Matters', 'A standard template for filing a GD in any police station in Bangladesh.', NULL, NULL, 'both', 0, 0, NULL, 'active', '2026-02-15 20:20:16'),
+(2, 'Nari o Shishu Nirjatan Case Guide', 'guideline', 'Women Rights', 'Steps to follow for filing a case under the Women and Children Repression Prevention Act.', NULL, NULL, 'bn', 0, 0, NULL, 'active', '2026-02-15 20:20:16'),
+(3, 'Cyber Crime Complaint Process', 'guideline', 'Cyber Safety', 'Official guide to reporting online harassment to the Cyber Crime Investigation Division.', NULL, NULL, 'bn', 0, 0, NULL, 'active', '2026-02-15 20:20:16'),
+(4, 'Digital Security Act Reference', 'law_reference', 'General Law', 'A simplified summary of important clauses for common citizens.', NULL, NULL, 'en', 0, 0, NULL, 'active', '2026-02-15 20:20:16'),
+(5, 'Legal Aid Application Form', 'form', 'Legal Aid', 'Official form to apply for government legal aid services.', NULL, NULL, 'bn', 0, 0, NULL, 'active', '2026-02-15 20:20:16');
 
 -- --------------------------------------------------------
 
@@ -1267,14 +1674,11 @@ CREATE TABLE `medical_support_providers` (
 --
 
 INSERT INTO `medical_support_providers` (`id`, `provider_name`, `provider_type`, `specialization`, `phone`, `email`, `website`, `address`, `city`, `district`, `division`, `is_24_7`, `languages`, `accepts_insurance`, `insurance_types`, `fee_structure`, `rating`, `review_count`, `is_verified`, `verified_by`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Dhaka Medical College Hospital', 'hospital', 'trauma_care,emergency,forensic,sexual_assault', '01713333333', 'info@dmch.gov.bd', NULL, 'Dhaka Medical College Road, Dhaka 1000', 'Dhaka', 'Dhaka', 'Dhaka', 1, 'bn,en', 1, NULL, 'subsidized', 4.50, 120, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(2, 'One Stop Crisis Centre (OCC)', 'trauma_center', 'trauma_care,sexual_assault,domestic_violence,women_health', '01713333334', 'occ@mohfw.gov.bd', NULL, 'Dhaka Medical College Hospital, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 1, 'bn,en', 1, NULL, 'free', 4.80, 95, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(3, 'Bangladesh National Women Lawyers Association', 'ngo', 'legal_support,domestic_violence,sexual_assault,counseling', '01713333335', 'info@bnwla.org', NULL, 'House 13, Road 27, Dhanmondi, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 0, 'bn,en', 0, NULL, 'free', 4.70, 78, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(4, 'National Institute of Mental Health', 'hospital', 'mental_health,psychology,psychiatry', '01713333336', 'info@nimh.gov.bd', NULL, 'Sher-e-Bangla Nagar, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 1, 'bn,en', 1, NULL, 'subsidized', 4.40, 150, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(5, 'Marie Stopes Bangladesh', 'clinic', 'women_health,sexual_assault,reproductive_health', '01713333337', 'info@mariestopes.org.bd', NULL, 'House 5, Road 10, Dhanmondi, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 0, 'bn,en', 1, NULL, 'subsidized', 4.60, 200, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(6, 'Ain o Salish Kendra (ASK)', 'ngo', 'legal_support,domestic_violence,human_rights,counseling', '01713333338', 'ask@citechco.net', NULL, 'House 2/1, Block F, Lalmatia, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 0, 'bn,en', 0, NULL, 'free', 4.90, 300, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(7, 'Chittagong Medical College Hospital', 'hospital', 'trauma_care,emergency,forensic', '01713333339', 'info@cmch.gov.bd', NULL, 'Chittagong Medical College Road, Chittagong', 'Chittagong', 'Chittagong', 'Chittagong', 1, 'bn,en', 1, NULL, 'subsidized', 4.30, 85, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11'),
-(8, 'BRAC Mental Health Program', 'ngo', 'mental_health,counseling,psychology', '01713333340', 'mhp@brac.net', NULL, 'BRAC Centre, 75 Mohakhali, Dhaka', 'Dhaka', 'Dhaka', 'Dhaka', 0, 'bn,en,chakma', 0, NULL, 'free', 4.50, 180, 1, NULL, 'active', '2025-11-16 14:18:11', '2025-11-16 14:18:11');
+(1, 'Dhaka Medical College Hospital', 'hospital', 'Emergency, Trauma, Surgery', '01711223344', NULL, NULL, 'Ramna, Dhaka', 'Dhaka', NULL, NULL, 1, 'bn,en', 0, NULL, 'free', 0.00, 0, 1, NULL, 'active', '2026-02-15 20:18:41', '2026-02-15 20:18:41'),
+(2, 'United Hospital Limited', 'hospital', 'Emergency, Cardiac, ICU', '10666', NULL, NULL, 'Plot 15, Road 71, Gulshan 2, Dhaka', 'Dhaka', NULL, NULL, 1, 'bn,en', 0, NULL, 'premium', 0.00, 0, 1, NULL, 'active', '2026-02-15 20:18:41', '2026-02-15 20:18:41'),
+(3, 'Apollo/Evercare Hospital', 'hospital', 'Trauma, Neurology, Emergency', '01713041234', NULL, NULL, 'Plot 81, Block E, Bashundhara R/A, Dhaka', 'Dhaka', NULL, NULL, 1, 'bn,en', 0, NULL, 'premium', 0.00, 0, 1, NULL, 'active', '2026-02-15 20:18:41', '2026-02-15 20:18:41'),
+(4, 'Moner Bondhu (Mental Health)', 'ngo', 'Counseling, Trauma Support, Mental Health', '01776632344', NULL, NULL, 'Banani, Dhaka', 'Dhaka', NULL, NULL, 0, 'bn,en', 0, NULL, 'subsidized', 0.00, 0, 1, NULL, 'active', '2026-02-15 20:18:41', '2026-02-15 20:18:41'),
+(5, 'National Institute of Traumatology (NITOR)', 'hospital', 'Orthopedic, Trauma', '02-9112150', NULL, NULL, 'Sher-e-Bangla Nagar, Dhaka', 'Dhaka', NULL, NULL, 1, 'bn,en', 0, NULL, 'free', 0.00, 0, 1, NULL, 'active', '2026-02-15 20:18:41', '2026-02-15 20:18:41');
 
 -- --------------------------------------------------------
 
@@ -1309,12 +1713,11 @@ CREATE TABLE `neighborhood_groups` (
 --
 
 INSERT INTO `neighborhood_groups` (`id`, `group_name`, `description`, `area_name`, `ward_number`, `union_name`, `division_id`, `district_id`, `upazila_id`, `created_by`, `member_count`, `active_members`, `is_verified`, `verified_by`, `status`, `privacy_level`, `rules`, `created_at`, `updated_at`) VALUES
-(1, 'Dhanmondi Community Watch', 'Active community safety group for Dhanmondi area residents. We share safety alerts and work together to keep our neighborhood safe.', 'Dhanmondi', '27', 'Dhanmondi', 1, 1, 1, 1, 3, 3, 1, NULL, 'active', 'public', '1. Be respectful to all members\n2. Only post verified information\n3. No personal attacks\n4. Report false information immediately', '2025-11-16 13:52:50', '2026-01-24 14:36:37'),
-(2, 'Gulshan Safety Network', 'Community safety network for Gulshan residents. Join us to stay informed about safety issues in our area.', 'Gulshan', '19', 'Gulshan', 1, 1, 2, 1, 32, 28, 1, NULL, 'active', 'public', '1. Respect privacy\n2. Verify before sharing\n3. Help neighbors in need', '2025-11-16 13:52:50', '2025-11-16 13:52:50'),
-(3, 'Mirpur Community Safety', 'Safety group for Mirpur area. We coordinate neighborhood watch activities and share important safety updates.', 'Mirpur', '10', 'Mirpur', 1, 1, 3, 1, 28, 22, 0, NULL, 'active', 'public', 'Community safety rules apply', '2025-11-16 13:52:50', '2025-11-16 13:52:50'),
-(4, 'Uttara Residents Safety Group', 'Uttara area residents working together for community safety and security.', 'Uttara', '1', 'Uttara', 1, 1, 4, 1, 2, 2, 1, NULL, 'active', 'public', 'Standard community safety guidelines', '2025-11-16 13:52:50', '2025-11-16 14:04:05'),
-(5, 'Banani Community Watch', 'Active safety monitoring for Banani area. Join to stay informed and contribute to community safety.', 'Banani', '18', 'Banani', 1, 1, 2, 1, 22, 18, 0, NULL, 'active', 'public', 'Community safety first', '2025-11-16 13:52:50', '2025-11-16 13:52:50'),
-(21, 'Mirpur 10', 'For the safety for Mirpur bashi', 'pallabi', '', '', 1, 1, 8, 2, 2, 2, 0, NULL, 'active', 'private', '', '2025-11-16 15:31:31', '2025-11-23 19:36:46');
+(1, 'Dhanmondi Safety Watch', 'A community group for Dhanmondi residents to share safety updates.', 'Dhanmondi', NULL, NULL, 1, 1, 1, 1, 5, 4, 0, NULL, 'active', 'public', NULL, '2026-02-15 20:17:38', '2026-02-15 21:11:47'),
+(2, 'Mirpur Resident Network', 'Connecting neighbors in Mirpur for a safer environment.', 'Mirpur', NULL, NULL, 1, 1, 2, 2, 3, 3, 0, NULL, 'active', 'public', NULL, '2026-02-15 20:17:38', '2026-02-15 21:11:47'),
+(3, 'Uttara Security Forum', 'Discussing security measures and reporting incidents in Uttara.', 'Uttara', NULL, NULL, 1, 1, 3, 3, 3, 3, 0, NULL, 'active', 'public', NULL, '2026-02-15 20:17:38', '2026-02-15 21:11:47'),
+(4, 'Gulshan Community Care', 'A private group for Gulshan residents to ensure collective safety.', 'Gulshan', NULL, NULL, 1, 1, 4, 4, 2, 2, 0, NULL, 'active', 'invite_only', NULL, '2026-02-15 20:17:38', '2026-02-15 21:11:47'),
+(5, 'Mohammadpur Alert Group', 'Real-time alerts and support for Mohammadpur area.', 'Mohammadpur', NULL, NULL, 1, 1, 6, 5, 3, 3, 0, NULL, 'active', 'public', NULL, '2026-02-15 20:17:38', '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -1345,25 +1748,236 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `action_url`, `action_data`, `is_read`, `is_sent`, `email_sent`, `sms_sent`, `push_sent`, `created_at`, `read_at`, `expires_at`) VALUES
-(1, 1, 'Report Submitted Successfully', 'Your incident report #101 has been submitted and is under review.', 'report_update', 'view_report.php?id=101', NULL, 0, 0, 0, 0, 0, '2025-11-13 15:43:04', NULL, NULL),
-(2, 1, 'Report Submitted Successfully', 'Your incident report #102 has been submitted and is under review.', 'report_update', 'view_report.php?id=102', NULL, 0, 0, 0, 0, 0, '2025-11-13 15:45:02', NULL, NULL),
-(3, 2, 'Report Submitted Successfully', 'Your incident report #103 has been submitted and is under review.', 'report_update', 'view_report.php?id=103', NULL, 0, 0, 0, 0, 0, '2025-11-16 13:24:40', NULL, NULL),
-(4, 2, 'Joined Community Group', 'You have successfully joined \"Dhanmondi Community Watch\"', 'system', 'group_detail.php?id=1', NULL, 0, 0, 0, 0, 0, '2025-11-16 14:03:24', NULL, NULL),
-(5, 2, 'Joined Community Group', 'You have successfully joined \"Uttara Residents Safety Group\"', 'system', 'group_detail.php?id=4', NULL, 0, 0, 0, 0, 0, '2025-11-16 14:04:05', NULL, NULL),
-(6, 2, 'Joined Community Group', 'You have successfully joined \"Dhanmondi Community Watch\"', 'system', 'group_detail.php?id=16', NULL, 0, 0, 0, 0, 0, '2025-11-16 14:14:51', NULL, NULL),
-(7, 2, 'Group Created Successfully', 'Your community group \"Mirpur 10\" has been created and is pending approval.', 'system', 'community_groups.php', NULL, 0, 0, 0, 0, 0, '2025-11-16 15:31:31', NULL, NULL),
-(8, 1, 'Report Submitted Successfully', 'Your incident report #104 has been submitted and is under review.', 'report_update', 'view_report.php?id=104', NULL, 0, 0, 0, 0, 0, '2025-11-20 18:23:31', NULL, NULL),
-(9, 4, 'Joined Community Group', 'You have successfully joined \"Mirpur 10\"', 'system', 'group_detail.php?id=21', NULL, 0, 0, 0, 0, 0, '2025-11-23 19:36:46', NULL, NULL),
-(10, 1, 'Report Submitted Successfully', 'Your incident report #115 has been submitted and is under review.', 'report_update', 'view_report.php?id=115', NULL, 0, 0, 0, 0, 0, '2026-01-17 17:45:10', NULL, NULL),
-(11, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.797947456626, 90.449444430421\nMap: https://maps.google.com/?q=23.797947456626,90.449444430421\nLive Tracking: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\nTime: 2026-01-24 04:16:22\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 09:16:22', NULL, NULL),
-(12, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798447998936, 90.450098247573\nMap: https://maps.google.com/?q=23.798447998936,90.450098247573\nLive Tracking: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\nTime: 2026-01-24 04:59:30\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 09:59:30', NULL, NULL),
-(13, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798394089991, 90.450101009804\nMap: https://maps.google.com/?q=23.798394089991,90.450101009804\nLive Tracking: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\nTime: 2026-01-24 05:02:51\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 10:02:51', NULL, NULL),
-(14, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.798424945568, 90.450098865706\nMap: https://maps.google.com/?q=23.798424945568,90.450098865706\nLive Tracking: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\nTime: 2026-01-24 05:17:41\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-01-24 10:17:41', NULL, NULL),
-(15, 5, 'Report Submitted Successfully', 'Your incident report #116 has been submitted and is under review.', 'report_update', 'view_report.php?id=116', NULL, 0, 0, 0, 0, 0, '2026-01-24 12:14:55', NULL, NULL),
-(16, 4, 'Consultation Request Submitted', 'Your legal consultation request #1 has been submitted. The provider will contact you within 48 hours.', 'report_update', 'my_consultations.php', NULL, 0, 0, 0, 0, 0, '2026-01-24 12:46:29', NULL, NULL),
-(17, 4, 'Joined Community Group', 'You have successfully joined \"Dhanmondi Community Watch\"', 'system', 'group_detail.php?id=1', NULL, 0, 0, 0, 0, 0, '2026-01-24 14:36:37', NULL, NULL),
-(18, 4, 'Consultation Request Submitted', 'Your legal consultation request #2 has been submitted. The provider will contact you within 48 hours.', 'report_update', 'my_consultations.php', NULL, 0, 0, 0, 0, 0, '2026-01-24 14:38:15', NULL, NULL),
-(19, 6, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Unknown\nPhone: N/A\nLocation: \nGPS: 23.814533786745, 90.386511085607\nMap: https://maps.google.com/?q=23.814533786745,90.386511085607\nLive Tracking: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\nTime: 2026-02-09 14:58:54\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-09 19:58:54', NULL, NULL);
+(1, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(2, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(3, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(4, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(5, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(6, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(7, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(8, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(9, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(10, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(11, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(12, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(13, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(14, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(15, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(16, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(17, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(18, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(19, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(20, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(21, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(22, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(23, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(24, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(25, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(26, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(27, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(28, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(29, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(30, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(31, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(32, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(33, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(34, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(35, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(36, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(37, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(38, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(39, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(40, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(41, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(42, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(43, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(44, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(45, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(46, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(47, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(48, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(49, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(50, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(51, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(52, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(53, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(54, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(55, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(56, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(57, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(58, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(59, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(60, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(61, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(62, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(63, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(64, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(65, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(66, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(67, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(68, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(69, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(70, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(71, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(72, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(73, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(74, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(75, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(76, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(77, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(78, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(79, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(80, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(81, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(82, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(83, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(84, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(85, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(86, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(87, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(88, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(89, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(90, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(91, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(92, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(93, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(94, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(95, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(96, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(97, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(98, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(99, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(100, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(101, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(102, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(103, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(104, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(105, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(106, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(107, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(108, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(109, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(110, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(111, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(112, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(113, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(114, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(115, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(116, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(117, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(118, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(119, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(120, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:06', NULL, NULL),
+(121, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(122, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(123, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(124, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(125, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(126, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(127, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(128, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(129, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(130, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(131, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(132, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(133, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(134, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(135, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(136, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(137, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(138, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(139, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(140, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(141, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(142, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(143, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(144, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(145, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(146, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(147, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(148, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(149, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(150, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(151, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(152, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(153, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(154, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(155, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(156, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(157, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(158, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(159, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(160, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(161, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(162, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(163, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(164, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(165, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(166, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(167, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(168, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(169, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(170, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(171, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(172, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(173, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(174, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(175, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(176, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(177, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(178, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(179, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(180, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(181, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(182, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(183, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(184, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(185, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(186, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(187, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(188, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(189, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(190, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(191, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(192, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(193, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(194, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(195, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(196, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(197, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(198, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(199, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(200, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(201, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(202, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(203, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(204, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(205, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(206, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(207, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(208, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(209, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(210, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(211, 1, 'New alert nearby', 'New alert nearby - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(212, 2, 'Report status updated', 'Report status updated - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(213, 3, 'Community meeting reminder', 'Community meeting reminder - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(214, 4, 'Safety tip', 'Safety tip - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(215, 5, 'Course completed', 'Course completed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(216, 6, 'Certificate ready', 'Certificate ready - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(217, 7, 'Group joined', 'Group joined - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(218, 8, 'Profile viewed', 'Profile viewed - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(219, 9, 'Location shared', 'Location shared - check the app for details.', 'system', NULL, NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(220, 10, 'Walk completed', 'Walk completed - check the app for details.', 'system', NULL, NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:26', NULL, NULL),
+(221, 1, 'New safety course available', 'Check out \"Understanding Your Legal Rights\" - now available.', 'system', '/courses', NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(222, 2, 'Your report was received', 'Incident report #24 has been received. We will review shortly.', 'report_update', '/reports/24', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(223, 3, 'Community alert nearby', 'Safety warning in Dhanmondi - check the map.', 'alert', '/alerts', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(224, 4, 'Panic alert resolved', 'Your emergency contacts were notified. Stay safe!', 'emergency', '/alerts', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(225, 5, 'Group alert acknowledged', '5 members acknowledged the Mirpur meeting alert.', 'system', '/groups/2', NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(226, 6, 'Certificate ready', 'Your Basic Self-Defense certificate is ready to download.', 'system', '/certificates', NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(227, 7, 'New member joined', 'Sidratul joined Uttara Security Forum.', 'system', '/groups/3', NULL, 0, 1, 0, 0, 0, '2026-02-15 21:11:48', NULL, NULL),
+(228, 8, 'Course progress', 'You completed Emergency First Aid 101! Great job.', 'system', '/courses', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(229, 9, 'Incident update', 'Report #9 status changed to under_review.', 'report_update', '/reports/9', NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(230, 10, 'Welcome to Space', 'Your account is set up. Add emergency contacts for faster response.', 'system', '/dashboard', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1398,24 +2012,9 @@ CREATE TABLE `panic_alerts` (
 --
 
 INSERT INTO `panic_alerts` (`id`, `user_id`, `trigger_method`, `location_name`, `latitude`, `longitude`, `message`, `emergency_contacts_notified`, `police_notified`, `ambulance_notified`, `fire_service_notified`, `status`, `response_time_seconds`, `triggered_at`, `resolved_at`, `responders_count`, `community_notified`, `broadcast_radius`, `nearby_users_count`) VALUES
-(1, 1, 'app_button', '23.814613316748986, 90.38611845264977', 23.81461332, 90.38611845, '', 0, 1, 0, 0, 'active', NULL, '2025-11-23 23:43:36', NULL, 0, 0, 5000, 0),
-(2, 1, 'app_button', '23.81435478029568, 90.38679105231283', 23.81435478, 90.38679105, 'Help me', 1, 0, 0, 0, 'active', NULL, '2025-11-24 00:09:05', NULL, 0, 0, 5000, 0),
-(3, 4, 'app_button', '23.797324, 90.449757', 23.79732400, 90.44975700, '', 0, 1, 0, 0, 'active', NULL, '2025-11-24 08:06:13', NULL, 0, 0, 5000, 0),
-(4, 6, 'app_button', '23.797947456625984, 90.44944443042094', 23.79794746, 90.44944443, '', 2, 0, 0, 0, 'active', NULL, '2026-01-24 09:14:56', NULL, 0, 0, 5000, 0),
-(5, 6, '', '', 23.79794746, 90.44944443, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6', 2, 1, 0, 0, 'active', NULL, '2026-01-24 09:16:22', NULL, 0, 0, 5000, 0),
-(6, 6, '', '', 23.79844800, 90.45009825, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b', 2, 1, 0, 0, 'active', NULL, '2026-01-24 09:59:30', NULL, 0, 0, 5000, 0),
-(7, 6, '', '', 23.79839409, 90.45010101, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472', 2, 1, 0, 0, 'active', NULL, '2026-01-24 10:02:51', NULL, 0, 0, 5000, 0),
-(8, 6, '', '', 23.79842495, 90.45009887, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a', 2, 1, 0, 0, 'active', NULL, '2026-01-24 10:17:41', NULL, 0, 1, 5000, 0),
-(9, 5, '', '', 23.79840436, 90.45009759, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965', 0, 1, 0, 0, 'active', NULL, '2026-01-24 10:22:47', NULL, 0, 1, 5000, 0),
-(10, 4, '', '', 23.79841092, 90.45011152, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7', 0, 1, 0, 0, 'active', NULL, '2026-01-24 12:55:11', NULL, 0, 0, 5000, 0),
-(11, 4, '', '', 23.79765900, 90.45019484, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656', 0, 1, 0, 0, 'active', NULL, '2026-01-24 14:41:28', NULL, 0, 0, 5000, 0),
-(12, 4, '', '', 23.79765900, 90.45019484, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066', 0, 1, 0, 0, 'active', NULL, '2026-01-24 14:52:59', NULL, 0, 0, 5000, 0),
-(13, 6, '', '', 23.81453379, 90.38651109, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4', 2, 1, 0, 0, 'active', NULL, '2026-02-09 19:58:54', NULL, 0, 0, 5000, 0),
-(14, 4, 'app_button', '23.814584156267806, 90.38655722500954', 23.81458416, 90.38655723, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:01:11', NULL, 0, 0, 5000, 0),
-(15, 4, '', '', 23.81458416, 90.38655723, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:01:23', NULL, 0, 0, 5000, 0),
-(16, 4, 'app_button', '23.81444352890792, 90.38659543342219', 23.81444353, 90.38659543, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:12:45', NULL, 0, 0, 5000, 0),
-(17, 4, 'app_button', '23.814424411656717, 90.38656005061553', 23.81442441, 90.38656005, '', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:12:53', NULL, 0, 0, 5000, 0),
-(18, 4, '', '', 23.81442441, 90.38656005, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9', 0, 1, 0, 0, 'active', NULL, '2026-02-09 20:13:01', NULL, 0, 0, 5000, 0);
+(1, 4, 'app_button', 'Mirpur 10, near community center', 23.80690000, 90.36870000, 'Need help! Someone following me.', 2, 1, 0, 0, 'resolved', 180, '2026-02-12 21:11:48', NULL, 0, 1, 5000, 3),
+(2, 9, 'app_button', 'Farmgate bus stand area', 23.75950000, 90.39000000, 'Felt unsafe, activated by mistake', 1, 0, 0, 0, 'false_alarm', NULL, '2026-02-14 21:11:48', NULL, 0, 1, 5000, 2),
+(3, 2, 'app_button', 'Dhanmondi Road 32', 23.75160000, 90.37750000, 'Wallet snatched. Need police.', 2, 1, 0, 0, 'resolved', 420, '2026-02-10 21:11:48', NULL, 0, 1, 5000, 4);
 
 -- --------------------------------------------------------
 
@@ -1442,19 +2041,9 @@ CREATE TABLE `panic_notifications` (
 --
 
 INSERT INTO `panic_notifications` (`id`, `panic_alert_id`, `contact_id`, `notification_type`, `recipient`, `message`, `created_at`, `status`, `sent_at`, `delivered_at`, `error_message`) VALUES
-(1, 2, 1, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Sayum\nLocation: https://maps.google.com/?q=23.81435478,90.38679105\nTime: 2025-11-24 00:09:05\nMessage: Help me\n\nPlease respond immediately!', '2025-11-24 00:09:05', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(2, 4, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:14:56\n\nPlease respond immediately!', '2026-01-24 09:14:56', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(3, 4, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:14:56\n\nPlease respond immediately!', '2026-01-24 09:14:56', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
-(4, 5, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:16:22\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\n\nPlease respond immediately!', '2026-01-24 09:16:22', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(5, 5, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79794746,90.44944443\nTime: 2026-01-24 09:16:22\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6\n\nPlease respond immediately!', '2026-01-24 09:16:22', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
-(6, 6, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79844800,90.45009825\nTime: 2026-01-24 09:59:30\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\n\nPlease respond immediately!', '2026-01-24 09:59:30', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(7, 6, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79844800,90.45009825\nTime: 2026-01-24 09:59:30\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b\n\nPlease respond immediately!', '2026-01-24 09:59:30', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
-(8, 7, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79839409,90.45010101\nTime: 2026-01-24 10:02:51\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\n\nPlease respond immediately!', '2026-01-24 10:02:51', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(9, 7, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79839409,90.45010101\nTime: 2026-01-24 10:02:51\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472\n\nPlease respond immediately!', '2026-01-24 10:02:51', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
-(10, 8, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79842495,90.45009887\nTime: 2026-01-24 10:17:41\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\n\nPlease respond immediately!', '2026-01-24 10:17:41', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(11, 8, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.79842495,90.45009887\nTime: 2026-01-24 10:17:41\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a\n\nPlease respond immediately!', '2026-01-24 10:17:41', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
-(12, 13, 2, 'sms', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.81453379,90.38651109\nTime: 2026-02-09 19:58:54\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\n\nPlease respond immediately!', '2026-02-09 19:58:54', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
-(13, 13, 2, 'call', '01871745957', '🚨 EMERGENCY ALERT 🚨\n\nUser: Unknown\nLocation: https://maps.google.com/?q=23.81453379,90.38651109\nTime: 2026-02-09 19:58:54\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4\n\nPlease respond immediately!', '2026-02-09 19:58:54', 'failed', NULL, NULL, 'Call service not enabled in configuration');
+(1, 1, 7, 'sms', '01876543210', 'URGENT: Bonny needs help at Mirpur 10. Open Space app for location.', '2026-02-15 21:11:48', 'delivered', '2026-02-12 21:11:48', NULL, NULL),
+(2, 1, 8, 'call', '01776543211', 'Emergency alert from Bonny Afrin', '2026-02-15 21:11:48', 'delivered', '2026-02-12 21:11:48', NULL, NULL),
+(3, 3, 3, 'sms', '01911223344', 'URGENT: Safrin needs help at Dhanmondi Road 32. Open Space app.', '2026-02-15 21:11:48', 'delivered', '2026-02-10 21:11:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1489,14 +2078,10 @@ CREATE TABLE `safety_courses` (
 --
 
 INSERT INTO `safety_courses` (`id`, `course_title`, `course_description`, `category`, `target_audience`, `duration_minutes`, `content_type`, `content_url`, `thumbnail_url`, `is_premium`, `instructor_name`, `language`, `enrollment_count`, `completion_count`, `average_rating`, `rating_count`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Basic Self-Defense for Women', 'Learn essential self-defense techniques to protect yourself in dangerous situations. This course covers basic moves, awareness, and prevention strategies.', 'self_defense', 'women,general', 60, 'video', NULL, NULL, 0, 'Sgt. Fatima Rahman', 'both', 150, 120, 4.70, 95, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15'),
-(2, 'Cyber Safety & Online Protection', 'Protect yourself from cyberbullying, online harassment, and digital threats. Learn about privacy settings, safe online practices, and reporting mechanisms.', 'cyber_safety', 'general,children', 45, 'interactive', NULL, NULL, 0, 'Dr. Ahmed Hassan', 'both', 200, 180, 4.60, 150, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15'),
-(3, 'Know Your Legal Rights', 'Comprehensive guide to legal rights in Bangladesh, including women\'s rights, workplace rights, and how to seek legal help.', 'legal_rights', 'women,general,professionals', 90, 'mixed', NULL, NULL, 0, 'Advocate Roksana Begum', 'bn', 181, 140, 4.80, 120, 'active', '2025-11-16 15:12:15', '2025-12-08 06:41:13'),
-(4, 'Emergency Response Training', 'Learn how to respond to emergencies, contact authorities, and provide first aid. Essential skills for everyone.', 'emergency_response', 'general', 75, 'video', NULL, NULL, 0, 'Dr. Mohammad Ali', 'both', 250, 200, 4.50, 180, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15'),
-(5, 'Preventing Domestic Violence', 'Understanding domestic violence, recognizing warning signs, and knowing how to get help. Resources and support information included.', 'prevention', 'women,general', 50, 'mixed', NULL, NULL, 0, 'Counselor Nasreen Akter', 'bn', 301, 250, 4.90, 220, 'active', '2025-11-16 15:12:15', '2025-11-16 15:13:17'),
-(6, 'Child Safety & Protection', 'Essential safety education for parents and children. Learn about child protection, safe spaces, and how to report incidents.', 'awareness', 'children,general', 40, 'interactive', NULL, NULL, 0, 'Ms. Sharmin Sultana', 'both', 175, 150, 4.70, 130, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15'),
-(7, 'Workplace Safety & Harassment Prevention', 'Understanding workplace rights, recognizing harassment, and knowing how to report and protect yourself at work.', 'prevention', 'professionals,women', 55, 'mixed', NULL, NULL, 0, 'HR Specialist Tanvir Ahmed', 'both', 120, 95, 4.60, 80, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15'),
-(8, 'Advanced Self-Defense Techniques', 'Advanced self-defense moves and strategies for more experienced learners. Builds on basic techniques.', 'self_defense', 'women,general', 90, 'video', NULL, NULL, 1, 'Sgt. Fatima Rahman', 'both', 80, 60, 4.80, 50, 'active', '2025-11-16 15:12:15', '2025-11-16 15:12:15');
+(1, 'Basic Self-Defense for Women', 'Learn essential physical techniques to protect yourself in emergencies.', 'self_defense', 'general', NULL, 'mixed', NULL, NULL, 0, 'Farzana Ahmed', 'both', 10, 8, 0.00, 0, 'active', '2026-02-15 20:17:56', '2026-02-15 21:11:47'),
+(2, 'Cyber Security Awareness', 'How to stay safe from online harassment and scams in Bangladesh.', 'cyber_safety', 'general', NULL, 'mixed', NULL, NULL, 0, 'Tanvir Rahman', 'bn', 8, 5, 0.00, 0, 'active', '2026-02-15 20:17:56', '2026-02-15 21:11:48'),
+(3, 'Emergency First Aid 101', 'Primary medical response steps before reaching a hospital.', 'emergency_response', 'general', NULL, 'mixed', NULL, NULL, 0, 'Dr. Sajid Hossain', 'bn', 8, 6, 0.00, 0, 'active', '2026-02-15 20:17:56', '2026-02-15 21:11:48'),
+(4, 'Understanding Your Legal Rights', 'A guide to Bangladeshi laws regarding harassment and assault.', 'legal_rights', 'general', NULL, 'mixed', NULL, NULL, 0, 'Advocate Sumaiya', 'bn', 6, 2, 0.00, 0, 'active', '2026-02-15 20:17:56', '2026-02-15 21:11:48');
 
 -- --------------------------------------------------------
 
@@ -1528,6 +2113,16 @@ CREATE TABLE `safety_resources` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `safety_resources`
+--
+
+INSERT INTO `safety_resources` (`id`, `title`, `description`, `category`, `phone`, `email`, `website`, `address`, `is_24_7`, `hours_of_operation`, `languages`, `city`, `state`, `country`, `is_national`, `is_verified`, `verified_by`, `status`, `views_count`, `contact_count`, `created_at`, `updated_at`) VALUES
+(1, 'BRAC Human Rights & Legal Aid', 'Provides legal and social protection for the marginalized.', 'legal', '02-9881265', NULL, 'www.brac.net', NULL, 0, NULL, NULL, NULL, NULL, 'Bangladesh', 1, 0, NULL, 'active', 0, 0, '2026-02-15 20:20:23', '2026-02-15 20:20:23'),
+(2, 'Sajida Foundation Counseling', 'Professional mental health and trauma support services.', 'counseling', '01777771515', NULL, 'www.sajidafoundation.org', NULL, 1, NULL, NULL, NULL, NULL, 'Bangladesh', 1, 0, NULL, 'active', 0, 0, '2026-02-15 20:20:23', '2026-02-15 20:20:23'),
+(3, 'Bangladesh Mohila Parishad', 'A leading organization for womens rights and support groups.', 'support_group', '02-9110817', NULL, 'www.mahilaparishad.org', NULL, 0, NULL, NULL, NULL, NULL, 'Bangladesh', 1, 0, NULL, 'active', 0, 0, '2026-02-15 20:20:23', '2026-02-15 20:20:23'),
+(4, 'Maya (Digital Health & Safety)', 'An anonymous platform for legal and medical advice.', 'helpline', '01711223344', NULL, 'www.maya.com.bd', NULL, 1, NULL, NULL, NULL, NULL, 'Bangladesh', 1, 0, NULL, 'active', 0, 0, '2026-02-15 20:20:23', '2026-02-15 20:20:23');
 
 -- --------------------------------------------------------
 
@@ -1568,7 +2163,38 @@ CREATE TABLE `safe_spaces` (
 --
 
 INSERT INTO `safe_spaces` (`id`, `name`, `description`, `category`, `address`, `latitude`, `longitude`, `city`, `state`, `country`, `phone`, `email`, `website`, `hours_of_operation`, `is_verified`, `verified_by`, `verified_date`, `status`, `average_rating`, `review_count`, `features`, `accessibility_features`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'kuril safe ', 'safee', 'business', 'User-defined area', 23.82100957, 90.42075951, NULL, NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 0, NULL, NULL, 'active', 0.00, 0, '{\"safety_level\":\"medium\",\"polygon_coordinates\":[[90.42068242545447,23.821056832017618],[90.42071996281288,23.820948809630934],[90.42083793736793,23.820978270290755],[90.4207977187696,23.821054376964394]],\"type\":\"user_drawn_zone\"}', NULL, 4, '2026-01-24 13:07:22', '2026-01-24 13:07:49');
+(1, 'Dhanmondi 32 Police Box', 'Well-lit police assistance point with 24/7 presence.', 'police_station', 'Road 32, Dhanmondi, Dhaka', 23.75160000, 90.37750000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, 24/7 Guards, Help Desk', NULL, NULL, '2026-02-15 20:25:52', '2026-02-15 20:25:52'),
+(2, 'Bashundhara City Security Hub', 'Central security desk and safe waiting area inside the mall.', 'business', 'Panthapath, Dhaka', 23.75110000, 90.39080000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, First Aid, Lost and Found', NULL, NULL, '2026-02-15 20:25:52', '2026-02-15 20:25:52'),
+(3, 'Gulshan 2 Metro Shelter', 'Designated safe zone near the metro rail pillar for emergency refuge.', 'other', 'Gulshan Circle 2, Dhaka', 23.79250000, 90.41620000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 1, NULL, NULL, 'active', 0.00, 0, 'Emergency Button, Well Lit', NULL, NULL, '2026-02-15 20:25:52', '2026-02-15 20:25:52'),
+(4, 'United International University (UIU)', 'Educational campus with restricted entry and active security monitoring.', 'school', 'Madani Avenue, Badda, Dhaka', 23.79770000, 90.44970000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Security Gates, 24/7 Security', NULL, NULL, '2026-02-15 20:25:52', '2026-02-15 20:25:52'),
+(5, 'Mirpur 10 Community Center', 'Spacious public building often used for community safety meetings.', 'community_center', 'Mirpur 10, Dhaka', 23.80690000, 90.36870000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, NULL, 1, NULL, NULL, 'active', 0.00, 0, 'Public Phone, Guarded Entrance', NULL, NULL, '2026-02-15 20:25:52', '2026-02-15 20:25:52'),
+(6, 'Shyamoli Police Box', '24/7 police assistance near Shyamoli Square', 'police_station', 'Shyamoli Square, Dhaka', 23.77520000, 90.36850000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 1, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(7, 'Kamalapur Railway Women Help Desk', 'Women help desk, safe waiting area', 'other', 'Kamalapur Station, Dhaka', 23.72980000, 90.42720000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Women Cell', NULL, 2, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(8, 'Rampura Security Post', 'Security post near Rampura Bridge', 'business', 'Rampura, Dhaka', 23.76250000, 90.42480000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '8AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Guard', NULL, 3, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(9, 'Khilgaon Thana', 'Police station with women desk', 'police_station', 'Khilgaon, Dhaka', 23.75220000, 90.43350000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Cell, CCTV', NULL, 4, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(10, 'Paltan Metro Gate A', 'Safe zone near metro, well lit', 'other', 'Paltan, Dhaka', 23.73150000, 90.41250000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '6AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Emergency Button, CCTV', NULL, 5, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(11, 'Pallabi Police Box', 'Police assistance Pallabi area', 'police_station', 'Pallabi, Mirpur, Dhaka', 23.81250000, 90.35820000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 1, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(12, 'Jatrabari Thana', 'Police station with women support', 'police_station', 'Jatrabari, Dhaka', 23.71850000, 90.43480000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Cell, 24/7', NULL, 2, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(13, 'Gabtoli Bus Terminal Security', 'Security desk at bus terminal', 'business', 'Gabtoli, Dhaka', 23.76820000, 90.35480000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '5AM-11PM', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Lost & Found', NULL, 3, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(14, 'Agargaon Taltola Metro', 'Safe zone near metro station', 'other', 'Agargaon, Dhaka', 23.77750000, 90.37520000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '6AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Well Lit, CCTV', NULL, 4, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(15, 'Demra Thana', 'Police station Demra area', 'police_station', 'Demra, Dhaka', 23.71020000, 90.44450000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Desk, CCTV', NULL, 5, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(16, 'Motijheel CA Police Box', 'Police assistance commercial area', 'police_station', 'Motijheel C/A, Dhaka', 23.72520000, 90.41850000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 1, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(17, 'Kalshi Metro Shelter', 'Designated safe zone near metro', 'other', 'Kalshi, Dhaka', 23.82520000, 90.37180000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '6AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Emergency Button, Well Lit', NULL, 2, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(18, 'Square Hospital ER', 'Hospital emergency - safe refuge', 'other', 'Panthapath, Dhaka', 23.75080000, 90.39120000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, '24/7, Security', NULL, 3, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(19, 'Kawran Bazar Police Box', 'Police post near Karwan Bazar', 'police_station', 'Kawran Bazar, Dhaka', 23.75150000, 90.38420000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 4, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(20, 'Bashundhara R/A Gate', 'Safe zone residential area entrance', 'business', 'Bashundhara R/A, Dhaka', 23.81780000, 90.42150000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Security, CCTV', NULL, 5, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(21, 'Adabor Community Center', 'Community safe space', 'community_center', 'Adabor, Dhaka', 23.74720000, 90.36480000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '8AM-8PM', 1, NULL, NULL, 'active', 0.00, 0, 'Public Phone, Guard', NULL, 6, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(22, 'Nilkhet DU Gate', 'University area safe zone', 'school', 'Nilkhet, Dhaka', 23.73250000, 90.39820000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '8AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Crowded, Safe', NULL, 7, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(23, 'Azimpur Thana', 'Police station Azimpur', 'police_station', 'Azimpur, Dhaka', 23.72620000, 90.40420000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Cell, CCTV', NULL, 8, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(24, 'Malibagh Police Box', 'Police assistance Malibagh', 'police_station', 'Malibagh, Dhaka', 23.75820000, 90.42950000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 9, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(25, 'Kuratoli Police Outpost', 'Police post Kuratoli area', 'police_station', 'Kuratoli, Dhaka', 23.82020000, 90.42780000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Security', NULL, 10, '2026-02-15 21:45:22', '2026-02-15 21:45:22'),
+(206, 'Uttara North Metro Gate', 'Safe waiting area near metro, security present', 'other', 'Uttara Sector 15 Metro, Dhaka', 23.87000000, 90.39800000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '6AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Security Guard', NULL, 1, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(207, 'Farmgate Metro Station Entrance', 'Designated safe zone, well lit', 'other', 'Farmgate MRT Station, Dhaka', 23.75450000, 90.38750000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '6AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Emergency Button, Well Lit', NULL, 2, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(208, 'Gulshan 1 Police Box', '24/7 police assistance', 'police_station', 'Gulshan 1 Circle, Dhaka', 23.78000000, 90.41200000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'CCTV, Help Desk', NULL, 1, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(209, 'Badda Thana', 'Police station - women desk available', 'police_station', 'Badda, Dhaka', 23.78500000, 90.44200000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Cell, CCTV', NULL, 3, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(210, 'DU TSC Cafe Area', 'University area, student presence', '', 'Dhaka University, Dhaka', 23.73350000, 90.39680000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '8AM-10PM', 1, NULL, NULL, 'active', 0.00, 0, 'Crowded, Safe', NULL, 6, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(211, 'BRAC University Gate', 'Campus security, safe entrance', 'school', 'Mohakhali, Dhaka', 23.75000000, 90.37200000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '8AM-8PM', 1, NULL, NULL, 'active', 0.00, 0, 'Security, CCTV', NULL, 7, '2026-02-15 21:11:48', '2026-02-15 21:11:48'),
+(212, 'Mohammadpur Thana', 'Police station with women support', 'police_station', 'Mohammadpur, Dhaka', 23.76200000, 90.36500000, 'Dhaka', NULL, 'Bangladesh', NULL, NULL, NULL, '24/7', 1, NULL, NULL, 'active', 0.00, 0, 'Women Desk, 24/7', NULL, 9, '2026-02-15 21:11:48', '2026-02-15 21:11:48');
 
 -- --------------------------------------------------------
 
@@ -1592,7 +2218,10 @@ CREATE TABLE `safe_zones` (
 --
 
 INSERT INTO `safe_zones` (`id`, `name`, `description`, `boundary`, `safety_level`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'safe space', 'a place for woman ', 0xe61000000103000000010000000500000066de4093cd9c56402c7272009dd73740dd8debfbdb9c56405d017b28abd737405541ca63dd9c5640768d693a5fd73740db911ffbce9c56401a04a23c68d7374066de4093cd9c56402c7272009dd73740, 'medium', 5, '2026-01-24 02:37:32', '2026-01-24 02:37:32');
+(1, 'Dhanmondi Lake Perimeter', 'Well-monitored lake area with walking path', 0xe6100000010300000001000000050000001d5a643bdf9756405839b4c876be37408d976e12839856405839b4c876be37408d976e12839856408d976e1283c037401d5a643bdf9756408d976e1283c037401d5a643bdf9756405839b4c876be3740, 'high', 1, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(2, 'Gulshan 2 Commercial', 'Gulshan 2 main commercial zone', 0xe610000001030000000100000005000000273108ac1c9a56407d3f355ebac937405eba490c029b56407d3f355ebac937405eba490c029b56403f355eba49cc3740273108ac1c9a56403f355eba49cc3740273108ac1c9a56407d3f355ebac93740, 'high', 1, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(3, 'Uttara Sector 3 Residential', 'Residential sector with community watch', 0xe6100000010300000001000000050000000c022b8716995640cff753e3a5db37407d3f355eba995640cff753e3a5db37407d3f355eba99564091ed7c3f35de37400c022b871699564091ed7c3f35de37400c022b8716995640cff753e3a5db3740, 'high', 10, '2026-02-15 15:11:48', '2026-02-15 15:11:48'),
+(4, 'UIU Campus Area', 'University campus and surrounding', 0xe61000000103000000010000000500000023dbf97e6a9c5640986e1283c0ca374077be9f1a2f9d5640986e1283c0ca374077be9f1a2f9d56405a643bdf4fcd374023dbf97e6a9c56405a643bdf4fcd374023dbf97e6a9c5640986e1283c0ca3740, 'high', 1, '2026-02-15 15:11:48', '2026-02-15 15:11:48');
 
 -- --------------------------------------------------------
 
@@ -1617,6 +2246,15 @@ CREATE TABLE `support_referrals` (
   `provider_notes` text DEFAULT NULL,
   `is_anonymous` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `support_referrals`
+--
+
+INSERT INTO `support_referrals` (`id`, `user_id`, `report_id`, `provider_id`, `referral_type`, `priority`, `reason`, `status`, `referred_at`, `appointment_date`, `completed_at`, `user_feedback`, `rating`, `provider_notes`, `is_anonymous`) VALUES
+(1, 4, 15, 4, 'counseling', 'high', 'Trauma support after assault incident.', 'appointment_scheduled', '2026-02-15 21:11:48', '2026-02-20 21:11:48', NULL, NULL, NULL, NULL, 0),
+(2, 9, 9, 4, 'counseling', 'medium', 'Anxiety and stress from stalking.', 'pending', '2026-02-15 21:11:48', NULL, NULL, NULL, NULL, NULL, 0),
+(3, 7, 19, 4, 'counseling', 'high', 'Cyberbullying trauma support.', 'contacted', '2026-02-15 21:11:48', NULL, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1646,6 +2284,17 @@ CREATE TABLE `system_statistics` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `system_statistics`
+--
+
+INSERT INTO `system_statistics` (`id`, `date`, `new_users`, `active_users`, `total_users`, `new_reports`, `resolved_reports`, `total_reports`, `new_alerts`, `active_alerts`, `total_alerts`, `avg_response_time_minutes`, `min_response_time_minutes`, `max_response_time_minutes`, `top_cities`, `top_categories`, `system_uptime_percentage`, `avg_page_load_time`, `created_at`) VALUES
+(1, '2025-12-31', 10, 5, 10, 5, 2, 5, 2, 0, 0, 0.00, 0, 0, NULL, NULL, 99.90, 0.45, '2026-02-15 20:21:50'),
+(2, '2026-01-15', 25, 15, 35, 15, 8, 20, 5, 0, 0, 0.00, 0, 0, NULL, NULL, 99.80, 0.52, '2026-02-15 20:21:50'),
+(3, '2026-01-31', 40, 30, 75, 30, 20, 50, 10, 0, 0, 0.00, 0, 0, NULL, NULL, 100.00, 0.48, '2026-02-15 20:21:50'),
+(4, '2026-02-10', 25, 60, 10, 40, 35, 90, 15, 0, 0, 0.00, 0, 0, NULL, NULL, 99.70, 0.55, '2026-02-15 20:21:50'),
+(5, '2026-02-15', 5, 7, 10, 10, 35, 100, 3, 0, 0, 0.00, 0, 0, 'Dhaka', 'harassment,theft,stalking', 100.00, 0.42, '2026-02-15 20:21:50');
+
 -- --------------------------------------------------------
 
 --
@@ -1665,14 +2314,16 @@ CREATE TABLE `upazilas` (
 --
 
 INSERT INTO `upazilas` (`id`, `district_id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Dhanmondi', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(2, 1, 'Gulshan', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(3, 1, 'Mirpur', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(4, 1, 'Uttara', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(5, 1, 'Banani', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(6, 1, 'Wari', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(7, 1, 'Motijheel', '2025-11-16 13:30:00', '2025-11-16 13:30:00'),
-(8, 1, 'Pallabi', '2025-11-16 13:30:00', '2025-11-16 13:30:00');
+(1, 1, 'Dhanmondi', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(2, 1, 'Mirpur', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(3, 1, 'Uttara', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(4, 1, 'Gulshan', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(5, 1, 'Banani', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(6, 1, 'Mohammadpur', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(7, 1, 'Badda', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(8, 1, 'Farmgate', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(9, 1, 'Khilgaon', '2026-02-15 20:01:29', '2026-02-15 20:01:29'),
+(10, 1, 'Paltan', '2026-02-15 20:01:29', '2026-02-15 20:01:29');
 
 -- --------------------------------------------------------
 
@@ -1718,12 +2369,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `display_name`, `firebase_uid`, `provider`, `email_verified`, `is_admin`, `verification_token`, `password_reset_token`, `reset_token_expires`, `status`, `is_active`, `created_at`, `last_login`, `updated_at`, `nid_number`, `nid_front_photo`, `nid_back_photo`, `face_verified`, `nid_verified`, `verification_status`, `current_latitude`, `current_longitude`, `last_location_update`, `is_online`, `last_seen`) VALUES
-(1, NULL, 'mdabusayumanik123@gmail.com', '+8801871745957', 'I am a Student', '$2y$10$Fg97eJDVI9xJiNdV3Js5POtKt4BMooAPk.s5eTGmzE.Rv0LaEEe4u', 'Sayum', 'b7bUyVB73gQhELitdXCQRLtRf3B3', 'google.com', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-12 18:52:03', '2026-01-17 17:40:08', '2026-01-17 17:40:08', '4222776215', 'uploads/nid/nid_4222776215_front_1762951923_691482f325b0d.jpg', 'uploads/nid/nid_4222776215_back_1762951923_691482f326b51.jpg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
-(2, NULL, 'manik2330217@bscse.uiu.ac.bd', '+8801871745958', '', '$2y$10$tMgm7ALjgLHzXrvHVmga1e/24EmigJr.IJDsZnXl0z.ar/KSB26zK', '', 'ZOYOmrnoxwX0XnhSmNiA87wSn0l1', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2025-11-13 16:47:05', '2025-11-18 20:20:33', '2025-11-18 20:20:33', '4222776225', 'uploads/nid/nid_4222776225_front_1763030825_6915b7290cac7.jpeg', 'uploads/nid/nid_4222776225_back_1763030825_6915b7290e8b2.jpeg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
-(3, NULL, 'admin@test.com', NULL, NULL, NULL, 'admin', NULL, 'local', 1, 0, NULL, NULL, NULL, 'active', 1, '2025-11-23 18:23:13', '2025-11-23 18:23:13', '2025-11-23 18:23:13', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
-(4, NULL, 'admin@safespace.com', NULL, NULL, '$2y$10$lHSheUwrpDNu76L3SxxxhOlW2weHx9fZWo47BT3BV3ibmySaORkkG', 'System Administrator', NULL, 'local', 1, 1, NULL, NULL, NULL, 'active', 1, '2025-11-23 19:31:48', '2026-02-09 19:34:33', '2026-02-09 19:34:33', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
-(5, NULL, 'hulahuhu152@gmail.com', '', '', '$2y$10$Q.ckFVyj/YwrKyO.QnSE6.Fb5trLsOv3i1VpvkLO6y4QHG90MnCmy', 'Hula', 'tPhuu6Y4dSWPEbJaoXSlGN4KrgH3', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-01-24 08:35:36', '2026-02-09 19:15:30', '2026-02-09 19:15:30', '0112330183', 'uploads/nid/nid_0112330183_front_1769222135_69742ff7bfdbc.jpg', 'uploads/nid/nid_0112330183_back_1769222135_69742ff7c2047.jpg', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL),
-(6, NULL, 'mdabu018717@gmail.com', NULL, NULL, '$2y$10$TFzPGLzdJjj8GQJ7QfEt/.MuYJ5Hh6x7YFiZ7k0PCXxQqHUbIpEtC', NULL, 'UdSQDppN44PuYiHDZE07csyPur82', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-01-24 08:42:18', '2026-02-09 19:58:27', '2026-02-09 19:58:27', '4222776218', 'uploads/nid/nid_4222776218_front_1769222537_69743189cb24f.png', 'uploads/nid/nid_4222776218_back_1769222537_69743189cc4b4.png', 0, 0, 'pending', NULL, NULL, NULL, 0, NULL);
+(1, NULL, 'mdabusayumanik05@gmail.com', '01712345601', 'UIU CSE student. Active in community safety.', '$2y$10$b925gY24wYaRph8f4UaNj.pwyy/N1p.LFAAWcUGmi6ZE2oa0qk2wW', 'Abu Sayeed Manik', 'yK6cQ56Pr2NpS6rnm5RygRic8R13', 'local', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:40:38', NULL, '2026-02-15 21:11:47', '4222776215', 'uploads/nid/nid_4222776215_front_1771162838_6991ccd68e1e9.jpg', 'uploads/nid/nid_4222776215_back_1771162838_6991ccd69125e.jpg', 0, 0, 'pending', 23.79770000, 90.44970000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(2, NULL, 'safrin2330183@bscse.uiu.ac.bd', '01812345602', 'Loves helping neighbors stay safe.', '$2y$10$Ci6n75.CyUPiIL9HPQneFeN4ci4MQIuSr.zc41hxh5UkfHDYZWDSe', 'Safrin Akter', 'QkKafaydj0Sbq24GdZfTiAdKkNZ2', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:43:07', NULL, '2026-02-15 21:11:47', '4222776216', 'uploads/nid/nid_4222776216_front_1771162987_6991cd6b9a7b7.jpg', 'uploads/nid/nid_4222776216_back_1771162987_6991cd6b9b9f3.jpg', 0, 0, 'pending', 23.75160000, 90.37750000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(3, NULL, 'mdabusayumanik123@gmail.com', '01912345603', 'Tech enthusiast. Safety first.', '$2y$10$i0WoiYDCqBWIVOlDIjDfL.2RABMwoXCrgM.EWTV3c2/Qzj.Zs1Q/.', 'Raihan Ahmed', 'C7wByr7YcUYn1Gm1bgo2kCkztUr2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:45:16', '2026-02-16 23:15:03', '2026-02-16 23:15:03', '4222776217', 'uploads/nid/nid_4222776217_front_1771163116_6991cdeca604a.jpg', 'uploads/nid/nid_4222776217_back_1771163116_6991cdeca932b.jpg', 0, 0, 'pending', 23.74610000, 90.37420000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(4, NULL, 'bonnyafrin98@gmail.com', '01612345604', 'Women safety advocate.', '$2y$10$.WWUxToODG0bDnN/CHMtFOim4WO8NDZgrKs75JyOpMyQJ5ahD9gLW', 'Bonny Afrin', 'Xg7qZdtIYUeuSPzQFAN6FjYRelk1', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:46:26', NULL, '2026-02-15 21:11:47', '4222776218', 'uploads/nid/nid_4222776218_front_1771163186_6991ce3256a8f.jpg', 'uploads/nid/nid_4222776218_back_1771163186_6991ce3256f7c.jpg', 0, 0, 'pending', 23.80420000, 90.36350000, NULL, 0, '2026-02-15 13:11:47'),
+(5, NULL, 'manik2330217@bscse.uiu.ac.bd', '01512345605', 'Mirpur resident. Community volunteer.', '$2y$10$LPpi4ld55rdPUxlEz1jz5.pdffIxMapmbewFu/0cjUiTH6lP1uLDK', 'Manik Hossain', 'g1hJ8dig66Tzl8QtDTUXuT93EQ22', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:47:44', NULL, '2026-02-15 21:11:47', '4222776219', 'uploads/nid/nid_4222776219_front_1771163264_6991ce80aa7f5.jpg', 'uploads/nid/nid_4222776219_back_1771163264_6991ce80abb0d.jpg', 0, 0, 'pending', 23.80690000, 90.36870000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(6, NULL, 'sadiaafrinbonny183@gmail.com', '01722345606', 'Dhanmondi area. Always ready to help.', '$2y$10$d5oeWb2WBmDsS.duTdY/C.sneYNizyXsPTFHukMpKQ3d1tMyVYwQK', 'Sadia Afrin', 'pos6gG3klzUtFoj76FgMKzgYMmI3', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:49:44', NULL, '2026-02-15 21:11:47', '4222776211', 'uploads/nid/nid_4222776211_front_1771163384_6991cef8bd86e.jpg', 'uploads/nid/nid_4222776211_back_1771163384_6991cef8be41b.jpg', 0, 0, 'pending', 23.75050000, 90.38550000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(7, NULL, 'msakib2330048@bscse.uiu.ac.bd', '01822345607', 'Gulshan 2. Tech & safety.', '$2y$10$dOaYNKgCCkV64HaHiYncmuzYVU.v.lG36yadDRWYkRlCdzur02Yl.', 'Muhammad Sakib', '1IIaF8414UMHrpynBdiib6SB7Se2', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:51:04', NULL, '2026-02-15 21:11:47', '4222776212', 'uploads/nid/nid_4222776212_front_1771163464_6991cf482ab88.jpg', 'uploads/nid/nid_4222776212_back_1771163464_6991cf482b514.jpg', 0, 0, 'pending', 23.79250000, 90.41620000, NULL, 0, '2026-02-15 14:41:47'),
+(8, NULL, 'sidratul@cse.uiu.ac.bd', '01922345608', 'UIU CSE. Safety awareness promoter.', '$2y$10$PXV/51F5x.HS1Da1RJjsj.x9gi/n2.QMO1Pt2OUCSLe55nuXckrjq', 'Sidratul Muntaha', 'qPuRv1FCLHg2pSBgy1E3AdK75d43', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:52:51', NULL, '2026-02-15 21:11:47', '4222776213', 'uploads/nid/nid_4222776213_front_1771163571_6991cfb3b8977.jpg', 'uploads/nid/nid_4222776213_back_1771163571_6991cfb3b908c.jpg', 0, 0, 'pending', 23.86310000, 90.39670000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(9, NULL, 'sanjida@cse.uiu.ac.bd', '01622345609', 'Mohammadpur. Neighborhood watch member.', '$2y$10$wQSaGmZIANGNWSK2BJKhb.otZDBovi0I00s6g/bTEzq7FN/Lr7CVe', 'Sanjida Akter', 'Y938RyqfW5XkdEQTGpnrAy6fQA73', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:54:43', NULL, '2026-02-15 21:11:47', '4222776214', 'uploads/nid/nid_4222776214_front_1771163683_6991d02327576.jpg', 'uploads/nid/nid_4222776214_back_1771163683_6991d02329442.jpg', 0, 0, 'pending', 23.75950000, 90.39000000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(10, NULL, 'aurna@cse.uiu.ac.bd', '01732345610', 'Uttara resident. Active responder.', '$2y$10$A8bTWpksR0Ht6.MikS/QbuvKoa4VXmMZ/vlF9EGDbRtjC/oPit2PK', 'Aurna Akter', 'OTwVAzKaKTOtKMWxiYMT5S4A2eH2', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:55:58', NULL, '2026-02-15 21:11:47', '4222776210', 'uploads/nid/nid_4222776210_front_1771163757_6991d06deba32.jpg', 'uploads/nid/nid_4222776210_back_1771163757_6991d06decd47.jpg', 0, 0, 'pending', 23.86310000, 90.39670000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(11, NULL, 'admin@safespace.com', NULL, NULL, '$2y$12$OcPJHlfnneurP4R.5wj8meSgCXBX2NQwekaKlAskiefqmu445nFsm', 'Admin', NULL, 'local', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-16 22:47:30', '2026-02-16 23:17:39', '2026-02-16 23:17:39', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL);
 
 --
 -- Triggers `users`
@@ -1784,12 +2440,16 @@ CREATE TABLE `user_alert_settings` (
 --
 
 INSERT INTO `user_alert_settings` (`id`, `user_id`, `allow_community_alerts`, `alert_radius`, `notify_push`, `notify_sound`, `notify_email`, `notify_sms`, `quiet_hours_start`, `quiet_hours_end`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
-(2, 2, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
-(3, 3, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
-(4, 4, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
-(5, 5, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41'),
-(6, 6, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-01-24 03:36:41', '2026-01-24 03:36:41');
+(1, 1, 1, 5000, 1, 1, 1, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(2, 2, 1, 3000, 1, 1, 0, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(3, 3, 1, 5000, 1, 1, 1, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(4, 4, 1, 4000, 1, 1, 0, 1, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(5, 5, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(6, 6, 1, 6000, 1, 1, 1, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(7, 7, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(8, 8, 1, 4000, 1, 1, 1, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(9, 9, 1, 5000, 1, 1, 0, 0, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47'),
+(10, 10, 1, 7000, 1, 1, 1, 1, NULL, NULL, '2026-02-15 15:11:47', '2026-02-15 15:11:47');
 
 -- --------------------------------------------------------
 
@@ -1814,8 +2474,16 @@ CREATE TABLE `user_area_ratings` (
 --
 
 INSERT INTO `user_area_ratings` (`id`, `user_id`, `area_id`, `safety_rating`, `comments`, `factors`, `is_verified_resident`, `created_at`, `updated_at`) VALUES
-(1, 2, 6, 5, 'hello world', '{\"lighting\":\"excellent\",\"police_presence\":\"excellent\",\"traffic\":\"excellent\",\"public_transport\":\"excellent\",\"street_condition\":\"excellent\"}', 1, '2025-11-16 14:44:43', '2025-11-16 14:45:10'),
-(2, 2, 3, 5, '', '{\"lighting\":\"excellent\",\"police_presence\":\"excellent\",\"traffic\":\"excellent\",\"public_transport\":\"excellent\",\"street_condition\":\"excellent\"}', 1, '2025-11-16 14:55:38', '2025-11-16 14:55:38');
+(1, 1, 5, 5, 'Badda is generally safe, good lighting near UIU.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(2, 2, 1, 5, 'Dhanmondi 32 area is well monitored.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(3, 3, 1, 4, 'Busy area but police presence helps.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(4, 4, 2, 4, 'Mirpur 10 has improved recently.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(5, 5, 2, 5, 'Community watch is active here.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(6, 6, 1, 5, 'Love the metro station area.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(7, 7, 4, 5, 'Gulshan 2 very safe.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(8, 8, 3, 5, 'Uttara sector 3 is great.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(9, 9, 5, 4, 'Mohammadpur getting better.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
+(10, 10, 3, 5, 'Uttara is my safe zone.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -1847,7 +2515,16 @@ CREATE TABLE `user_preferences` (
 --
 
 INSERT INTO `user_preferences` (`id`, `user_id`, `email_notifications`, `sms_notifications`, `push_notifications`, `alert_radius_km`, `alert_types`, `profile_visibility`, `location_sharing`, `anonymous_reporting`, `preferred_language`, `timezone`, `emergency_contacts`, `theme_preference`, `accessibility_features`, `updated_at`) VALUES
-(1, 1, 1, 0, 1, 1.00, NULL, 'private', 0, 1, 'en', 'Asia/Dhaka', NULL, 'auto', NULL, '2025-11-13 14:35:53');
+(1, 1, 1, 0, 1, 5.00, NULL, 'public', 1, 1, 'en', 'Asia/Dhaka', NULL, 'dark', NULL, '2026-02-15 21:11:47'),
+(2, 2, 1, 0, 1, 3.00, NULL, 'friends_only', 1, 1, 'bn', 'Asia/Dhaka', NULL, 'auto', NULL, '2026-02-15 21:11:47'),
+(3, 3, 1, 0, 1, 5.00, NULL, 'public', 1, 0, 'en', 'Asia/Dhaka', NULL, 'dark', NULL, '2026-02-15 21:11:47'),
+(4, 4, 1, 1, 1, 4.00, NULL, 'private', 1, 1, 'bn', 'Asia/Dhaka', NULL, 'light', NULL, '2026-02-15 21:11:48'),
+(5, 5, 1, 0, 1, 5.00, NULL, 'friends_only', 1, 1, 'bn', 'Asia/Dhaka', NULL, 'auto', NULL, '2026-02-15 21:11:47'),
+(6, 6, 1, 0, 1, 6.00, NULL, 'public', 1, 1, 'en', 'Asia/Dhaka', NULL, 'dark', NULL, '2026-02-15 21:11:47'),
+(7, 7, 1, 0, 1, 5.00, NULL, 'private', 1, 1, 'en', 'Asia/Dhaka', NULL, 'auto', NULL, '2026-02-15 21:11:48'),
+(8, 8, 1, 0, 1, 4.00, NULL, 'friends_only', 1, 1, 'bn', 'Asia/Dhaka', NULL, 'light', NULL, '2026-02-15 21:11:47'),
+(9, 9, 1, 0, 1, 5.00, NULL, 'private', 1, 1, 'bn', 'Asia/Dhaka', NULL, 'auto', NULL, '2026-02-15 21:11:47'),
+(10, 10, 1, 1, 1, 7.00, NULL, 'public', 1, 1, 'en', 'Asia/Dhaka', NULL, 'dark', NULL, '2026-02-15 21:11:47');
 
 -- --------------------------------------------------------
 
@@ -1872,57 +2549,15 @@ CREATE TABLE `user_sessions` (
 --
 
 INSERT INTO `user_sessions` (`id`, `user_id`, `session_token`, `ip_address`, `user_agent`, `device_type`, `login_time`, `last_activity`, `is_active`) VALUES
-(1, 1, 'ac1102709c0988f399f6d32d04e17b66504a3ca73766ab85f334a883954e5e4b', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-12 18:52:10', '2025-11-12 18:52:10', 1),
-(2, 1, '9fc00468ec3b88a53707686f2808aa859718d591ff9371eb76a88382ec3e638c', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-12 20:59:22', '2025-11-12 20:59:22', 1),
-(3, 1, '172e59f7ea61d877f1f3a9607b54378bcfca1aa41446ee5ee9d72e541fea58bc', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-13 13:13:32', '2025-11-13 13:13:32', 1),
-(4, 1, 'f352730bcd02611abfe99f410969308d26e35abf45d250a52b4ad527b20f8952', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-13 15:38:02', '2025-11-13 15:38:02', 1),
-(5, 2, '506e84f1dbe294dfca408c18c7c4c2227572079723f42f0bf08e21bb7edb569f', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-13 16:47:12', '2025-11-13 16:47:12', 1),
-(6, 2, 'c49a4abe3efd910005ccd5dbad56496cb5f4447e7b8881e00edc044ecfdc7cc6', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-16 12:43:23', '2025-11-16 12:43:23', 1),
-(7, 2, '9efbccf5c3a1936591001481ab085d5a1aabe5c182d6125641d9cd3bbd557ff3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 10:46:31', '2025-11-18 10:46:31', 1),
-(8, 2, '139fdb708c3697108c07f05c7a19776bc8f80031078580be6d0079787f1a1d8e', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 10:46:31', '2025-11-18 10:46:31', 1),
-(9, 2, 'dff131a00cbaffca0ca3096adef05413e5e14ad9a7b25411271a7924907fa170', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 11:06:53', '2025-11-18 11:06:53', 1),
-(10, 2, '4e3a68f47cbfffc4e3e857b3e55e162f0d713b9d61860a5ef98a9c6085055c8a', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 13:40:36', '2025-11-18 13:40:36', 1),
-(11, 2, 'f45c062ff0522e272902b1495fdbbb361ec9e81353b3ad4f242cc7fb7f3000be', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 19:57:38', '2025-11-18 19:57:38', 1),
-(12, 1, '1cb747a6275b89e2c6a4cd7951b2e7029d0e7fc1d275d7bb59cda72ca062a3d4', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'desktop', '2025-11-18 20:01:40', '2025-11-18 20:01:40', 1),
-(13, 2, 'b947f798c2b94e530b9cabb341c8f23b6adfb37fe91c0f852544d19f1843a589', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-18 20:20:33', '2025-11-18 20:20:33', 1),
-(14, 1, '7451243b3bb9ba23b5f66ab6f0e21c6b8e335dd12317a0ffc9626b1fa4688155', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:32:59', '2025-11-19 11:32:59', 1),
-(15, 1, '28de3be961f8c6f7deb8ead0228c5f3bfde771407a21045c6ca476b56a7b827b', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:50:20', '2025-11-19 11:50:20', 1),
-(16, 1, '0ff5cbf44a5124aab87565f8e90e55371c1d4570dd05084e346dedb581c364f0', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:53:09', '2025-11-19 11:53:09', 1),
-(17, 1, 'f0f32dedd64a12a3cf34cf9f7e8b28cedda10b39ee9c8e59dfabae914d7eab3d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:55:05', '2025-11-19 11:55:05', 1),
-(18, 1, '37b3b26a6a65e3ef98f949ddeefe7e13f6f51e47d4b81c05e9150ac65fe74ba5', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:55:54', '2025-11-19 11:55:54', 1),
-(19, 1, 'e49c6f6c005cd5e3477c88749ca1798ca1319078ab33cd2ff0e6e482f199faaa', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 11:56:17', '2025-11-19 11:56:17', 1),
-(20, 1, 'af8dd79fa83070d397aa89f18c039ddde8ab7a7cb3561d977b61b0df854737db', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 18:52:55', '2025-11-19 18:52:55', 1),
-(21, 1, '7bd5e817558f78259061d68a0254e941fceaf6cc6bd7ae7239e771daf9cbae18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 19:00:05', '2025-11-19 19:00:05', 1),
-(22, 1, '909108288625719916a53b59886046484dd0a7584b43ef0bca685582731537b7', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-19 19:05:43', '2025-11-19 19:05:43', 1),
-(23, 1, '7b07f5c43f9c83fd2c10919facdd74f42f6117e35bb32c9da6d33c6fcfbb9739', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-20 12:19:12', '2025-11-20 12:19:12', 1),
-(24, 1, 'a2d0ca276d29802831e9d476b97658c7e825a1fbed05f0a6bebf4ed8e831c53b', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-22 13:23:28', '2025-11-22 13:23:28', 1),
-(25, 1, 'a9b909c590b47ba0d379761df1a93d0b17c3d2ef0815dbd5433fe9c10390638c', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-22 19:21:21', '2025-11-22 19:21:21', 1),
-(26, 1, '94f8143ae7e528ada0ee5192440c73bee4bea4315db1d095b3c70178452497bf', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-22 21:46:15', '2025-11-22 21:46:15', 1),
-(27, 1, '4d54a780d1ffb0c742686c005759ed4448b01f92973fc71b106b421edb095161', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-23 10:47:26', '2025-11-23 10:47:26', 1),
-(28, 1, '1428401a09f08bf5a0b25d941bb7bc48296402713e8ca5355ef72c54c7b4983c', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-23 18:16:46', '2025-11-23 18:16:46', 1),
-(29, 1, '50814b4b70d67eb257a03c737e3b78e8f5e97df2a05b2bec449a143cd4816cb6', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-23 18:19:56', '2025-11-23 18:19:56', 1),
-(30, 1, '8d1a146665b1d5c8df97f5af2e81ddf55c9095d205c0fa828328f71a694c197e', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-23 22:55:18', '2025-11-23 22:55:18', 1),
-(31, 1, '6728252017f27d603311dbd217cb3545da53e2d0badd778027dd94dfde46b2d8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-24 04:47:17', '2025-11-24 04:47:17', 1),
-(32, 1, '34b25226d5b2034e110836424c01b8c3a5a14a488a5ef8c07771ee73d867e5f8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-24 07:58:14', '2025-11-24 07:58:14', 1),
-(33, 1, '8e21bede711c5d7b03e6970bbf40ff16457396dcc2684edac760f427cd96ff60', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'desktop', '2025-11-26 21:58:24', '2025-11-26 21:58:24', 1),
-(34, 1, 'ad8eeeeaa3f6e07cdfa9c756408cae6a6f283d5053cc794461f8fdc1fcb2ea1d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-06 09:23:03', '2025-12-06 09:23:03', 1),
-(35, 1, 'ca94a2f5b9bd7a9af660527c7cb26a83630293262d8a8e8dc7fe265e35896e21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 06:34:25', '2025-12-08 06:34:25', 1),
-(36, 1, '993edf1270d5e64a498706f34d8f961b4671f7881781e134444c4601800c751f', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-08 12:47:23', '2025-12-08 12:47:23', 1),
-(37, 1, '07a928fe4d97c4c9ab3d9f3d5077fdecb28d706dd91934932fb6e3be42797272', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-15 05:24:41', '2025-12-15 05:24:41', 1),
-(38, 1, '71d716085fc33e88cdd4772641ec65a862093281621fb746fd8918ef69460b83', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'desktop', '2025-12-30 08:14:15', '2025-12-30 08:14:15', 1),
-(39, 1, '3208f3dd0850e2d703772f7bf462c757d667885d7ae7ae5daf9036d31d6d7b18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-17 17:40:08', '2026-01-17 17:40:08', 1),
-(40, 5, 'f0c9302ed639cb3e87745d75fa31186baa87b246da876fce31499863717348c8', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 08:35:45', '2026-01-24 08:35:45', 1),
-(41, 6, '14ca9569afab4b8521da9e886c455c0a0a0c7772c8570bbb7fc164e8d8855d28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 08:42:26', '2026-01-24 08:42:26', 1),
-(42, 5, '6a799dd6e7a55d727159ceccab7b39da86b45abe0b874dcf9881f8e1b00161e7', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 09:12:55', '2026-01-24 09:12:55', 1),
-(43, 6, '03cc9b4f15bd6185bbd183d8073425160fdb0c607d53f5c0c674bfb0462fb081', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 09:13:12', '2026-01-24 09:13:12', 1),
-(44, 5, 'd1bf58fb1796ce67653b7127d8127c89f19e274ddb41e8f4f91d62ea3531c31b', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 09:58:34', '2026-01-24 09:58:34', 1),
-(45, 6, 'ea18e0c8c2159426cc77c5f13cfdf3d45a47f355e9bf8dfd451f33b7c946e9b0', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-01-24 09:58:58', '2026-01-24 09:58:58', 1),
-(46, 5, '33fa551e4dda3e606c528cad544de8d07d52ef044f67569b76b74bb02a44c8ea', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 11:58:05', '2026-01-24 11:58:05', 1),
-(47, 5, 'f2b03dd8b07d0234bc407b8194c340d96b77108d91b9d986c9bb9b71b4ca03ae', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-24 13:45:11', '2026-01-24 13:45:11', 1),
-(48, 5, 'd566dc5d489c9d4ba8e726ffc2378b02bd938c02eb516bfc1ba1e0810628d184', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-26 03:58:48', '2026-01-26 03:58:48', 1),
-(49, 5, 'b4efe9e68c26aae283041aead5e099784ea55c7e6ce6b901d45960afdfbf220d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-01-26 12:27:58', '2026-01-26 12:27:58', 1),
-(50, 5, 'b4499149c1d3e971f87ea9934e4d2374faa167940ce3acdc7ef6655e89920bf4', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'desktop', '2026-02-09 19:15:30', '2026-02-09 19:15:30', 1),
-(51, 6, 'ae54fd12663f790533f831701f2efbd35d467bfea5a253c2c87c00a7efaebc0a', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-02-09 19:58:27', '2026-02-09 19:58:27', 1);
+(1, 3, 'a75397274864007bc6c67ff4a4eaf95573d50b656a1ac974598abd2a52179c48', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-15 20:26:29', '2026-02-15 20:26:29', 1),
+(2, 1, 'b8f2a1c3d4e5f6789012345678901234abcdef', '::1', NULL, 'desktop', '2026-02-15 21:11:48', '2026-02-15 21:11:48', 1),
+(3, 2, 'c9f3b2d4e5f6a7890123456789012345bcdefg', '::1', NULL, 'mobile', '2026-02-15 20:11:48', '2026-02-15 21:11:48', 1),
+(4, 6, 'd0f4c3e5f6a7b8901234567890123456cdefgh', '::1', NULL, 'mobile', '2026-02-15 21:11:48', '2026-02-15 21:11:48', 1),
+(5, 8, 'e1f5d4f6a7b8c9012345678901234567defghi', '::1', NULL, 'desktop', '2026-02-15 21:11:48', '2026-02-15 21:11:48', 1),
+(6, 10, 'f2f6e5a7b8c9d0123456789012345678efghij', '::1', NULL, 'mobile', '2026-02-15 20:41:48', '2026-02-15 21:11:48', 1),
+(7, 3, 'd9b6b9138f5cbf6a2bcd8b2dbc23a15be10a62e57730799284e74532445e6f3d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 22:35:50', '2026-02-16 22:35:50', 1),
+(8, 3, '7c76aadee7c875a0dfc2f3058190f7ab2a1d1200472b21513bda4608b63caaf9', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 23:08:49', '2026-02-16 23:08:49', 1),
+(9, 3, 'db645ff064232adf010022c8eae6eb42da4657bbfc426614e92d343463086c72', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 23:15:03', '2026-02-16 23:15:03', 1);
 
 -- --------------------------------------------------------
 
@@ -1968,19 +2603,11 @@ CREATE TABLE `walk_sessions` (
 --
 
 INSERT INTO `walk_sessions` (`id`, `user_id`, `session_token`, `start_time`, `end_time`, `status`, `destination`, `estimated_duration_minutes`) VALUES
-(2, 1, 'e73051fe72f264daf9f4245a2b2b0a937e21115ed1a53fa1ede22ac8dc9ad61b', '2025-11-23 23:06:16', '2025-11-23 23:07:40', 'completed', '', 0),
-(3, 6, '58bca15d5ef35c5b95de6688680809b14efaea0ad3ec935086d31b886cadeed6', '2026-01-24 09:16:15', NULL, 'emergency', '', 0),
-(4, 6, '6f6bdb204ab747efd886926ce48a995c1981af3afdcb87326f7758b1a048b84b', '2026-01-24 09:59:24', NULL, 'emergency', '', 0),
-(5, 6, '7862a4cfb79b3ff2508fcc6a19cc4626ddf15d8e646e56619c4ad5f9f7cb4472', '2026-01-24 10:02:40', NULL, 'emergency', '', 0),
-(6, 6, '8da46f81e51b4a131eceb3725f07c578d4d5582b9fc111fb24bad139c4df3d1a', '2026-01-24 10:17:36', NULL, 'emergency', '', 0),
-(7, 5, '811ff24d743e03d6ed2e50de0b6663e13fe6440d78c8e25e5bf3649c56d74965', '2026-01-24 10:22:43', NULL, 'emergency', '', 0),
-(8, 4, '21e6b60b84c43ad0737dc9c5dcc7c4813e7a2d45891eb73f33c755f728a969d7', '2026-01-24 12:55:07', NULL, 'emergency', '', 0),
-(9, 4, '1b0b732fda336709d2fecdadaff5bff0318bb0bc14ccf18918b66ccb87c6b656', '2026-01-24 14:41:23', NULL, 'emergency', '', 0),
-(10, 4, '3a92490418120d1654e23696e29c78a9793127d0095a0fcbc755463651b92066', '2026-01-24 14:52:46', NULL, 'emergency', '', 0),
-(11, 6, '0ee137c065df04c36495fa1cf26569667c72c92b647f5a3021b1747926d79fd4', '2026-02-09 19:58:50', NULL, 'emergency', '', 0),
-(12, 4, '79a8c36da85e4b2b2ab4c43cd3405f77d0155bb17ff70acf195cccc52c154bbb', '2026-02-09 20:01:20', NULL, 'emergency', '', 0),
-(13, 4, 'd8fa38a4d19e34392f728ce0a2abc8fc39e9a9cf0d473d40aabce2a82d4300a9', '2026-02-09 20:12:59', NULL, 'emergency', '', 0),
-(14, 6, '193544674996d5844aeb3fdd8a7c836edf4ad4511e123da72e1d91731b538db4', '2026-02-09 20:27:10', NULL, 'active', '', 0);
+(1, 6, 'walk_a1b2c3d4e5f6', '2026-02-13 21:11:48', '2026-02-13 21:26:48', 'completed', 'Dhanmondi Metro to Home', 15),
+(2, 2, 'walk_b2c3d4e5f6a7', '2026-02-14 21:11:48', '2026-02-14 21:31:48', 'completed', 'Farmgate to Dhanmondi 32', 20),
+(3, 10, 'walk_c3d4e5f6a7b8', '2026-02-12 21:11:48', '2026-02-12 21:23:48', 'completed', 'Uttara Metro to Sector 3', 12),
+(4, 4, 'walk_d4e5f6a7b8c9', '2026-02-10 21:11:48', '2026-02-10 21:19:48', 'completed', 'Mirpur 10 to Community Center', 8),
+(5, 1, 'walk_e5f6a7b8c9d0', '2026-02-15 21:11:48', NULL, 'active', 'UIU to Badda', 25);
 
 -- --------------------------------------------------------
 
@@ -2427,37 +3054,37 @@ ALTER TABLE `walk_sessions`
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 
 --
 -- AUTO_INCREMENT for table `alert_responses`
 --
 ALTER TABLE `alert_responses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `area_safety_scores`
 --
 ALTER TABLE `area_safety_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `certificates`
 --
 ALTER TABLE `certificates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `course_enrollments`
 --
 ALTER TABLE `course_enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `disputes`
@@ -2475,25 +3102,25 @@ ALTER TABLE `districts`
 -- AUTO_INCREMENT for table `divisions`
 --
 ALTER TABLE `divisions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `emergency_contacts`
 --
 ALTER TABLE `emergency_contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `emergency_services`
 --
 ALTER TABLE `emergency_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `group_alerts`
 --
 ALTER TABLE `group_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `group_alert_acknowledgments`
@@ -2505,163 +3132,163 @@ ALTER TABLE `group_alert_acknowledgments`
 -- AUTO_INCREMENT for table `group_media`
 --
 ALTER TABLE `group_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `helpline_numbers`
 --
 ALTER TABLE `helpline_numbers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `incident_reports`
 --
 ALTER TABLE `incident_reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `incident_zones`
 --
 ALTER TABLE `incident_zones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT for table `leaf_nodes`
 --
 ALTER TABLE `leaf_nodes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `legal_aid_providers`
 --
 ALTER TABLE `legal_aid_providers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `legal_consultations`
 --
 ALTER TABLE `legal_consultations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `legal_documents`
 --
 ALTER TABLE `legal_documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `medical_support_providers`
 --
 ALTER TABLE `medical_support_providers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `neighborhood_groups`
 --
 ALTER TABLE `neighborhood_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT for table `panic_alerts`
 --
 ALTER TABLE `panic_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `panic_notifications`
 --
 ALTER TABLE `panic_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `safety_courses`
 --
 ALTER TABLE `safety_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `safety_resources`
 --
 ALTER TABLE `safety_resources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `safe_spaces`
 --
 ALTER TABLE `safe_spaces`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
 
 --
 -- AUTO_INCREMENT for table `safe_zones`
 --
 ALTER TABLE `safe_zones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `support_referrals`
 --
 ALTER TABLE `support_referrals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `system_statistics`
 --
 ALTER TABLE `system_statistics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `upazilas`
 --
 ALTER TABLE `upazilas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_alert_settings`
 --
 ALTER TABLE `user_alert_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_area_ratings`
 --
 ALTER TABLE `user_area_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_preferences`
 --
 ALTER TABLE `user_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `walk_sessions`
 --
 ALTER TABLE `walk_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

@@ -526,20 +526,35 @@ class SafeSpaceModels {
     }
 
     public function getActiveAlerts($latitude = null, $longitude = null, $radius = 10) {
+        // Base query for system alerts (select specific columns to match UNION)
+        $systemAlertsQuery = "SELECT id, title, description, type, severity, location_name, latitude, longitude, radius_km, start_time, 'system' as source FROM alerts WHERE is_active = 1";
+
+        // Query for panic alerts (Walk With Me / SOS)
+        // Mapping panic_alerts columns to match alerts schema
+        // stored radius_km as 5.0 for panic alerts
+        $panicAlertsQuery = "SELECT id, 'SOS ALERT - HELP NEEDED' as title, message as description, 'emergency' as type, 'critical' as severity, location_name, latitude, longitude, 5.0 as radius_km, triggered_at as start_time, 'panic' as source FROM panic_alerts WHERE status = 'active'";
+
         if ($latitude && $longitude) {
             // Get alerts within radius (simplified distance calculation)
-            $sql = "SELECT * FROM alerts WHERE is_active = 1
-                    AND (latitude BETWEEN ? - ? AND ? + ?)
-                    AND (longitude BETWEEN ? - ? AND ? + ?)
-                    ORDER BY start_time DESC";
             $latRange = $radius / 111; // Approximate km to degrees
             $lonRange = $radius / (111 * cos(deg2rad($latitude)));
-            return $this->db->fetchAll($sql, [
+
+            $systemAlertsQuery .= " AND (latitude BETWEEN ? - ? AND ? + ?) AND (longitude BETWEEN ? - ? AND ? + ?)";
+            $panicAlertsQuery .= " AND (latitude BETWEEN ? - ? AND ? + ?) AND (longitude BETWEEN ? - ? AND ? + ?)";
+
+            $sql = "($systemAlertsQuery) UNION ALL ($panicAlertsQuery) ORDER BY start_time DESC";
+
+            // Parameters for both queries (doubled)
+            $params = [
+                $latitude, $latRange, $latitude, $latRange,
+                $longitude, $lonRange, $longitude, $lonRange,
                 $latitude, $latRange, $latitude, $latRange,
                 $longitude, $lonRange, $longitude, $lonRange
-            ]);
+            ];
+
+            return $this->db->fetchAll($sql, $params);
         } else {
-            $sql = "SELECT * FROM alerts WHERE is_active = 1 ORDER BY start_time DESC";
+            $sql = "($systemAlertsQuery) UNION ALL ($panicAlertsQuery) ORDER BY start_time DESC";
             return $this->db->fetchAll($sql);
         }
     }
