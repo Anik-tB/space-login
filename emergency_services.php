@@ -92,8 +92,8 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-30px, 40px) scale(0.9); }
+            33% { transform: translate(5px, -5px) scale(1.01); }
+            66% { transform: translate(-3px, 4px) scale(0.99); }
         }
 
         /* Header */
@@ -196,7 +196,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         .back-btn:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateX(-5px);
+            transform: translateX(-0.5px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
@@ -250,7 +250,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         .map-btn:hover {
             background: rgba(102, 126, 234, 0.2);
             border-color: rgba(102, 126, 234, 0.4);
-            transform: scale(1.05);
+            transform: scale(1.01);
             box-shadow: 0 12px 32px rgba(102, 126, 234, 0.3);
         }
 
@@ -384,7 +384,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         .filter-tab:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
@@ -463,7 +463,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         }
 
         .helpline-card:hover {
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-0.5px) scale(1.005);
             box-shadow: 0 12px 32px rgba(220, 53, 69, 0.5);
         }
 
@@ -566,7 +566,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         .service-card:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(102, 126, 234, 0.3);
-            transform: translateX(8px);
+            transform: translateX(1px);
             box-shadow:
                 -8px 0 32px rgba(102, 126, 234, 0.2),
                 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -768,7 +768,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
         }
 
         .action-btn.call:hover {
-            transform: translateY(-3px);
+            transform: translateY(-0.5px);
             box-shadow: 0 8px 24px rgba(56, 239, 125, 0.4);
         }
 
@@ -780,7 +780,7 @@ $userId = $isLoggedIn ? $_SESSION['user_id'] : null;
 
         .action-btn.directions:hover {
             background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-3px);
+            transform: translateY(-0.5px);
         }
 
         /* Loading & Empty States */

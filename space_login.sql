@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2026 at 06:22 PM
+-- Generation Time: Feb 19, 2026 at 01:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -25,6 +25,69 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calculate_user_safety_score` (IN `p_user_id` INT)   BEGIN
+  WITH report_stats AS (
+    SELECT
+      COUNT(*)                                        AS total_reports,
+      SUM(CASE WHEN status='resolved' THEN 1 ELSE 0 END) AS resolved_count,
+      COUNT(DISTINCT category)                        AS category_diversity
+    FROM incident_reports WHERE user_id = p_user_id
+  ),
+  course_stats AS (
+    SELECT
+      COUNT(*)                                        AS courses_completed,
+      COALESCE(AVG(rating), 0)                       AS avg_rating
+    FROM course_enrollments
+    WHERE user_id = p_user_id AND status = 'completed'
+  ),
+  response_stats AS (
+    SELECT COUNT(*)                                   AS responses_given
+    FROM alert_responses WHERE responder_id = p_user_id
+  )
+  SELECT
+    p_user_id                                         AS user_id,
+    r.total_reports,
+    r.resolved_count,
+    r.category_diversity,
+    c.courses_completed,
+    c.avg_rating,
+    rs.responses_given,
+    LEAST(10.0, ROUND(
+      (r.total_reports      * 0.10) +
+      (r.resolved_count     * 0.20) +
+      (r.category_diversity * 0.15) +
+      (c.courses_completed  * 0.25) +
+      (rs.responses_given   * 0.30)
+    , 2))                                             AS engagement_score,
+    get_incident_danger_level(
+      LEAST(10.0, ROUND(
+        (r.total_reports * 0.10) + (r.resolved_count * 0.20) +
+        (r.category_diversity * 0.15) + (c.courses_completed * 0.25) +
+        (rs.responses_given * 0.30)
+      , 2))
+    )                                                 AS score_level
+  FROM report_stats r, course_stats c, response_stats rs;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cleanup_old_data` ()   BEGIN
+  DELETE FROM `notifications`
+  WHERE `is_read` = 1 AND `created_at` < DATE_SUB(NOW(), INTERVAL 90 DAY);
+
+  UPDATE `user_sessions`
+  SET `is_active` = 0
+  WHERE `last_activity` < DATE_SUB(NOW(), INTERVAL 30 DAY) AND `is_active` = 1;
+
+  UPDATE `alerts`
+  SET `is_active` = 0
+  WHERE `end_time` IS NOT NULL AND `end_time` < NOW() AND `is_active` = 1;
+
+  UPDATE `panic_alerts`
+  SET `status` = 'resolved', `resolved_at` = NOW()
+  WHERE `status` = 'active'
+    AND `triggered_at` < DATE_SUB(NOW(), INTERVAL 24 HOUR)
+    AND `responders_count` = 0;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `find_nearby_users` (IN `alert_lat` DECIMAL(10,8), IN `alert_lng` DECIMAL(11,8), IN `radius_meters` INT, IN `exclude_user_id` INT)   BEGIN
     SELECT
         u.id,
@@ -52,6 +115,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `find_nearby_users` (IN `alert_lat` 
       ) <= radius_meters
     ORDER BY distance_meters ASC
     LIMIT 100;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_incident_heatmap_data` (IN `p_lat_min` DECIMAL(10,8), IN `p_lat_max` DECIMAL(10,8), IN `p_lng_min` DECIMAL(11,8), IN `p_lng_max` DECIMAL(11,8), IN `p_days_back` INT)   BEGIN
+  SELECT
+    ROUND(latitude, 2)   AS grid_lat,
+    ROUND(longitude, 2)  AS grid_lng,
+    COUNT(*)             AS incident_count,
+    SUM(CASE WHEN severity='critical' THEN 4 WHEN severity='high' THEN 3
+             WHEN severity='medium'   THEN 2 ELSE 1 END) AS weighted_score,
+    GROUP_CONCAT(DISTINCT category ORDER BY category SEPARATOR ', ') AS categories,
+    MAX(reported_date)   AS latest_incident,
+    get_incident_danger_level(GREATEST(0, 10 - LEAST(10, COUNT(*) * 0.8))) AS zone_danger_level
+  FROM `incident_reports`
+  WHERE status != 'disputed'
+    AND latitude  BETWEEN p_lat_min AND p_lat_max
+    AND longitude BETWEEN p_lng_min AND p_lng_max
+    AND reported_date >= DATE_SUB(NOW(), INTERVAL p_days_back DAY)
+    AND latitude IS NOT NULL AND longitude IS NOT NULL
+  GROUP BY grid_lat, grid_lng
+  HAVING incident_count > 0
+  ORDER BY weighted_score DESC
+  LIMIT 500;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `update_incident_zone` (IN `p_zone_name` VARCHAR(255), IN `p_area_name` VARCHAR(255), IN `p_latitude` DECIMAL(10,8), IN `p_longitude` DECIMAL(11,8), IN `p_incident_date` DATETIME)   BEGIN
@@ -97,6 +182,24 @@ END$$
 --
 -- Functions
 --
+CREATE DEFINER=`root`@`localhost` FUNCTION `format_distance_km` (`p_distance_meters` DECIMAL(10,2)) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci DETERMINISTIC READS SQL DATA BEGIN
+  IF p_distance_meters < 1000 THEN
+    RETURN CONCAT(ROUND(p_distance_meters), ' m');
+  ELSEIF p_distance_meters < 10000 THEN
+    RETURN CONCAT(ROUND(p_distance_meters / 1000, 1), ' km');
+  ELSE
+    RETURN CONCAT(ROUND(p_distance_meters / 1000), ' km');
+  END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `get_incident_danger_level` (`p_safety_score` DECIMAL(5,2)) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci DETERMINISTIC READS SQL DATA BEGIN
+  IF p_safety_score >= 8.0 THEN RETURN 'safe';
+  ELSEIF p_safety_score >= 6.0 THEN RETURN 'moderate';
+  ELSEIF p_safety_score >= 4.0 THEN RETURN 'danger';
+  ELSE RETURN 'critical';
+  END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` FUNCTION `haversine_distance` (`lat1` DECIMAL(10,8), `lon1` DECIMAL(11,8), `lat2` DECIMAL(10,8), `lon2` DECIMAL(11,8)) RETURNS DECIMAL(10,2) DETERMINISTIC READS SQL DATA BEGIN
     DECLARE R DECIMAL(10, 2) DEFAULT 6371; -- Earth radius in km
     DECLARE dlat DECIMAL(10, 8);
@@ -171,7 +274,7 @@ CREATE TABLE `alerts` (
   `related_report_id` int(11) DEFAULT NULL,
   `views_count` int(11) DEFAULT 0,
   `acknowledgments_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 --
 -- Dumping data for table `alerts`
@@ -473,7 +576,7 @@ CREATE TABLE `area_safety_scores` (
   `response_time_avg_hours` decimal(8,2) DEFAULT 0.00,
   `last_updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 --
 -- Dumping data for table `area_safety_scores`
@@ -652,7 +755,31 @@ INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `table_name`, `record_id`, 
 (138, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:08:49'),
 (139, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:15:03'),
 (140, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-16 23:17:39'),
-(141, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-16 18:17:39\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-16 23:17:39');
+(141, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-16 18:17:39\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-16 23:17:39'),
+(142, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-17 00:09:26'),
+(143, 3, 'panic_alert_from_walk', 'walk_sessions', 6, NULL, '{\"panic_alert_id\":4,\"walk_session_token\":\"d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7\"}', NULL, NULL, NULL, '2026-02-17 00:12:06'),
+(144, 3, 'sos_alert', 'walk_sessions', 6, NULL, '{\"session_token\":\"d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":4}', NULL, NULL, NULL, '2026-02-17 00:12:06'),
+(145, 3, 'panic_alert_from_walk', 'walk_sessions', 7, NULL, '{\"panic_alert_id\":5,\"walk_session_token\":\"f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b\"}', NULL, NULL, NULL, '2026-02-17 00:14:05'),
+(146, 3, 'sos_alert', 'walk_sessions', 7, NULL, '{\"session_token\":\"f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":5}', NULL, NULL, NULL, '2026-02-17 00:14:05'),
+(147, 3, 'panic_alert_from_walk', 'walk_sessions', 8, NULL, '{\"panic_alert_id\":6,\"walk_session_token\":\"9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72\"}', NULL, NULL, NULL, '2026-02-17 00:16:44'),
+(148, 3, 'sos_alert', 'walk_sessions', 8, NULL, '{\"session_token\":\"9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":6}', NULL, NULL, NULL, '2026-02-17 00:16:44'),
+(149, 1, 'UPDATE', 'users', 1, '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik05@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-17 00:18:09'),
+(150, 3, 'panic_alert_from_walk', 'walk_sessions', 9, NULL, '{\"panic_alert_id\":8,\"walk_session_token\":\"387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703\"}', NULL, NULL, NULL, '2026-02-17 00:27:43'),
+(151, 3, 'sos_alert', 'walk_sessions', 9, NULL, '{\"session_token\":\"387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":8}', NULL, NULL, NULL, '2026-02-17 00:27:43'),
+(152, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-17 18:08:23'),
+(153, 3, 'panic_alert_from_walk', 'walk_sessions', 10, NULL, '{\"panic_alert_id\":9,\"walk_session_token\":\"f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc\"}', NULL, NULL, NULL, '2026-02-17 18:24:45'),
+(154, 3, 'sos_alert', 'walk_sessions', 10, NULL, '{\"session_token\":\"f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":9}', NULL, NULL, NULL, '2026-02-17 18:24:45'),
+(155, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-17 18:54:34'),
+(156, 3, 'panic_alert_from_walk', 'walk_sessions', 11, NULL, '{\"panic_alert_id\":10,\"walk_session_token\":\"0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34\"}', NULL, NULL, NULL, '2026-02-17 19:05:04'),
+(157, 3, 'sos_alert', 'walk_sessions', 11, NULL, '{\"session_token\":\"0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":10}', NULL, NULL, NULL, '2026-02-17 19:05:04'),
+(158, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-17 19:28:05'),
+(159, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-17 14:28:05\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-17 19:28:05'),
+(160, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-18 17:02:04'),
+(161, 3, 'panic_alert_from_walk', 'walk_sessions', 12, NULL, '{\"panic_alert_id\":11,\"walk_session_token\":\"d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc\"}', NULL, NULL, NULL, '2026-02-18 17:16:11'),
+(162, 3, 'sos_alert', 'walk_sessions', 12, NULL, '{\"session_token\":\"d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc\",\"status\":\"emergency\",\"contacts_notified\":1,\"panic_alert_id\":11}', NULL, NULL, NULL, '2026-02-18 17:16:11'),
+(163, 11, 'UPDATE', 'users', 11, '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"admin@safespace.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-18 17:44:43'),
+(164, 11, 'admin_login', 'users', 11, NULL, '{\"login_time\":\"2026-02-18 12:44:43\",\"ip\":\"::1\"}', NULL, NULL, NULL, '2026-02-18 17:44:43'),
+(165, 3, 'UPDATE', 'users', 3, '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', '{\"email\": \"mdabusayumanik123@gmail.com\", \"status\": \"active\", \"is_active\": 1}', NULL, NULL, NULL, '2026-02-19 05:11:09');
 
 -- --------------------------------------------------------
 
@@ -714,7 +841,7 @@ CREATE TABLE `course_enrollments` (
   `rating` int(1) DEFAULT NULL,
   `feedback` text DEFAULT NULL,
   `last_accessed_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 --
 -- Dumping data for table `course_enrollments`
@@ -1161,7 +1288,7 @@ CREATE TABLE `incident_reports` (
   `witness_count` int(11) DEFAULT 0,
   `response_time_minutes` int(11) DEFAULT NULL,
   `assigned_to` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 --
 -- Dumping data for table `incident_reports`
@@ -1312,6 +1439,53 @@ CREATE TRIGGER `tr_incident_reports_after_update_audit` AFTER UPDATE ON `inciden
           JSON_OBJECT('status', OLD.status, 'severity', OLD.severity, 'assigned_to', OLD.assigned_to),
           JSON_OBJECT('status', NEW.status, 'severity', NEW.severity, 'assigned_to', NEW.assigned_to),
           NOW());
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_after_report_insert` AFTER INSERT ON `incident_reports` FOR EACH ROW BEGIN
+  INSERT INTO `notifications` (
+    `user_id`, `title`, `message`, `type`, `action_url`, `created_at`
+  )
+  SELECT
+    u.id,
+    'New Incident Report',
+    CONCAT('New ', NEW.category, ' report near ',
+           COALESCE(NEW.location_name, 'unknown location')),
+    'report',
+    CONCAT('/admin_dashboard.php?report=', NEW.id),
+    NOW()
+  FROM `users` u
+  WHERE u.is_admin = 1 AND u.is_active = 1;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_after_report_status_update` AFTER UPDATE ON `incident_reports` FOR EACH ROW BEGIN
+  IF OLD.status != NEW.status THEN
+    INSERT INTO `notifications` (
+      `user_id`, `title`, `message`, `type`, `action_url`, `created_at`
+    ) VALUES (
+      NEW.user_id,
+      'Report Status Updated',
+      CONCAT('Your report "', LEFT(NEW.title, 50), '" is now: ', NEW.status),
+      'update',
+      CONCAT('/my_reports.php?id=', NEW.id),
+      NOW()
+    );
+    INSERT INTO `audit_logs` (
+      `user_id`, `action`, `table_name`, `record_id`,
+      `old_values`, `new_values`, `created_at`
+    ) VALUES (
+      COALESCE(NEW.assigned_to, NEW.user_id),
+      'STATUS_CHANGE',
+      'incident_reports',
+      NEW.id,
+      JSON_OBJECT('status', OLD.status, 'severity', OLD.severity),
+      JSON_OBJECT('status', NEW.status, 'severity', NEW.severity),
+      NOW()
+    );
+  END IF;
 END
 $$
 DELIMITER ;
@@ -1977,7 +2151,14 @@ INSERT INTO `notifications` (`id`, `user_id`, `title`, `message`, `type`, `actio
 (227, 7, 'New member joined', 'Sidratul joined Uttara Security Forum.', 'system', '/groups/3', NULL, 0, 1, 0, 0, 0, '2026-02-15 21:11:48', NULL, NULL),
 (228, 8, 'Course progress', 'You completed Emergency First Aid 101! Great job.', 'system', '/courses', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
 (229, 9, 'Incident update', 'Report #9 status changed to under_review.', 'report_update', '/reports/9', NULL, 0, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
-(230, 10, 'Welcome to Space', 'Your account is set up. Add emergency contacts for faster response.', 'system', '/dashboard', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL);
+(230, 10, 'Welcome to Space', 'Your account is set up. Add emergency contacts for faster response.', 'system', '/dashboard', NULL, 1, 1, 0, 0, 1, '2026-02-15 21:11:48', NULL, NULL),
+(231, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814562408369, 90.386618511262\nMap: https://maps.google.com/?q=23.814562408369,90.386618511262\nLive Tracking: http://localhost/space-login/track_walk.php?token=d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7\nTime: 2026-02-16 19:12:06\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 00:12:06', NULL, NULL),
+(232, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814492819661, 90.386560137993\nMap: https://maps.google.com/?q=23.814492819661,90.386560137993\nLive Tracking: http://localhost/space-login/track_walk.php?token=f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b\nTime: 2026-02-16 19:14:05\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 00:14:05', NULL, NULL),
+(233, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814525035486, 90.386631048884\nMap: https://maps.google.com/?q=23.814525035486,90.386631048884\nLive Tracking: http://localhost/space-login/track_walk.php?token=9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72\nTime: 2026-02-16 19:16:44\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 00:16:44', NULL, NULL),
+(234, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nLive Tracking: http://localhost/space-login/track_walk.php?token=387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703\nTime: 2026-02-16 19:27:43\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 00:27:43', NULL, NULL),
+(235, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814496001057, 90.386604320834\nMap: https://maps.google.com/?q=23.814496001057,90.386604320834\nLive Tracking: http://localhost/space-login/track_walk.php?token=f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc\nTime: 2026-02-17 13:24:45\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 18:24:45', NULL, NULL),
+(236, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814545485861, 90.386379249228\nMap: https://maps.google.com/?q=23.814545485861,90.386379249228\nLive Tracking: http://localhost/space-login/track_walk.php?token=0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34\nTime: 2026-02-17 14:05:04\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-17 19:05:04', NULL, NULL),
+(237, 3, 'SOS Alert - Walk With Me', '🚨 SOS ALERT - Walk With Me 🚨\n\nUser: Raihan Ahmed\nPhone: 01912345603\nLocation: \nGPS: 23.814319415464, 90.386628059775\nMap: https://maps.google.com/?q=23.814319415464,90.386628059775\nLive Tracking: http://localhost/space-login/track_walk.php?token=d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc\nTime: 2026-02-18 12:16:11\nMessage: SOS triggered during Walk With Me session\n\n⚠️ EMERGENCY - Please check on them immediately!', 'emergency', NULL, NULL, 0, 0, 0, 0, 0, '2026-02-18 17:16:11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2014,7 +2195,43 @@ CREATE TABLE `panic_alerts` (
 INSERT INTO `panic_alerts` (`id`, `user_id`, `trigger_method`, `location_name`, `latitude`, `longitude`, `message`, `emergency_contacts_notified`, `police_notified`, `ambulance_notified`, `fire_service_notified`, `status`, `response_time_seconds`, `triggered_at`, `resolved_at`, `responders_count`, `community_notified`, `broadcast_radius`, `nearby_users_count`) VALUES
 (1, 4, 'app_button', 'Mirpur 10, near community center', 23.80690000, 90.36870000, 'Need help! Someone following me.', 2, 1, 0, 0, 'resolved', 180, '2026-02-12 21:11:48', NULL, 0, 1, 5000, 3),
 (2, 9, 'app_button', 'Farmgate bus stand area', 23.75950000, 90.39000000, 'Felt unsafe, activated by mistake', 1, 0, 0, 0, 'false_alarm', NULL, '2026-02-14 21:11:48', NULL, 0, 1, 5000, 2),
-(3, 2, 'app_button', 'Dhanmondi Road 32', 23.75160000, 90.37750000, 'Wallet snatched. Need police.', 2, 1, 0, 0, 'resolved', 420, '2026-02-10 21:11:48', NULL, 0, 1, 5000, 4);
+(3, 2, 'app_button', 'Dhanmondi Road 32', 23.75160000, 90.37750000, 'Wallet snatched. Need police.', 2, 1, 0, 0, 'resolved', 420, '2026-02-10 21:11:48', NULL, 0, 1, 5000, 4),
+(4, 3, '', '', 23.81456241, 90.38661851, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7', 2, 1, 0, 0, 'active', NULL, '2026-02-17 00:12:06', NULL, 0, 0, 5000, 0),
+(5, 3, '', '', 23.81449282, 90.38656014, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b', 2, 1, 0, 0, 'active', NULL, '2026-02-17 00:14:05', NULL, 0, 0, 5000, 0),
+(6, 3, '', '', 23.81452504, 90.38663105, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72', 2, 1, 0, 0, 'active', NULL, '2026-02-17 00:16:44', NULL, 0, 0, 5000, 0),
+(8, 3, '', '', NULL, NULL, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703', 2, 1, 0, 0, 'active', NULL, '2026-02-17 00:27:43', NULL, 0, 0, 5000, 0),
+(9, 3, '', '', 23.81449600, 90.38660432, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc', 2, 1, 0, 0, 'active', NULL, '2026-02-17 18:24:45', NULL, 0, 0, 5000, 0),
+(10, 3, '', '', 23.81454549, 90.38637925, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34', 2, 1, 0, 0, 'active', NULL, '2026-02-17 19:05:04', NULL, 0, 0, 5000, 0),
+(11, 3, '', '', 23.81431942, 90.38662806, 'SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc', 2, 1, 0, 0, 'active', NULL, '2026-02-18 17:16:11', NULL, 0, 0, 5000, 0);
+
+--
+-- Triggers `panic_alerts`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_after_panic_alert_insert` AFTER INSERT ON `panic_alerts` FOR EACH ROW BEGIN
+  INSERT INTO `alerts` (
+    `title`, `description`, `type`, `severity`,
+    `location_name`, `latitude`, `longitude`, `radius_km`,
+    `start_time`, `is_active`, `source_type`, `source_user_id`
+  ) VALUES (
+    'Emergency Panic Alert',
+    CONCAT('A panic alert was triggered near ',
+           COALESCE(NEW.location_name, 'your area'),
+           '. Please assist if safe to do so.'),
+    'emergency',
+    'critical',
+    COALESCE(NEW.location_name, 'Unknown Location'),
+    NEW.latitude,
+    NEW.longitude,
+    0.50,
+    NOW(),
+    1,
+    'user_report',
+    NEW.user_id
+  );
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -2043,7 +2260,21 @@ CREATE TABLE `panic_notifications` (
 INSERT INTO `panic_notifications` (`id`, `panic_alert_id`, `contact_id`, `notification_type`, `recipient`, `message`, `created_at`, `status`, `sent_at`, `delivered_at`, `error_message`) VALUES
 (1, 1, 7, 'sms', '01876543210', 'URGENT: Bonny needs help at Mirpur 10. Open Space app for location.', '2026-02-15 21:11:48', 'delivered', '2026-02-12 21:11:48', NULL, NULL),
 (2, 1, 8, 'call', '01776543211', 'Emergency alert from Bonny Afrin', '2026-02-15 21:11:48', 'delivered', '2026-02-12 21:11:48', NULL, NULL),
-(3, 3, 3, 'sms', '01911223344', 'URGENT: Safrin needs help at Dhanmondi Road 32. Open Space app.', '2026-02-15 21:11:48', 'delivered', '2026-02-10 21:11:48', NULL, NULL);
+(3, 3, 3, 'sms', '01911223344', 'URGENT: Safrin needs help at Dhanmondi Road 32. Open Space app.', '2026-02-15 21:11:48', 'delivered', '2026-02-10 21:11:48', NULL, NULL),
+(4, 4, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81456241,90.38661851\nTime: 2026-02-17 00:12:06\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7\n\nPlease respond immediately!', '2026-02-17 00:12:06', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(5, 4, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81456241,90.38661851\nTime: 2026-02-17 00:12:06\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7\n\nPlease respond immediately!', '2026-02-17 00:12:06', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(6, 5, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81449282,90.38656014\nTime: 2026-02-17 00:14:05\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b\n\nPlease respond immediately!', '2026-02-17 00:14:05', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(7, 5, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81449282,90.38656014\nTime: 2026-02-17 00:14:05\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b\n\nPlease respond immediately!', '2026-02-17 00:14:05', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(8, 6, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81452504,90.38663105\nTime: 2026-02-17 00:16:44\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72\n\nPlease respond immediately!', '2026-02-17 00:16:44', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(9, 6, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81452504,90.38663105\nTime: 2026-02-17 00:16:44\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72\n\nPlease respond immediately!', '2026-02-17 00:16:44', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(10, 8, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: \nTime: 2026-02-17 00:27:43\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703\n\nPlease respond immediately!', '2026-02-17 00:27:43', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(11, 8, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: \nTime: 2026-02-17 00:27:43\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703\n\nPlease respond immediately!', '2026-02-17 00:27:43', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(12, 9, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81449600,90.38660432\nTime: 2026-02-17 18:24:45\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc\n\nPlease respond immediately!', '2026-02-17 18:24:45', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(13, 9, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81449600,90.38660432\nTime: 2026-02-17 18:24:45\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc\n\nPlease respond immediately!', '2026-02-17 18:24:45', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(14, 10, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81454549,90.38637925\nTime: 2026-02-17 19:05:04\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34\n\nPlease respond immediately!', '2026-02-17 19:05:04', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(15, 10, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81454549,90.38637925\nTime: 2026-02-17 19:05:04\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34\n\nPlease respond immediately!', '2026-02-17 19:05:04', 'failed', NULL, NULL, 'Call service not enabled in configuration'),
+(16, 11, 4, 'sms', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81431942,90.38662806\nTime: 2026-02-18 17:16:11\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc\n\nPlease respond immediately!', '2026-02-18 17:16:11', 'failed', NULL, NULL, 'SMS service not enabled in configuration'),
+(17, 11, 4, 'call', '01511223344', '🚨 EMERGENCY ALERT 🚨\n\nUser: Raihan Ahmed\nLocation: https://maps.google.com/?q=23.81431942,90.38662806\nTime: 2026-02-18 17:16:11\nMessage: SOS triggered during Walk With Me session. SOS triggered during Walk With Me session\n\nTracking Link: http://localhost/space-login/track_walk.php?token=d692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc\n\nPlease respond immediately!', '2026-02-18 17:16:11', 'failed', NULL, NULL, 'Call service not enabled in configuration');
 
 -- --------------------------------------------------------
 
@@ -2369,9 +2600,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `display_name`, `firebase_uid`, `provider`, `email_verified`, `is_admin`, `verification_token`, `password_reset_token`, `reset_token_expires`, `status`, `is_active`, `created_at`, `last_login`, `updated_at`, `nid_number`, `nid_front_photo`, `nid_back_photo`, `face_verified`, `nid_verified`, `verification_status`, `current_latitude`, `current_longitude`, `last_location_update`, `is_online`, `last_seen`) VALUES
-(1, NULL, 'mdabusayumanik05@gmail.com', '01712345601', 'UIU CSE student. Active in community safety.', '$2y$10$b925gY24wYaRph8f4UaNj.pwyy/N1p.LFAAWcUGmi6ZE2oa0qk2wW', 'Abu Sayeed Manik', 'yK6cQ56Pr2NpS6rnm5RygRic8R13', 'local', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:40:38', NULL, '2026-02-15 21:11:47', '4222776215', 'uploads/nid/nid_4222776215_front_1771162838_6991ccd68e1e9.jpg', 'uploads/nid/nid_4222776215_back_1771162838_6991ccd69125e.jpg', 0, 0, 'pending', 23.79770000, 90.44970000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(1, NULL, 'mdabusayumanik05@gmail.com', '01712345601', 'UIU CSE student. Active in community safety.', '$2y$10$b925gY24wYaRph8f4UaNj.pwyy/N1p.LFAAWcUGmi6ZE2oa0qk2wW', 'Abu Sayeed Manik', 'yK6cQ56Pr2NpS6rnm5RygRic8R13', 'password', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:40:38', '2026-02-17 00:18:09', '2026-02-17 00:18:09', '4222776215', 'uploads/nid/nid_4222776215_front_1771162838_6991ccd68e1e9.jpg', 'uploads/nid/nid_4222776215_back_1771162838_6991ccd69125e.jpg', 0, 0, 'pending', 23.79770000, 90.44970000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
 (2, NULL, 'safrin2330183@bscse.uiu.ac.bd', '01812345602', 'Loves helping neighbors stay safe.', '$2y$10$Ci6n75.CyUPiIL9HPQneFeN4ci4MQIuSr.zc41hxh5UkfHDYZWDSe', 'Safrin Akter', 'QkKafaydj0Sbq24GdZfTiAdKkNZ2', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:43:07', NULL, '2026-02-15 21:11:47', '4222776216', 'uploads/nid/nid_4222776216_front_1771162987_6991cd6b9a7b7.jpg', 'uploads/nid/nid_4222776216_back_1771162987_6991cd6b9b9f3.jpg', 0, 0, 'pending', 23.75160000, 90.37750000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
-(3, NULL, 'mdabusayumanik123@gmail.com', '01912345603', 'Tech enthusiast. Safety first.', '$2y$10$i0WoiYDCqBWIVOlDIjDfL.2RABMwoXCrgM.EWTV3c2/Qzj.Zs1Q/.', 'Raihan Ahmed', 'C7wByr7YcUYn1Gm1bgo2kCkztUr2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:45:16', '2026-02-16 23:15:03', '2026-02-16 23:15:03', '4222776217', 'uploads/nid/nid_4222776217_front_1771163116_6991cdeca604a.jpg', 'uploads/nid/nid_4222776217_back_1771163116_6991cdeca932b.jpg', 0, 0, 'pending', 23.74610000, 90.37420000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
+(3, NULL, 'mdabusayumanik123@gmail.com', '01912345603', 'Tech enthusiast. Safety first.', '$2y$10$i0WoiYDCqBWIVOlDIjDfL.2RABMwoXCrgM.EWTV3c2/Qzj.Zs1Q/.', 'Raihan Ahmed', 'C7wByr7YcUYn1Gm1bgo2kCkztUr2', 'password', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:45:16', '2026-02-19 05:11:09', '2026-02-19 05:11:09', '4222776217', 'uploads/nid/nid_4222776217_front_1771163116_6991cdeca604a.jpg', 'uploads/nid/nid_4222776217_back_1771163116_6991cdeca932b.jpg', 0, 0, 'pending', 23.74610000, 90.37420000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
 (4, NULL, 'bonnyafrin98@gmail.com', '01612345604', 'Women safety advocate.', '$2y$10$.WWUxToODG0bDnN/CHMtFOim4WO8NDZgrKs75JyOpMyQJ5ahD9gLW', 'Bonny Afrin', 'Xg7qZdtIYUeuSPzQFAN6FjYRelk1', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:46:26', NULL, '2026-02-15 21:11:47', '4222776218', 'uploads/nid/nid_4222776218_front_1771163186_6991ce3256a8f.jpg', 'uploads/nid/nid_4222776218_back_1771163186_6991ce3256f7c.jpg', 0, 0, 'pending', 23.80420000, 90.36350000, NULL, 0, '2026-02-15 13:11:47'),
 (5, NULL, 'manik2330217@bscse.uiu.ac.bd', '01512345605', 'Mirpur resident. Community volunteer.', '$2y$10$LPpi4ld55rdPUxlEz1jz5.pdffIxMapmbewFu/0cjUiTH6lP1uLDK', 'Manik Hossain', 'g1hJ8dig66Tzl8QtDTUXuT93EQ22', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:47:44', NULL, '2026-02-15 21:11:47', '4222776219', 'uploads/nid/nid_4222776219_front_1771163264_6991ce80aa7f5.jpg', 'uploads/nid/nid_4222776219_back_1771163264_6991ce80abb0d.jpg', 0, 0, 'pending', 23.80690000, 90.36870000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
 (6, NULL, 'sadiaafrinbonny183@gmail.com', '01722345606', 'Dhanmondi area. Always ready to help.', '$2y$10$d5oeWb2WBmDsS.duTdY/C.sneYNizyXsPTFHukMpKQ3d1tMyVYwQK', 'Sadia Afrin', 'pos6gG3klzUtFoj76FgMKzgYMmI3', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:49:44', NULL, '2026-02-15 21:11:47', '4222776211', 'uploads/nid/nid_4222776211_front_1771163384_6991cef8bd86e.jpg', 'uploads/nid/nid_4222776211_back_1771163384_6991cef8be41b.jpg', 0, 0, 'pending', 23.75050000, 90.38550000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
@@ -2379,7 +2610,7 @@ INSERT INTO `users` (`id`, `username`, `email`, `phone`, `bio`, `password`, `dis
 (8, NULL, 'sidratul@cse.uiu.ac.bd', '01922345608', 'UIU CSE. Safety awareness promoter.', '$2y$10$PXV/51F5x.HS1Da1RJjsj.x9gi/n2.QMO1Pt2OUCSLe55nuXckrjq', 'Sidratul Muntaha', 'qPuRv1FCLHg2pSBgy1E3AdK75d43', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:52:51', NULL, '2026-02-15 21:11:47', '4222776213', 'uploads/nid/nid_4222776213_front_1771163571_6991cfb3b8977.jpg', 'uploads/nid/nid_4222776213_back_1771163571_6991cfb3b908c.jpg', 0, 0, 'pending', 23.86310000, 90.39670000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
 (9, NULL, 'sanjida@cse.uiu.ac.bd', '01622345609', 'Mohammadpur. Neighborhood watch member.', '$2y$10$wQSaGmZIANGNWSK2BJKhb.otZDBovi0I00s6g/bTEzq7FN/Lr7CVe', 'Sanjida Akter', 'Y938RyqfW5XkdEQTGpnrAy6fQA73', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:54:43', NULL, '2026-02-15 21:11:47', '4222776214', 'uploads/nid/nid_4222776214_front_1771163683_6991d02327576.jpg', 'uploads/nid/nid_4222776214_back_1771163683_6991d02329442.jpg', 0, 0, 'pending', 23.75950000, 90.39000000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
 (10, NULL, 'aurna@cse.uiu.ac.bd', '01732345610', 'Uttara resident. Active responder.', '$2y$10$A8bTWpksR0Ht6.MikS/QbuvKoa4VXmMZ/vlF9EGDbRtjC/oPit2PK', 'Aurna Akter', 'OTwVAzKaKTOtKMWxiYMT5S4A2eH2', 'local', 0, 0, NULL, NULL, NULL, 'active', 1, '2026-02-15 19:55:58', NULL, '2026-02-15 21:11:47', '4222776210', 'uploads/nid/nid_4222776210_front_1771163757_6991d06deba32.jpg', 'uploads/nid/nid_4222776210_back_1771163757_6991d06decd47.jpg', 0, 0, 'pending', 23.86310000, 90.39670000, '2026-02-15 15:11:47', 1, '2026-02-15 15:11:47'),
-(11, NULL, 'admin@safespace.com', NULL, NULL, '$2y$12$OcPJHlfnneurP4R.5wj8meSgCXBX2NQwekaKlAskiefqmu445nFsm', 'Admin', NULL, 'local', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-16 22:47:30', '2026-02-16 23:17:39', '2026-02-16 23:17:39', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL);
+(11, NULL, 'admin@safespace.com', NULL, NULL, '$2y$12$OcPJHlfnneurP4R.5wj8meSgCXBX2NQwekaKlAskiefqmu445nFsm', 'Admin', NULL, 'local', 0, 1, NULL, NULL, NULL, 'active', 1, '2026-02-16 22:47:30', '2026-02-18 17:44:43', '2026-02-18 17:44:43', NULL, NULL, NULL, 0, 0, 'pending', NULL, NULL, NULL, 0, NULL);
 
 --
 -- Triggers `users`
@@ -2485,6 +2716,38 @@ INSERT INTO `user_area_ratings` (`id`, `user_id`, `area_id`, `safety_rating`, `c
 (9, 9, 5, 4, 'Mohammadpur getting better.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47'),
 (10, 10, 3, 5, 'Uttara is my safe zone.', NULL, 1, '2026-02-15 21:11:47', '2026-02-15 21:11:47');
 
+--
+-- Triggers `user_area_ratings`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_after_area_rating_insert` AFTER INSERT ON `user_area_ratings` FOR EACH ROW BEGIN
+  UPDATE `area_safety_scores`
+  SET
+    `user_ratings_score` = (
+      SELECT ROUND(AVG(uar.safety_rating) * 2, 2)
+      FROM `user_area_ratings` uar
+      WHERE uar.area_id = NEW.area_id
+    ),
+    `last_updated` = NOW()
+  WHERE `id` = NEW.area_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `trg_after_area_rating_update` AFTER UPDATE ON `user_area_ratings` FOR EACH ROW BEGIN
+  UPDATE `area_safety_scores`
+  SET
+    `user_ratings_score` = (
+      SELECT ROUND(AVG(uar.safety_rating) * 2, 2)
+      FROM `user_area_ratings` uar
+      WHERE uar.area_id = NEW.area_id
+    ),
+    `last_updated` = NOW()
+  WHERE `id` = NEW.area_id;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -2557,7 +2820,120 @@ INSERT INTO `user_sessions` (`id`, `user_id`, `session_token`, `ip_address`, `us
 (6, 10, 'f2f6e5a7b8c9d0123456789012345678efghij', '::1', NULL, 'mobile', '2026-02-15 20:41:48', '2026-02-15 21:11:48', 1),
 (7, 3, 'd9b6b9138f5cbf6a2bcd8b2dbc23a15be10a62e57730799284e74532445e6f3d', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 22:35:50', '2026-02-16 22:35:50', 1),
 (8, 3, '7c76aadee7c875a0dfc2f3058190f7ab2a1d1200472b21513bda4608b63caaf9', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 23:08:49', '2026-02-16 23:08:49', 1),
-(9, 3, 'db645ff064232adf010022c8eae6eb42da4657bbfc426614e92d343463086c72', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 23:15:03', '2026-02-16 23:15:03', 1);
+(9, 3, 'db645ff064232adf010022c8eae6eb42da4657bbfc426614e92d343463086c72', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-16 23:15:03', '2026-02-16 23:15:03', 1),
+(10, 3, 'f3d5d3c1f557b29de4ec8a731936e6e22a840b2fb951af76fb164aab54aa317f', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-17 00:09:26', '2026-02-17 00:09:26', 1),
+(11, 1, 'ed22fe2a340bd931556e6d877dfed4ebb2d3fdd6f494eb78ee959311f2a08005', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0', 'desktop', '2026-02-17 00:18:09', '2026-02-17 00:18:09', 1),
+(12, 3, '72e07bb5f9205b87aa9357012ec4b8e54fc3925900d3ea01c06fa73e2d6bbe61', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-17 18:08:23', '2026-02-17 18:08:23', 1),
+(13, 3, 'c3cf81c39f488862e6461a1f4dcddd33c0fed497867da9c911bfe16b03b1fe88', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-17 18:54:34', '2026-02-17 18:54:34', 1),
+(14, 3, '51f37f5e2a96063b45011165745af5e90e20c76c2c284c14573a3ee90fc465f7', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-18 17:02:04', '2026-02-18 17:02:04', 1),
+(15, 3, '52126c45da34bcc25efaa86c5c63302467eb33c726aea813cbbfe1a3581b1cb1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'desktop', '2026-02-19 05:11:09', '2026-02-19 05:11:09', 1);
+
+--
+-- Triggers `user_sessions`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_after_session_insert` AFTER INSERT ON `user_sessions` FOR EACH ROW BEGIN
+
+  DELETE FROM `user_sessions`
+  WHERE `user_id` = NEW.user_id
+    AND `id` NOT IN (
+      SELECT `id` FROM (
+        SELECT `id` FROM `user_sessions`
+        WHERE `user_id` = NEW.user_id
+        ORDER BY `created_at` DESC
+        LIMIT 5
+      ) AS recent_sessions
+    );
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_active_incidents_with_user`
+-- (See below for the actual view)
+--
+CREATE TABLE `vw_active_incidents_with_user` (
+`id` int(11)
+,`title` varchar(255)
+,`description` text
+,`category` enum('harassment','assault','theft','vandalism','stalking','cyberbullying','discrimination','other')
+,`severity` enum('low','medium','high','critical')
+,`status` enum('pending','under_review','investigating','resolved','closed','disputed')
+,`latitude` decimal(10,8)
+,`longitude` decimal(11,8)
+,`location_name` varchar(255)
+,`incident_date` datetime
+,`reported_date` datetime
+,`is_anonymous` tinyint(1)
+,`reporter_name` varchar(100)
+,`reporter_email` varchar(100)
+,`assigned_to_name` varchar(100)
+,`hours_since_reported` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_area_danger_rankings`
+-- (See below for the actual view)
+--
+CREATE TABLE `vw_area_danger_rankings` (
+`id` int(11)
+,`area_name` varchar(255)
+,`safety_score` decimal(5,2)
+,`total_incidents` int(11)
+,`critical_incidents` int(11)
+,`response_time_avg_hours` decimal(8,2)
+,`danger_level` varchar(20)
+,`safety_rank` bigint(21)
+,`danger_rank` bigint(21)
+,`safety_percentile` double(17,10)
+,`rank_in_district` bigint(21)
+,`district_name` varchar(100)
+,`division_name` varchar(100)
+,`last_updated` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_monthly_incident_trend`
+-- (See below for the actual view)
+--
+CREATE TABLE `vw_monthly_incident_trend` (
+`report_year` int(4)
+,`report_month` int(2)
+,`month_label` varchar(7)
+,`category` enum('harassment','assault','theft','vandalism','stalking','cyberbullying','discrimination','other')
+,`severity` enum('low','medium','high','critical')
+,`incident_count` bigint(21)
+,`resolved_count` decimal(22,0)
+,`resolution_rate_pct` decimal(27,1)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_user_safety_summary`
+-- (See below for the actual view)
+--
+CREATE TABLE `vw_user_safety_summary` (
+`user_id` int(11)
+,`display_name` varchar(100)
+,`email` varchar(100)
+,`is_admin` tinyint(1)
+,`member_since` datetime
+,`total_reports` bigint(21)
+,`resolved` decimal(22,0)
+,`pending` decimal(22,0)
+,`investigating` decimal(22,0)
+,`critical_reports` decimal(22,0)
+,`courses_completed` bigint(21)
+,`emergency_contacts_count` bigint(21)
+,`safety_engagement_score` decimal(24,1)
+);
 
 -- --------------------------------------------------------
 
@@ -2607,7 +2983,14 @@ INSERT INTO `walk_sessions` (`id`, `user_id`, `session_token`, `start_time`, `en
 (2, 2, 'walk_b2c3d4e5f6a7', '2026-02-14 21:11:48', '2026-02-14 21:31:48', 'completed', 'Farmgate to Dhanmondi 32', 20),
 (3, 10, 'walk_c3d4e5f6a7b8', '2026-02-12 21:11:48', '2026-02-12 21:23:48', 'completed', 'Uttara Metro to Sector 3', 12),
 (4, 4, 'walk_d4e5f6a7b8c9', '2026-02-10 21:11:48', '2026-02-10 21:19:48', 'completed', 'Mirpur 10 to Community Center', 8),
-(5, 1, 'walk_e5f6a7b8c9d0', '2026-02-15 21:11:48', NULL, 'active', 'UIU to Badda', 25);
+(5, 1, 'walk_e5f6a7b8c9d0', '2026-02-15 21:11:48', NULL, 'active', 'UIU to Badda', 25),
+(6, 3, 'd004d2fcc9adbf24b68e556500f587cc9585920dc29a722ff266bb79058987e7', '2026-02-17 00:11:59', NULL, 'emergency', '', 0),
+(7, 3, 'f48649eea503d90557b75a1013d77e591f6f58c11fd3ea64918f4eb1a940865b', '2026-02-17 00:13:58', NULL, 'emergency', '', 0),
+(8, 3, '9dc037d3301ed8b202b5479dba32d3b2a922fbb61852fdb4ea60f90eca6aae72', '2026-02-17 00:16:33', NULL, 'emergency', '', 0),
+(9, 3, '387135a448e82d1154afd4d42cc4073434033aabe56f950ea5c62fbdfc11e703', '2026-02-17 00:27:39', NULL, 'emergency', '', 0),
+(10, 3, 'f0558c1c1475512fc2f5ec5fd1108fbd127c7708c7acfcc4dd6e5c8a4183f8cc', '2026-02-17 18:24:26', NULL, 'emergency', '', 0),
+(11, 3, '0c367c8016dcd64a5979d25d72644b9fd482ca1bdb33fd42b7b552f9e03d1e34', '2026-02-17 19:04:45', NULL, 'emergency', '', 0),
+(12, 3, 'd692335c91afd0078fbe3ae2db404efdbc007942031e5f18b5bf05d48cac06bc', '2026-02-18 17:15:52', NULL, 'emergency', '', 0);
 
 -- --------------------------------------------------------
 
@@ -2617,6 +3000,42 @@ INSERT INTO `walk_sessions` (`id`, `user_id`, `session_token`, `start_time`, `en
 DROP TABLE IF EXISTS `active_users_with_location`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `active_users_with_location`  AS SELECT `u`.`id` AS `id`, `u`.`email` AS `email`, `u`.`display_name` AS `display_name`, `u`.`current_latitude` AS `current_latitude`, `u`.`current_longitude` AS `current_longitude`, `u`.`is_online` AS `is_online`, `u`.`last_seen` AS `last_seen`, `uas`.`allow_community_alerts` AS `allow_community_alerts`, `uas`.`alert_radius` AS `alert_radius`, `uas`.`notify_push` AS `notify_push`, `uas`.`notify_sound` AS `notify_sound`, `uas`.`notify_email` AS `notify_email` FROM (`users` `u` left join `user_alert_settings` `uas` on(`u`.`id` = `uas`.`user_id`)) WHERE `u`.`is_online` = 1 AND `u`.`current_latitude` is not null AND `u`.`current_longitude` is not null AND (`uas`.`allow_community_alerts` is null OR `uas`.`allow_community_alerts` = 1) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_active_incidents_with_user`
+--
+DROP TABLE IF EXISTS `vw_active_incidents_with_user`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_active_incidents_with_user`  AS SELECT `ir`.`id` AS `id`, `ir`.`title` AS `title`, `ir`.`description` AS `description`, `ir`.`category` AS `category`, `ir`.`severity` AS `severity`, `ir`.`status` AS `status`, `ir`.`latitude` AS `latitude`, `ir`.`longitude` AS `longitude`, `ir`.`location_name` AS `location_name`, `ir`.`incident_date` AS `incident_date`, `ir`.`reported_date` AS `reported_date`, `ir`.`is_anonymous` AS `is_anonymous`, CASE WHEN `ir`.`is_anonymous` = 1 THEN 'Anonymous' ELSE `u`.`display_name` END AS `reporter_name`, CASE WHEN `ir`.`is_anonymous` = 1 THEN NULL ELSE `u`.`email` END AS `reporter_email`, coalesce(`d`.`display_name`,'Unassigned') AS `assigned_to_name`, timestampdiff(HOUR,`ir`.`reported_date`,current_timestamp()) AS `hours_since_reported` FROM ((`incident_reports` `ir` join `users` `u` on(`ir`.`user_id` = `u`.`id`)) left join `users` `d` on(`ir`.`assigned_to` = `d`.`id`)) WHERE `ir`.`status` <> 'resolved' ORDER BY field(`ir`.`severity`,'critical','high','medium','low') ASC, `ir`.`reported_date` DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_area_danger_rankings`
+--
+DROP TABLE IF EXISTS `vw_area_danger_rankings`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_area_danger_rankings`  AS SELECT `ass`.`id` AS `id`, `ass`.`area_name` AS `area_name`, `ass`.`safety_score` AS `safety_score`, `ass`.`total_incidents` AS `total_incidents`, `ass`.`critical_incidents` AS `critical_incidents`, `ass`.`response_time_avg_hours` AS `response_time_avg_hours`, `get_incident_danger_level`(`ass`.`safety_score`) AS `danger_level`, rank() over ( order by `ass`.`safety_score` desc) AS `safety_rank`, dense_rank() over ( order by `ass`.`critical_incidents` desc) AS `danger_rank`, percent_rank() over ( order by `ass`.`safety_score`) AS `safety_percentile`, row_number() over ( partition by `dist`.`id` order by `ass`.`safety_score` desc) AS `rank_in_district`, `dist`.`name` AS `district_name`, `divn`.`name` AS `division_name`, `ass`.`last_updated` AS `last_updated` FROM ((`area_safety_scores` `ass` join `districts` `dist` on(`ass`.`district_id` = `dist`.`id`)) join `divisions` `divn` on(`ass`.`division_id` = `divn`.`id`)) ORDER BY `ass`.`safety_score` DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_monthly_incident_trend`
+--
+DROP TABLE IF EXISTS `vw_monthly_incident_trend`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_monthly_incident_trend`  AS SELECT year(`incident_reports`.`reported_date`) AS `report_year`, month(`incident_reports`.`reported_date`) AS `report_month`, date_format(`incident_reports`.`reported_date`,'%Y-%m') AS `month_label`, `incident_reports`.`category` AS `category`, `incident_reports`.`severity` AS `severity`, count(0) AS `incident_count`, sum(case when `incident_reports`.`status` = 'resolved' then 1 else 0 end) AS `resolved_count`, round(sum(case when `incident_reports`.`status` = 'resolved' then 1 else 0 end) * 100.0 / count(0),1) AS `resolution_rate_pct` FROM `incident_reports` WHERE `incident_reports`.`reported_date` is not null GROUP BY year(`incident_reports`.`reported_date`), month(`incident_reports`.`reported_date`), `incident_reports`.`category`, `incident_reports`.`severity` ORDER BY year(`incident_reports`.`reported_date`) DESC, month(`incident_reports`.`reported_date`) DESC, count(0) DESC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_user_safety_summary`
+--
+DROP TABLE IF EXISTS `vw_user_safety_summary`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_user_safety_summary`  AS SELECT `u`.`id` AS `user_id`, `u`.`display_name` AS `display_name`, `u`.`email` AS `email`, `u`.`is_admin` AS `is_admin`, `u`.`created_at` AS `member_since`, count(distinct `ir`.`id`) AS `total_reports`, sum(case when `ir`.`status` = 'resolved' then 1 else 0 end) AS `resolved`, sum(case when `ir`.`status` = 'pending' then 1 else 0 end) AS `pending`, sum(case when `ir`.`status` = 'investigating' then 1 else 0 end) AS `investigating`, sum(case when `ir`.`severity` in ('high','critical') then 1 else 0 end) AS `critical_reports`, count(distinct `ce`.`id`) AS `courses_completed`, count(distinct `ec`.`id`) AS `emergency_contacts_count`, round(count(distinct `ir`.`id`) * 0.3 + count(distinct `ce`.`id`) * 0.5 + count(distinct `ec`.`id`) * 0.2,1) AS `safety_engagement_score` FROM (((`users` `u` left join `incident_reports` `ir` on(`u`.`id` = `ir`.`user_id`)) left join `course_enrollments` `ce` on(`u`.`id` = `ce`.`user_id` and `ce`.`status` = 'completed')) left join `emergency_contacts` `ec` on(`u`.`id` = `ec`.`user_id` and `ec`.`is_active` = 1)) GROUP BY `u`.`id`, `u`.`display_name`, `u`.`email`, `u`.`is_admin`, `u`.`created_at` ORDER BY round(count(distinct `ir`.`id`) * 0.3 + count(distinct `ce`.`id`) * 0.5 + count(distinct `ec`.`id`) * 0.2,1) DESC ;
 
 -- --------------------------------------------------------
 
@@ -2644,7 +3063,11 @@ ALTER TABLE `alerts`
   ADD KEY `start_time` (`start_time`),
   ADD KEY `latitude` (`latitude`,`longitude`),
   ADD KEY `source_type` (`source_type`),
-  ADD KEY `location_name` (`location_name`(100));
+  ADD KEY `location_name` (`location_name`(100)),
+  ADD KEY `idx_alerts_active_time` (`is_active`,`start_time`),
+  ADD KEY `idx_alerts_severity` (`severity`,`type`),
+  ADD KEY `idx_alerts_geo` (`latitude`,`longitude`);
+ALTER TABLE `alerts` ADD FULLTEXT KEY `ft_alert_search` (`title`,`description`,`location_name`);
 
 --
 -- Indexes for table `alert_responses`
@@ -2665,7 +3088,9 @@ ALTER TABLE `area_safety_scores`
   ADD UNIQUE KEY `area_unique` (`district_id`,`upazila_id`,`union_name`,`ward_number`),
   ADD KEY `idx_area_division` (`division_id`),
   ADD KEY `idx_area_safety_score` (`safety_score`),
-  ADD KEY `area_safety_scores_ibfk_3` (`upazila_id`);
+  ADD KEY `area_safety_scores_ibfk_3` (`upazila_id`),
+  ADD KEY `idx_area_score` (`safety_score`),
+  ADD KEY `idx_area_district` (`district_id`,`division_id`);
 
 --
 -- Indexes for table `audit_logs`
@@ -2675,7 +3100,10 @@ ALTER TABLE `audit_logs`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `action` (`action`),
   ADD KEY `table_name` (`table_name`),
-  ADD KEY `created_at` (`created_at`);
+  ADD KEY `created_at` (`created_at`),
+  ADD KEY `idx_audit_user_time` (`user_id`,`created_at`),
+  ADD KEY `idx_audit_action` (`action`),
+  ADD KEY `idx_audit_table` (`table_name`,`record_id`);
 
 --
 -- Indexes for table `certificates`
@@ -2694,9 +3122,11 @@ ALTER TABLE `certificates`
 ALTER TABLE `course_enrollments`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `user_course` (`user_id`,`course_id`),
+  ADD UNIQUE KEY `idx_enroll_unique` (`user_id`,`course_id`),
   ADD KEY `course_id` (`course_id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `idx_enroll_status` (`status`);
 
 --
 -- Indexes for table `disputes`
@@ -2708,7 +3138,9 @@ ALTER TABLE `disputes`
   ADD KEY `report_id` (`report_id`),
   ADD KEY `status` (`status`),
   ADD KEY `reason` (`reason`),
-  ADD KEY `created_at` (`created_at`);
+  ADD KEY `created_at` (`created_at`),
+  ADD KEY `idx_disputes_status` (`status`,`created_at`),
+  ADD KEY `idx_disputes_report` (`report_id`);
 
 --
 -- Indexes for table `districts`
@@ -2805,7 +3237,15 @@ ALTER TABLE `incident_reports`
   ADD KEY `latitude` (`latitude`,`longitude`),
   ADD KEY `idx_status_resolved` (`status`,`resolved_at`),
   ADD KEY `idx_user_status` (`user_id`,`status`),
-  ADD KEY `idx_date_status` (`incident_date`,`status`);
+  ADD KEY `idx_date_status` (`incident_date`,`status`),
+  ADD KEY `idx_ir_user_status` (`user_id`,`status`),
+  ADD KEY `idx_ir_geo` (`latitude`,`longitude`),
+  ADD KEY `idx_ir_category_date` (`category`,`reported_date`),
+  ADD KEY `idx_ir_status_severity` (`status`,`severity`),
+  ADD KEY `idx_ir_reported_date` (`reported_date`),
+  ADD KEY `idx_ir_incident_date` (`incident_date`),
+  ADD KEY `idx_ir_anonymous` (`is_anonymous`);
+ALTER TABLE `incident_reports` ADD FULLTEXT KEY `ft_report_search` (`title`,`description`,`location_name`);
 
 --
 -- Indexes for table `incident_zones`
@@ -2892,7 +3332,10 @@ ALTER TABLE `notifications`
   ADD KEY `type` (`type`),
   ADD KEY `is_read` (`is_read`),
   ADD KEY `created_at` (`created_at`),
-  ADD KEY `expires_at` (`expires_at`);
+  ADD KEY `expires_at` (`expires_at`),
+  ADD KEY `idx_notif_user_read` (`user_id`,`is_read`),
+  ADD KEY `idx_notif_user_created` (`user_id`,`created_at`),
+  ADD KEY `idx_notif_type` (`type`);
 
 --
 -- Indexes for table `panic_alerts`
@@ -2901,7 +3344,10 @@ ALTER TABLE `panic_alerts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `status` (`status`),
-  ADD KEY `triggered_at` (`triggered_at`);
+  ADD KEY `triggered_at` (`triggered_at`),
+  ADD KEY `idx_panic_status` (`status`),
+  ADD KEY `idx_panic_user` (`user_id`,`triggered_at`),
+  ADD KEY `idx_panic_geo` (`latitude`,`longitude`);
 
 --
 -- Indexes for table `panic_notifications`
@@ -2934,6 +3380,7 @@ ALTER TABLE `safety_resources`
   ADD KEY `status` (`status`),
   ADD KEY `city` (`city`,`state`),
   ADD KEY `is_24_7` (`is_24_7`);
+ALTER TABLE `safety_resources` ADD FULLTEXT KEY `ft_resource_search` (`title`,`description`);
 
 --
 -- Indexes for table `safe_spaces`
@@ -2991,6 +3438,7 @@ ALTER TABLE `upazilas`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `idx_users_email` (`email`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `nid_number` (`nid_number`),
   ADD KEY `firebase_uid` (`firebase_uid`),
@@ -3001,7 +3449,10 @@ ALTER TABLE `users`
   ADD KEY `is_active` (`is_active`),
   ADD KEY `idx_is_admin` (`is_admin`),
   ADD KEY `idx_is_online` (`is_online`),
-  ADD KEY `idx_last_seen` (`last_seen`);
+  ADD KEY `idx_last_seen` (`last_seen`),
+  ADD KEY `idx_users_online_geo` (`is_online`,`current_latitude`,`current_longitude`),
+  ADD KEY `idx_users_admin` (`is_admin`),
+  ADD KEY `idx_users_active` (`is_active`,`created_at`);
 
 --
 -- Indexes for table `user_alert_settings`
@@ -3035,7 +3486,9 @@ ALTER TABLE `user_preferences`
 --
 ALTER TABLE `user_sessions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `idx_session_user` (`user_id`),
+  ADD KEY `idx_session_active` (`is_active`,`last_activity`);
 
 --
 -- Indexes for table `walk_sessions`
@@ -3054,7 +3507,7 @@ ALTER TABLE `walk_sessions`
 -- AUTO_INCREMENT for table `alerts`
 --
 ALTER TABLE `alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `alert_responses`
@@ -3066,13 +3519,13 @@ ALTER TABLE `alert_responses`
 -- AUTO_INCREMENT for table `area_safety_scores`
 --
 ALTER TABLE `area_safety_scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `certificates`
@@ -3084,7 +3537,7 @@ ALTER TABLE `certificates`
 -- AUTO_INCREMENT for table `course_enrollments`
 --
 ALTER TABLE `course_enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `disputes`
@@ -3150,7 +3603,7 @@ ALTER TABLE `helpline_numbers`
 -- AUTO_INCREMENT for table `incident_reports`
 --
 ALTER TABLE `incident_reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `incident_zones`
@@ -3198,19 +3651,19 @@ ALTER TABLE `neighborhood_groups`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
 
 --
 -- AUTO_INCREMENT for table `panic_alerts`
 --
 ALTER TABLE `panic_alerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `panic_notifications`
 --
 ALTER TABLE `panic_notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `safety_courses`
@@ -3282,13 +3735,13 @@ ALTER TABLE `user_preferences`
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `walk_sessions`
 --
 ALTER TABLE `walk_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -3485,8 +3938,147 @@ ALTER TABLE `user_preferences`
 --
 ALTER TABLE `user_sessions`
   ADD CONSTRAINT `user_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `ev_nightly_maintenance` ON SCHEDULE EVERY 1 DAY STARTS '2026-02-20 02:00:00' ON COMPLETION PRESERVE ENABLE COMMENT 'Nightly cleanup: stale notifications, idle sessions, expired ale' DO CALL cleanup_old_data()$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- =============================================================================
+-- FIXED: Appended missing definitions (Functions, Procedures, Views, Triggers)
+-- =============================================================================
+
+DELIMITER $$
+
+-- FUNCTIONS
+DROP FUNCTION IF EXISTS `get_incident_danger_level`$$
+CREATE FUNCTION `get_incident_danger_level`(`p_safety_score` DECIMAL(5,2)) RETURNS VARCHAR(20) DETERMINISTIC READS SQL DATA
+BEGIN
+  IF p_safety_score >= 8.0 THEN RETURN 'safe';
+  ELSEIF p_safety_score >= 6.0 THEN RETURN 'moderate';
+  ELSEIF p_safety_score >= 4.0 THEN RETURN 'danger';
+  ELSE RETURN 'critical';
+  END IF;
+END$$
+
+DROP FUNCTION IF EXISTS `format_distance_km`$$
+CREATE FUNCTION `format_distance_km`(`p_distance_meters` DECIMAL(10,2)) RETURNS VARCHAR(20) DETERMINISTIC READS SQL DATA
+BEGIN
+  IF p_distance_meters < 1000 THEN RETURN CONCAT(ROUND(p_distance_meters), ' m');
+  ELSEIF p_distance_meters < 10000 THEN RETURN CONCAT(ROUND(p_distance_meters / 1000, 1), ' km');
+  ELSE RETURN CONCAT(ROUND(p_distance_meters / 1000), ' km');
+  END IF;
+END$$
+
+-- PROCEDURES
+DROP PROCEDURE IF EXISTS `calculate_user_safety_score`$$
+CREATE PROCEDURE `calculate_user_safety_score`(IN `p_user_id` INT)
+BEGIN
+  WITH report_stats AS (
+    SELECT COUNT(*) AS total_reports, SUM(CASE WHEN status='resolved' THEN 1 ELSE 0 END) AS resolved_count, COUNT(DISTINCT category) AS category_diversity FROM incident_reports WHERE user_id = p_user_id
+  ), course_stats AS (
+    SELECT COUNT(*) AS courses_completed, COALESCE(AVG(rating), 0) AS avg_rating FROM course_enrollments WHERE user_id = p_user_id AND status = 'completed'
+  ), response_stats AS (
+    SELECT COUNT(*) AS responses_given FROM alert_responses WHERE responder_id = p_user_id
+  )
+  SELECT p_user_id AS user_id,
+    LEAST(10.0, ROUND((r.total_reports * 0.10) + (r.resolved_count * 0.20) + (r.category_diversity * 0.15) + (c.courses_completed * 0.25) + (rs.responses_given * 0.30), 2)) AS engagement_score
+  FROM report_stats r, course_stats c, response_stats rs;
+END$$
+
+DROP PROCEDURE IF EXISTS `get_incident_heatmap_data`$$
+CREATE PROCEDURE `get_incident_heatmap_data`(IN `p_lat_min` DECIMAL(10,8), IN `p_lat_max` DECIMAL(10,8), IN `p_lng_min` DECIMAL(11,8), IN `p_lng_max` DECIMAL(11,8), IN `p_days_back` INT)
+BEGIN
+  SELECT ROUND(latitude, 2) AS grid_lat, ROUND(longitude, 2) AS grid_lng, COUNT(*) AS incident_count,
+    SUM(CASE WHEN severity='critical' THEN 4 WHEN severity='high' THEN 3 WHEN severity='medium' THEN 2 ELSE 1 END) AS weighted_score,
+    get_incident_danger_level(GREATEST(0, 10 - LEAST(10, COUNT(*) * 0.8))) AS zone_danger_level,
+    MAX(reported_date) as latest_incident,
+    GROUP_CONCAT(DISTINCT category) as categories
+  FROM `incident_reports`
+  WHERE status != 'disputed' AND latitude BETWEEN p_lat_min AND p_lat_max AND longitude BETWEEN p_lng_min AND p_lng_max AND reported_date >= DATE_SUB(NOW(), INTERVAL p_days_back DAY)
+  GROUP BY grid_lat, grid_lng HAVING incident_count > 0 ORDER BY weighted_score DESC LIMIT 500;
+END$$
+
+DROP PROCEDURE IF EXISTS `cleanup_old_data`$$
+CREATE PROCEDURE `cleanup_old_data`()
+BEGIN
+  DELETE FROM `notifications` WHERE `is_read` = 1 AND `created_at` < DATE_SUB(NOW(), INTERVAL 90 DAY);
+  UPDATE `user_sessions` SET `is_active` = 0 WHERE `last_activity` < DATE_SUB(NOW(), INTERVAL 30 DAY) AND `is_active` = 1;
+  UPDATE `alerts` SET `is_active` = 0 WHERE `end_time` IS NOT NULL AND `end_time` < NOW() AND `is_active` = 1;
+END$$
+
+-- TRIGGERS
+DROP TRIGGER IF EXISTS `trg_after_report_insert`$$
+CREATE TRIGGER `trg_after_report_insert` AFTER INSERT ON `incident_reports` FOR EACH ROW
+BEGIN
+  INSERT INTO `notifications` (`user_id`, `title`, `message`, `type`, `action_url`, `created_at`)
+  SELECT u.id, 'New Incident Report', CONCAT('New ', NEW.category, ' report'), 'report', CONCAT('/admin_dashboard.php?report=', NEW.id), NOW()
+  FROM `users` u WHERE u.is_admin = 1 AND u.is_active = 1;
+END$$
+
+DROP TRIGGER IF EXISTS `trg_after_report_status_update`$$
+CREATE TRIGGER `trg_after_report_status_update` AFTER UPDATE ON `incident_reports` FOR EACH ROW
+BEGIN
+  IF OLD.status != NEW.status THEN
+    INSERT INTO `notifications` (`user_id`, `title`, `message`, `type`, `action_url`, `created_at`)
+    VALUES (NEW.user_id, 'Report Status Updated', CONCAT('Your report is now: ', NEW.status), 'update', CONCAT('/my_reports.php?id=', NEW.id), NOW());
+  END IF;
+END$$
+
+DROP TRIGGER IF EXISTS `trg_after_panic_alert_insert`$$
+CREATE TRIGGER `trg_after_panic_alert_insert` AFTER INSERT ON `panic_alerts` FOR EACH ROW
+BEGIN
+  INSERT INTO `alerts` (`title`, `description`, `type`, `severity`, `location_name`, `latitude`, `longitude`, `radius_km`, `start_time`, `is_active`, `source_type`, `source_user_id`)
+  VALUES ('Emergency Panic Alert', 'Panic alert triggered', 'emergency', 'critical', COALESCE(NEW.location_name, 'Unknown'), NEW.latitude, NEW.longitude, 0.5, NOW(), 1, 'user_report', NEW.user_id);
+END$$
+
+DELIMITER ;
+
+-- VIEWS (Drop placeholder tables first!)
+DROP TABLE IF EXISTS `vw_active_incidents_with_user`;
+CREATE OR REPLACE VIEW `vw_active_incidents_with_user` AS
+SELECT ir.id, ir.title, ir.category, ir.severity, ir.status, ir.latitude, ir.longitude, ir.location_name, ir.reported_date,
+  CASE WHEN ir.is_anonymous = 1 THEN 'Anonymous' ELSE u.display_name END AS reporter_name,
+  CASE WHEN ir.is_anonymous = 1 THEN NULL ELSE u.email END AS reporter_email,
+  COALESCE(d.display_name, 'Unassigned') AS assigned_to_name
+FROM `incident_reports` ir
+JOIN `users` u ON ir.user_id = u.id
+LEFT JOIN `users` d ON ir.assigned_to = d.id
+WHERE ir.status != 'resolved'
+ORDER BY ir.reported_date DESC;
+
+DROP TABLE IF EXISTS `vw_user_safety_summary`;
+CREATE OR REPLACE VIEW `vw_user_safety_summary` AS
+SELECT u.id AS user_id, u.display_name, u.email, u.is_admin, u.created_at AS member_since,
+  COUNT(DISTINCT ir.id) AS total_reports,
+  SUM(CASE WHEN ir.status = 'resolved' THEN 1 ELSE 0 END) AS resolved,
+  ROUND(COUNT(DISTINCT ir.id) * 0.3 + COUNT(DISTINCT ce.id) * 0.5, 1) AS safety_engagement_score,
+  RANK() OVER (ORDER BY (COUNT(DISTINCT ir.id) * 0.3 + COUNT(DISTINCT ce.id) * 0.5) DESC) as community_rank,
+  PERCENT_RANK() OVER (ORDER BY (COUNT(DISTINCT ir.id) * 0.3 + COUNT(DISTINCT ce.id) * 0.5)) as percentile
+FROM `users` u
+LEFT JOIN `incident_reports` ir ON u.id = ir.user_id
+LEFT JOIN `course_enrollments` ce ON u.id = ce.user_id AND ce.status = 'completed'
+GROUP BY u.id, u.display_name;
+
+DROP TABLE IF EXISTS `vw_area_danger_rankings`;
+CREATE OR REPLACE VIEW `vw_area_danger_rankings` AS
+SELECT ass.id, ass.area_name, ass.safety_score, ass.total_incidents,
+  get_incident_danger_level(ass.safety_score) AS danger_level,
+  RANK() OVER (ORDER BY ass.safety_score DESC) AS safety_rank
+FROM `area_safety_scores` ass
+ORDER BY ass.safety_score DESC;
+
+DROP TABLE IF EXISTS `vw_monthly_incident_trend`;
+CREATE OR REPLACE VIEW `vw_monthly_incident_trend` AS
+SELECT YEAR(reported_date) AS report_year, MONTH(reported_date) AS report_month, category, COUNT(*) AS incident_count
+FROM `incident_reports`
+GROUP BY YEAR(reported_date), MONTH(reported_date), category;
+

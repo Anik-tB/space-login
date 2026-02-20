@@ -1,9 +1,24 @@
 <?php
-// Debug version to check why admin panel isn't opening
+/**
+ * Admin Debug Tool — RESTRICTED ACCESS
+ * This file exposes sensitive system information.
+ * Access is restricted to authenticated admin sessions only.
+ */
+session_start();
+
+// ── Auth Guard ────────────────────────────────────────────────────────────────
+if (empty($_SESSION['user_id'])) {
+    header('Location: login.html');
+    exit;
+}
+if (empty($_SESSION['is_admin'])) {
+    http_response_code(403);
+    die('<p style="font-family:sans-serif;padding:2rem;color:red">403 — Admin access required.</p>');
+}
+
+// Only show errors to authorized admin (never in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-session_start();
 
 echo "<h2>Admin Panel Debug Information</h2>";
 echo "<pre>";

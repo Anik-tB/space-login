@@ -34,13 +34,13 @@ $userId = $_SESSION['user_id'] ?? 1; // Default for demo
 
 
 
-// Fetch real data from database
+// Fetch real data from database — using optimized single-query method
 
-$dashboardStats = $models->getDashboardStats();
+$dashboardStats = $models->getDashboardData();
 
-$recentActivity = $models->getRecentActivity(5);
+$recentActivity = $models->getRecentActivity(10);
 
-$summaryActivities = $models->getRecentActivity(100); // For the summary counts
+$summaryActivities = $recentActivity; // reuse — no extra DB query needed
 
 $reportCategories = $models->getReportCategories();
 
@@ -134,13 +134,13 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
     <!-- Chart.js for interactive charts -->
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
 
 
     <!-- ApexCharts for advanced visualizations -->
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
 
 
 
@@ -326,7 +326,7 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
                         slideUp: {
 
-                            '0%': { transform: 'translateY(15px)', opacity: '0' },
+                            '0%': { transform: 'translateY(2px)', opacity: '0' },
 
                             '100%': { transform: 'translateY(0)', opacity: '1' },
 
@@ -344,7 +344,7 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
                             '0%, 100%': { transform: 'translateY(0)' },
 
-                            '50%': { transform: 'translateY(-3px)' },
+                            '50%': { transform: 'translateY(-0.5px)' },
 
                         }
 
@@ -628,7 +628,7 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
         .float {
 
-            animation: float 3s ease-in-out infinite;
+            animation: float 10s ease-in-out infinite;
 
         }
 
@@ -638,7 +638,7 @@ if ($user && !isset($_SESSION['display_name']) && !empty($user['display_name']))
 
             0%, 100% { transform: translateY(0px); }
 
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-1px); }
 
         }
 

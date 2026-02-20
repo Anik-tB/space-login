@@ -1,6 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
+require_once __DIR__ . '/includes/error_handler.php';
+require_once __DIR__ . '/includes/security.php';
+
 // Include database connection
 require_once 'db.php';
 
@@ -84,11 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // Validate password strength
-        if (strlen($password) < 6) {
+        // Validate password strength (min 8 chars + at least 1 digit)
+        $pwErrors = validatePassword($password);
+        if (!empty($pwErrors)) {
             echo json_encode([
                 'success' => false,
-                'message' => 'Password must be at least 6 characters long.'
+                'message' => implode(' ', $pwErrors)
             ]);
             exit;
         }
@@ -219,9 +223,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
     } catch (Exception $e) {
+        // Log actual error but don't expose it
+        error_log('Registration error: ' . $e->getMessage());
+        http_response_code(500);
         echo json_encode([
             'success' => false,
-            'message' => 'An error occurred: ' . $e->getMessage()
+            'message' => 'Registration failed due to a server error. Please try again.'
         ]);
     }
 } else {

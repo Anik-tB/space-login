@@ -186,6 +186,21 @@ try {
     error_log('Could not fetch disputes statistics: ' . $e->getMessage());
 }
 
+// Get Safety Score (New Feature)
+$safetyStats = [];
+try {
+    // 1. Calculate fresh score
+    // check if procedure exists first to avoid error on old DB
+    $procExists = $database->fetchOne("SELECT COUNT(*) as count FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA = DATABASE() AND ROUTINE_NAME = 'calculate_user_safety_score'");
+    if (($procExists['count'] ?? 0) > 0) {
+        $database->fetchOne("CALL calculate_user_safety_score(?)", [$userId]);
+        // 2. Fetch from view
+        $safetyStats = $database->fetchOne("SELECT * FROM vw_user_safety_summary WHERE user_id = ?", [$userId]);
+    }
+} catch (Exception $e) {
+    error_log('Error fetching safety stats: ' . $e->getMessage());
+}
+
 // Get recent activity (with error handling)
 $recentActivity = [];
 try {
@@ -353,12 +368,18 @@ try {
                 <div class="card p-4 bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group">
                     <div class="flex justify-between items-start mb-1">
                         <div class="p-1.5 bg-purple-500/20 rounded-md text-purple-400 group-hover:text-purple-300 transition-colors">
-                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] font-medium text-slate-400 bg-white/5 px-1.5 py-0.5 rounded uppercase tracking-wider">Status</span>
+                        <span class="text-[10px] font-medium text-slate-400 bg-white/5 px-1.5 py-0.5 rounded uppercase tracking-wider">Score</span>
                     </div>
-                    <div class="text-xl font-bold text-white mb-0.5">Verified</div>
-                    <div class="text-[11px] text-slate-400">Account Status</div>
+                    <div class="text-xl font-bold text-white mb-0.5"><?= number_format($safetyStats['safety_score'] ?? 5.0, 1) ?></div>
+                    <div class="text-[11px] text-slate-400">
+                        <?php if (isset($safetyStats['community_rank'])): ?>
+                            Rank #<?= $safetyStats['community_rank'] ?> (Top <?= number_format(100 - ($safetyStats['percentile'] ?? 0), 0) ?>%)
+                        <?php else: ?>
+                            Community Member
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
 

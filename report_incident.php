@@ -580,7 +580,7 @@ $draft = $_SESSION['report_draft'] ?? null;
         }
         .section-header:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
-            transform: translateY(-1px);
+            transform: translateY(-0.2px);
         }
 
         /* File List */
@@ -596,7 +596,7 @@ $draft = $_SESSION['report_draft'] ?? null;
         }
         .file-item:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
@@ -604,7 +604,7 @@ $draft = $_SESSION['report_draft'] ?? null;
             transition: transform 0.3s ease;
         }
         .file-item:hover .file-preview {
-            transform: scale(1.05);
+            transform: scale(1.01);
         }
 
         /* Animations */
@@ -615,11 +615,11 @@ $draft = $_SESSION['report_draft'] ?? null;
             animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-30px); }
+            from { opacity: 0; transform: translateX(-3px); }
             to { opacity: 1; transform: translateX(0); }
         }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(3px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -890,7 +890,11 @@ $draft = $_SESSION['report_draft'] ?? null;
                                                 <span id="mapToggleText">Pick from Map</span>
                                             </button>
                                         </div>
-                                        <p class="text-xs text-white/50 mt-1">Enter a recognizable name or click "Pick from Map" to select location</p>
+                                        <p class="text-xs text-white/50 mt-1">Map auto-detects location name — you can <strong class="text-yellow-300">manually edit</strong> it if the name is wrong (e.g. type "Vashatek Dawanpara")</p>
+                                        <div id="locationNameHint" class="hidden mt-2 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-xs text-yellow-200 flex items-center gap-2">
+                                            <i data-lucide="pencil" class="w-3 h-3 flex-shrink-0"></i>
+                                            <span>OpenStreetMap may not know exact local names in Bangladesh. Please verify and correct the location name above if needed.</span>
+                                        </div>
 
                                         <!-- Map Picker -->
                                         <div id="locationMapPicker">
@@ -1430,7 +1434,34 @@ $draft = $_SESSION['report_draft'] ?? null;
                     mapToggleText.textContent = 'Hide Map';
 
                     if (!locationMap) {
-                        initializeMap();
+                        // First time opening: try to get live location
+                        if (navigator.geolocation && !latitudeInput.value && !longitudeInput.value) {
+                            const coordDisplay = document.getElementById('coordinateDisplay');
+                            if (coordDisplay) {
+                                coordDisplay.textContent = '📍 Getting your live location...';
+                                coordDisplay.style.background = 'rgba(255, 193, 7, 0.8)';
+                            }
+                            navigator.geolocation.getCurrentPosition(
+                                function(position) {
+                                    const lat = position.coords.latitude;
+                                    const lng = position.coords.longitude;
+                                    initializeMap(lat, lng);
+                                    setTimeout(() => { locationMap.invalidateSize(); }, 200);
+                                },
+                                function(error) {
+                                    // Fallback to Dhaka center if location denied
+                                    initializeMap();
+                                    setTimeout(() => { locationMap.invalidateSize(); }, 200);
+                                },
+                                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                            );
+                        } else {
+                            initializeMap(
+                                latitudeInput.value ? parseFloat(latitudeInput.value) : null,
+                                longitudeInput.value ? parseFloat(longitudeInput.value) : null
+                            );
+                            setTimeout(() => { locationMap.invalidateSize(); }, 200);
+                        }
                     } else {
                         setTimeout(() => {
                             locationMap.invalidateSize();
@@ -1561,22 +1592,56 @@ $draft = $_SESSION['report_draft'] ?? null;
             const useCurrentBtn = document.getElementById('useCurrentLocation');
             if (useCurrentBtn) {
                 useCurrentBtn.addEventListener('click', function() {
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            function(position) {
-                                const lat = position.coords.latitude;
-                                const lng = position.coords.longitude;
-                                addMarker(lat, lng);
-                                updateLocationFields(lat, lng);
-                                locationMap.setView([lat, lng], 19); // Maximum zoom for precision
-                            },
-                            function(error) {
-                                alert('Unable to get your location. Please select from map.');
-                            }
-                        );
-                    } else {
-                        alert('Geolocation is not supported by your browser.');
+                    if (!navigator.geolocation) {
+                        showToast('Geolocation is not supported by your browser.', 'error');
+                        return;
                     }
+
+                    // Show loading state on button
+                    const originalHTML = useCurrentBtn.innerHTML;
+                    useCurrentBtn.innerHTML = '<span style="font-size:1.1em">⏳</span> <span>Locating...</span>';
+                    useCurrentBtn.disabled = true;
+
+                    const coordDisplay = document.getElementById('coordinateDisplay');
+                    if (coordDisplay) {
+                        coordDisplay.textContent = '📍 Getting your live location...';
+                        coordDisplay.style.background = 'rgba(255, 193, 7, 0.8)';
+                    }
+
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            addMarker(lat, lng);
+                            updateLocationFields(lat, lng);
+                            locationMap.setView([lat, lng], 19);
+                            // Restore button
+                            useCurrentBtn.innerHTML = originalHTML;
+                            useCurrentBtn.disabled = false;
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                            showToast('Live location detected successfully!', 'success');
+                        },
+                        function(error) {
+                            // Restore button
+                            useCurrentBtn.innerHTML = originalHTML;
+                            useCurrentBtn.disabled = false;
+                            if (typeof lucide !== 'undefined') lucide.createIcons();
+                            if (coordDisplay) {
+                                coordDisplay.textContent = 'Click on map to select location';
+                                coordDisplay.style.background = 'rgba(0,0,0,0.7)';
+                            }
+                            let msg = 'Unable to get your location. Please select from map.';
+                            if (error.code === error.PERMISSION_DENIED) {
+                                msg = 'Location permission denied. Please allow location access in your browser settings and try again.';
+                            } else if (error.code === error.POSITION_UNAVAILABLE) {
+                                msg = 'Location unavailable. Please check your GPS/network and try again.';
+                            } else if (error.code === error.TIMEOUT) {
+                                msg = 'Location request timed out. Please try again or select from map.';
+                            }
+                            showToast(msg, 'error');
+                        },
+                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                    );
                 });
             }
 
@@ -1629,8 +1694,8 @@ $draft = $_SESSION['report_draft'] ?? null;
                         const controller = new AbortController();
                         const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
-                        // Enhanced search with proper error handling
-                        const searchUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&bounded=1&viewbox=90.2,23.6,90.6,23.9&countrycodes=bd&addressdetails=1&extratags=1&email=contact@safespace.local`;
+                        // Search across all of Bangladesh (not bounded to tiny Dhaka box)
+                        const searchUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=10&countrycodes=bd&addressdetails=1&extratags=1&accept-language=en&email=contact@safespace.local`;
 
                         const response = await fetch(searchUrl, {
                             method: 'GET',
@@ -1754,16 +1819,16 @@ $draft = $_SESSION['report_draft'] ?? null;
             try {
                 // Create abort controller for timeout
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-                // Use higher zoom level for more detailed address
-                const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&extratags=1&namedetails=1&email=contact@safespace.local`;
+                // zoom=19 gives granular Bangladesh area data
+                const reverseUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=19&addressdetails=1&extratags=1&namedetails=1&accept-language=en&email=contact@safespace.local`;
 
                 const response = await fetch(reverseUrl, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
-                        'Accept-Language': 'en-US,en;q=0.9'
+                        'Accept-Language': 'en-US,en;q=0.9,bn;q=0.8'
                     },
                     referrerPolicy: 'no-referrer',
                     signal: controller.signal
@@ -1786,85 +1851,92 @@ $draft = $_SESSION['report_draft'] ?? null;
                 }
 
                 if (data && data.address) {
-                    // Build detailed location name with priority order
+                    const a = data.address;
+
+                    // Debug: log ALL available Nominatim fields
+                    console.log('[SafeSpace] Nominatim raw response:', JSON.stringify(data, null, 2));
+                    console.log('[SafeSpace] Address fields:', JSON.stringify(a, null, 2));
+
+                    // ── Priority chain for most-specific local name ──
+                    // hamlet > quarter > locality > residential >
+                    // neighbourhood > suburb > village > town > city_district > county > city
+                    const specificName =
+                        a.hamlet        ||
+                        a.quarter       ||
+                        a.locality      ||
+                        a.residential   ||
+                        a.neighbourhood ||
+                        a.suburb        ||
+                        a.village       ||
+                        a.town          ||
+                        a.municipality  ||
+                        a.city_district ||
+                        a.county        ||
+                        a.city          ||
+                        '';
+
+                    // Secondary context (next layer up from specificName)
+                    const contextName = specificName
+                        ? (a.suburb        && a.suburb !== specificName        ? a.suburb        :
+                           a.city_district && a.city_district !== specificName ? a.city_district :
+                           a.county        && a.county !== specificName        ? a.county        :
+                           a.city          && a.city !== specificName          ? a.city          : '')
+                        : '';
+
+                    // Road prefix
+                    const roadParts = [];
+                    if (a.house_number) roadParts.push(a.house_number);
+                    if (a.road)         roadParts.push(a.road);
+                    const roadStr = roadParts.join(', ');
+
+                    // Compose final location name
                     let locationName = '';
-                    let fullAddress = '';
-
-                    // Try to build a complete address from components
-                    const addressParts = [];
-
-                    // House/Building number
-                    if (data.address.house_number) {
-                        addressParts.push(data.address.house_number);
+                    if (specificName) {
+                        locationName = specificName;
+                        if (contextName) locationName += ', ' + contextName;
+                        if (roadStr)     locationName = roadStr + ', ' + locationName;
+                    } else if (roadStr) {
+                        locationName = roadStr;
+                        if (a.city) locationName += ', ' + a.city;
+                    } else if (data.display_name) {
+                        locationName = data.display_name.split(',').slice(0, 3).join(',').trim();
                     }
 
-                    // Road/Street name
-                    if (data.address.road) {
-                        addressParts.push(data.address.road);
+                    // Build comprehensive full address (avoid duplicates)
+                    const seen = new Set();
+                    const addUniq = (v) => { if (v && !seen.has(v)) { seen.add(v); return true; } return false; };
+                    const fullParts = [];
+                    [a.house_number, a.road, a.hamlet, a.quarter, a.locality,
+                     a.residential, a.neighbourhood, a.suburb, a.village, a.town,
+                     a.municipality, a.city_district, a.county, a.city,
+                     a.state, a.postcode, a.country]
+                     .forEach(v => { if (addUniq(v)) fullParts.push(v); });
+
+                    const fullAddress = fullParts.length > 0
+                        ? fullParts.join(', ')
+                        : (data.display_name || '');
+
+                    // ── Update form fields (always overwrite) ──
+                    if (locationNameInput) {
+                        locationNameInput.value = locationName || `Location at ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
                     }
 
-                    // Suburb/Area (like Dawanpara, Vashantek)
-                    if (data.address.suburb) {
-                        addressParts.push(data.address.suburb);
-                    } else if (data.address.neighbourhood) {
-                        addressParts.push(data.address.neighbourhood);
-                    } else if (data.address.village) {
-                        addressParts.push(data.address.village);
-                    }
-
-                    // Ward/Block
-                    if (data.address.city_district) {
-                        addressParts.push(data.address.city_district);
-                    }
-
-                    // Build location name (for location_name field)
-                    if (addressParts.length > 0) {
-                        locationName = addressParts.join(', ');
-                    } else {
-                        // Fallback: use display_name but extract meaningful parts
-                        if (data.display_name) {
-                            const parts = data.display_name.split(',');
-                            // Take first 2-3 meaningful parts
-                            locationName = parts.slice(0, 3).join(', ').trim();
-                        }
-                    }
-
-                    // Build full address (for address field)
-                    if (data.display_name) {
-                        fullAddress = data.display_name;
-                    } else if (addressParts.length > 0) {
-                        fullAddress = addressParts.join(', ');
-                        if (data.address.city) {
-                            fullAddress += ', ' + data.address.city;
-                        }
-                        if (data.address.state) {
-                            fullAddress += ', ' + data.address.state;
-                        }
-                        if (data.address.country) {
-                            fullAddress += ', ' + data.address.country;
-                        }
-                    }
-
-                    // Update location name field
-                    if (locationName && locationNameInput) {
-                        locationNameInput.value = locationName;
-                    } else if (locationNameInput && !locationNameInput.value) {
-                        // Fallback if no location name found
-                        locationNameInput.value = `Location at ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-                    }
-
-                    // Update address field if empty
                     const addressField = document.querySelector('textarea[name="address"]');
                     if (addressField) {
-                        if (!addressField.value || addressField.value.trim() === '') {
-                            addressField.value = fullAddress || data.display_name || '';
-                        }
+                        addressField.value = fullAddress;
                     }
 
-                    // Show success in coordinate display
+                    // Coordinate display
                     if (coordDisplay) {
                         coordDisplay.textContent = `✓ ${locationName || 'Location selected'}`;
                         coordDisplay.style.background = 'rgba(40, 167, 69, 0.8)';
+                    }
+
+                    // Show manual-edit hint (OSM may not have exact Bangladesh local names)
+                    const hintEl = document.getElementById('locationNameHint');
+                    if (hintEl) {
+                        hintEl.classList.remove('hidden');
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
                     }
                 } else {
                     // If no address data, use coordinates
@@ -1877,17 +1949,14 @@ $draft = $_SESSION['report_draft'] ?? null;
                     }
                 }
             } catch (error) {
-                console.error('Reverse geocoding error:', error);
-                // If reverse geocoding fails, use coordinates
+                console.error('[SafeSpace] Reverse geocoding error:', error);
                 if (locationNameInput && !locationNameInput.value) {
                     locationNameInput.value = `Location at ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
                 }
                 if (coordDisplay) {
-                    if (error.name === 'AbortError') {
-                        coordDisplay.textContent = `Selected: Lat ${lat.toFixed(8)}, Lng ${lng.toFixed(8)} (address lookup timeout)`;
-                    } else {
-                        coordDisplay.textContent = `Selected: Lat ${lat.toFixed(8)}, Lng ${lng.toFixed(8)}`;
-                    }
+                    coordDisplay.textContent = error.name === 'AbortError'
+                        ? `Selected: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)} (timeout - check internet)`
+                        : `Selected: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)}`;
                     coordDisplay.style.background = 'rgba(0, 0, 0, 0.7)';
                 }
             }

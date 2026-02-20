@@ -353,24 +353,25 @@ async function toggleHeatmap() {
     : 'Toggle Heatmap';
 }
 
-// Load heatmap data
+// Load heatmap data (Incidents Risk)
 async function loadHeatmap() {
   try {
     const bounds = map.getBounds();
     const bbox = `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
-    const zoom = map.getZoom();
 
+    // Fetch incident heatmap data (default 30 days)
     const response = await fetch(
-      `${API_BASE_URL}/leafnodes/heatmap?bbox=${bbox}&zoom=${zoom}`
+      `${API_BASE_URL}/incidents/heatmap?bbox=${bbox}&days=30`
     );
     if (!response.ok) throw new Error('Failed to fetch heatmap data');
 
     const geojson = await response.json();
 
-    // Prepare heatmap data
+    // Prepare heatmap data from incident weighted scores
     const heatmapData = geojson.features.map((f) => {
       const coords = f.geometry.coordinates;
-      return [coords[1], coords[0], f.properties.count];
+      // Use weighted_score for intensity (critical=4, high=3, med=2, low=1)
+      return [coords[1], coords[0], f.properties.weighted_score];
     });
 
     // Remove existing heatmap
@@ -380,18 +381,20 @@ async function loadHeatmap() {
 
     // Create new heatmap
     heatmapLayer = L.heatLayer(heatmapData, {
-      radius: 25,
-      blur: 15,
-      maxZoom: 17,
-      max: 10,
+      radius: 30, // Slightly larger radius for risk zones
+      blur: 20,
+      maxZoom: 15,
+      max: 20, // Higher max to account for accumulated weighted scores
       gradient: {
         0.0: 'blue',
-        0.5: 'lime',
+        0.4: 'lime',
+        0.7: 'yellow',
         1.0: 'red',
       },
     });
 
     map.addLayer(heatmapLayer);
+    console.log(`Loaded heatmap with ${geojson.features.length} points`);
   } catch (error) {
     console.error('Error loading heatmap:', error);
   }

@@ -386,6 +386,59 @@ app.get('/api/leafnodes/heatmap', async (req, res) => {
 });
 
 /**
+ * GET /api/incidents/heatmap
+ * Get incident risk heatmap using stored procedure
+ */
+app.get('/api/incidents/heatmap', async (req, res) => {
+  try {
+    const bbox = parseBBox(req.query.bbox);
+    if (!bbox) {
+      return res.status(400).json({ error: 'Invalid or missing bbox parameter' });
+    }
+
+    const daysBack = parseInt(req.query.days) || 30;
+
+    // Call stored procedure
+    // Note: get_incident_heatmap_data(lat_min, lat_max, lng_min, lng_max, days_back)
+    const [rows] = await pool.query(
+      'CALL get_incident_heatmap_data(?, ?, ?, ?, ?)',
+      [bbox.minLat, bbox.maxLat, bbox.minLng, bbox.maxLng, daysBack]
+    );
+
+    // Procedure returns result set in rows[0]
+    const results = rows[0] || [];
+
+    const features = results.map(row => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [parseFloat(row.grid_lng), parseFloat(row.grid_lat)]
+      },
+      properties: {
+        count: row.incident_count,
+        weighted_score: parseFloat(row.weighted_score),
+        danger_level: row.zone_danger_level,
+        categories: row.categories,
+        latest: row.latest_incident
+      }
+    }));
+
+    res.json({
+      type: 'FeatureCollection',
+      features: features,
+      metadata: {
+        count: features.length,
+        days: daysBack
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching incident heatmap:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+/**
  * GET /api/leafnodes/stats
  * Get statistics about leaf nodes
  */

@@ -153,7 +153,7 @@ $alerts = $models->getActiveAlerts();
 
         .filter-tab:hover {
             background: #f0f0f0;
-            transform: translateY(-1px);
+            transform: translateY(-0.2px);
         }
 
         .filter-tab.active {
@@ -195,7 +195,7 @@ $alerts = $models->getActiveAlerts();
         }
 
         .alert-item:hover {
-            transform: translateY(-3px) scale(1.01);
+            transform: translateY(-0.5px) scale(1.002);
             box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
             border-color: rgba(102, 126, 234, 0.3);
         }
@@ -374,7 +374,7 @@ $alerts = $models->getActiveAlerts();
 
         .map-control-btn:hover {
             background: white;
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
         }
 
@@ -472,7 +472,7 @@ $alerts = $models->getActiveAlerts();
 
         .map-control-btn:hover {
             background: #f8f9fa;
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 

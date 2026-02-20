@@ -435,7 +435,7 @@ a[style*='color: var(--text-tertiary)']:hover {
 
 .btn-primary:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: var(--shadow-lg), var(--shadow-primary);
 }
 
@@ -460,7 +460,7 @@ a[style*='color: var(--text-tertiary)']:hover {
     var(--secondary-600),
     var(--secondary-700)
   );
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: var(--shadow-lg), var(--shadow-secondary);
 }
 
@@ -492,7 +492,7 @@ a[style*='color: var(--text-tertiary)']:hover {
 
 .btn-danger:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--error-600), var(--error-700));
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: var(--shadow-lg), var(--shadow-error);
 }
 
@@ -543,7 +543,7 @@ a[style*='color: var(--text-tertiary)']:hover {
 
 .card:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  transform: translateY(-0.2px);
 }
 
 .card-glass {
@@ -559,7 +559,7 @@ a[style*='color: var(--text-tertiary)']:hover {
 
 .card-elevated:hover {
   box-shadow: var(--shadow-xl);
-  transform: translateY(-4px);
+  transform: translateY(-0.4px);
 }
 
 /* Card Header */
@@ -647,6 +647,42 @@ a[style*='color: var(--text-tertiary)']:hover {
 .form-input-success:focus {
   border-color: var(--success-500);
   box-shadow: 0 0 0 3px rgb(34 197 94 / 0.1);
+}
+
+/* -----------------------------------------------
+   SELECT OPTION VISIBILITY FIX
+   Browser renders <option> with native OS styling.
+   On dark-themed pages (white text), the dropdown
+   popup is white by default → white text invisible.
+   This forces a dark background on all options.
+----------------------------------------------- */
+select option {
+  background-color: #1e1040;
+  color: #f0e6ff;
+}
+select option:disabled,
+select option[value=""] {
+  color: rgba(200, 180, 255, 0.5);
+}
+
+/* .form-select — alias used in settings.php */
+.form-select {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  transition: all var(--transition-base);
+  min-height: 44px;
+  width: 100%;
+}
+.form-select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
 }
 
 /* Form Help Text */

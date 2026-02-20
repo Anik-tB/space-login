@@ -99,7 +99,7 @@ $emergencyResources = array_filter($resources, fn($r) => $r['is_24_7'] == 1);
         .resource-card:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-4px);
+            transform: translateY(-0.5px);
             box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
         }
 
@@ -133,7 +133,7 @@ $emergencyResources = array_filter($resources, fn($r) => $r['is_24_7'] == 1);
         .emergency-card:hover {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
             border-color: rgba(239, 68, 68, 0.5);
-            transform: translateY(-4px);
+            transform: translateY(-0.5px);
             box-shadow: 0 16px 48px rgba(239, 68, 68, 0.3);
         }
 
@@ -226,7 +226,7 @@ $emergencyResources = array_filter($resources, fn($r) => $r['is_24_7'] == 1);
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateX(-3px);
             }
             to {
                 opacity: 1;
@@ -237,7 +237,7 @@ $emergencyResources = array_filter($resources, fn($r) => $r['is_24_7'] == 1);
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(3px);
             }
             to {
                 opacity: 1;
@@ -248,7 +248,7 @@ $emergencyResources = array_filter($resources, fn($r) => $r['is_24_7'] == 1);
         @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.99);
             }
             to {
                 opacity: 1;

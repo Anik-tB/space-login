@@ -71,7 +71,7 @@ if (isset($_GET['error'])) {
         }
 
         .panic-button:hover {
-            transform: scale(1.05);
+            transform: scale(1.01);
             box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
         }
 
@@ -124,7 +124,7 @@ if (isset($_GET['error'])) {
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(2px);
             }
             to {
                 opacity: 1;
@@ -156,7 +156,7 @@ if (isset($_GET['error'])) {
         }
 
         .emergency-service-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
     </style>

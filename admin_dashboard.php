@@ -369,11 +369,9 @@ try {
         }
 
         $recentReports = $database->fetchAll(
-            "SELECT ir.id, ir.title, ir.category, ir.severity, ir.status,
-                    ir.reported_date, ir.location_name, u.display_name, u.email
-             FROM incident_reports ir
-             LEFT JOIN users u ON u.id = ir.user_id
-             ORDER BY ir.reported_date DESC
+            "SELECT id, title, category, severity, status, reported_date, location_name, reporter_name, reporter_email
+             FROM vw_active_incidents_with_user
+             ORDER BY reported_date DESC
              LIMIT 8"
         );
 
@@ -437,45 +435,43 @@ try {
     // --- Tabular data for detailed view -----------------------------------------
 
     if ($incidentTableExists) {
-        $tableSql    = "SELECT ir.*, u.email, u.display_name
-                        FROM incident_reports ir
-                        LEFT JOIN users u ON u.id = ir.user_id
-                        WHERE 1=1";
+        $tableSql    = "SELECT * FROM vw_active_incidents_with_user WHERE 1=1";
         $tableParams = [];
 
         if ($statusFilter !== 'all') {
-            $tableSql      .= " AND ir.status = ?";
+            $tableSql      .= " AND status = ?";
             $tableParams[] = $statusFilter;
         }
 
         if ($severityFilter !== 'all') {
-            $tableSql      .= " AND ir.severity = ?";
+            $tableSql      .= " AND severity = ?";
             $tableParams[] = $severityFilter;
         }
 
         if ($searchTerm !== '') {
             $likeTerm       = '%' . $searchTerm . '%';
-            $tableSql      .= " AND (ir.title LIKE ? OR ir.location_name LIKE ? OR u.email LIKE ?)";
+            $tableSql      .= " AND (title LIKE ? OR location_name LIKE ? OR reporter_email LIKE ?)";
             $tableParams[]  = $likeTerm;
             $tableParams[]  = $likeTerm;
             $tableParams[]  = $likeTerm;
         }
 
-        $tableSql .= " ORDER BY ir.reported_date DESC LIMIT ?";
+        $tableSql .= " ORDER BY reported_date DESC LIMIT ?";
         $tableParams[] = 25;
 
         $tableData = $database->fetchAll($tableSql, $tableParams);
 
         // Total for filters overview
-        $countSql    = "SELECT COUNT(*) as count FROM incident_reports ir LEFT JOIN users u ON u.id = ir.user_id WHERE 1=1";
+        // Total for filters overview
+        $countSql    = "SELECT COUNT(*) as count FROM vw_active_incidents_with_user WHERE 1=1";
         $countParams = [];
 
         if ($statusFilter !== 'all') {
-            $countSql      .= " AND ir.status = ?";
+            $countSql      .= " AND status = ?";
             $countParams[]  = $statusFilter;
         }
         if ($severityFilter !== 'all') {
-            $countSql      .= " AND ir.severity = ?";
+            $countSql      .= " AND severity = ?";
             $countParams[]  = $severityFilter;
         }
         if ($searchTerm !== '') {
@@ -483,7 +479,7 @@ try {
                 // reuse same condition to keep parameters aligned
             }
             $likeTerm       = '%' . $searchTerm . '%';
-            $countSql      .= " AND (ir.title LIKE ? OR ir.location_name LIKE ? OR u.email LIKE ?)";
+            $countSql      .= " AND (title LIKE ? OR location_name LIKE ? OR reporter_email LIKE ?)";
             $countParams[]  = $likeTerm;
             $countParams[]  = $likeTerm;
             $countParams[]  = $likeTerm;
@@ -504,11 +500,10 @@ try {
     // Pending incident reports
     if ($incidentTableExists) {
         $pendingReports = $database->fetchAll(
-            "SELECT ir.*, u.email, u.display_name
-             FROM incident_reports ir
-             LEFT JOIN users u ON u.id = ir.user_id
-             WHERE ir.status = 'pending'
-             ORDER BY ir.reported_date DESC
+            "SELECT *, reporter_email as email, reporter_name as display_name
+             FROM vw_active_incidents_with_user
+             WHERE status = 'pending'
+             ORDER BY reported_date DESC
              LIMIT 20"
         );
     }
@@ -1022,7 +1017,7 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                                 <span class="feed-pill severity-<?= htmlspecialchars($report['severity']); ?>"></span>
                                 <div class="feed-body">
                                     <strong><?= htmlspecialchars(mb_strimwidth($report['title'], 0, 35, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></strong>
-                                    <small><?= htmlspecialchars(ucwords(str_replace('_', ' ', $report['status'])), ENT_QUOTES, 'UTF-8'); ?> • <?= date('d M H:i', strtotime($report['reported_date'])); ?></small>
+                                    <small><?= htmlspecialchars(ucwords(str_replace('_', ' ', $report['status'])), ENT_QUOTES, 'UTF-8'); ?> • <?= date('d M H:i', strtotime($report['reported_date'])); ?> • By: <?= htmlspecialchars($report['reporter_name'] ?: $report['reporter_email'] ?: 'Anonymous', ENT_QUOTES, 'UTF-8'); ?></small>
                                 </div>
                                 <a href="view_report.php?id=<?= (int)$report['id']; ?>" class="feed-btn-view" title="View full report">View</a>
                             </li>
@@ -1154,7 +1149,7 @@ $recordCounts = $systemDiagnostics['record_counts'] ?? [];
                                 <td>
                                     <strong style="display: block; margin-bottom: 4px;"><?= htmlspecialchars(mb_strimwidth($row['title'], 0, 40, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></strong>
                                 </td>
-                                <td><?= htmlspecialchars(mb_strimwidth($row['display_name'] ?: $row['email'] ?: 'Anonymous', 0, 20, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?= htmlspecialchars(mb_strimwidth($row['reporter_name'] ?: $row['reporter_email'] ?: 'Anonymous', 0, 20, '…', 'UTF-8'), ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?= htmlspecialchars(ucwords($row['category']), ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><span class="tag severity-<?= htmlspecialchars($row['severity'], ENT_QUOTES, 'UTF-8'); ?>"><?= ucwords($row['severity']); ?></span></td>
                                 <td><span class="tag status-<?= htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>"><?= ucwords(str_replace('_', ' ', $row['status'])); ?></span></td>

@@ -157,7 +157,7 @@ function getDisputableReports($database, $userId) {
             position: absolute;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            animation: float 15s ease-in-out infinite;
         }
 
         .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
@@ -172,9 +172,9 @@ function getDisputableReports($database, $userId) {
 
         @keyframes float {
             0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10px) rotate(36deg); opacity: 0; }
         }
 
         /* Liquid Wave Effect */
@@ -247,7 +247,7 @@ function getDisputableReports($database, $userId) {
         }
 
         .btn-liquid:hover {
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
@@ -283,9 +283,9 @@ function getDisputableReports($database, $userId) {
 
         @keyframes liquidMorph {
             0%, 100% { border-radius: 12px; }
-            25% { border-radius: 15px 8px 15px 8px; }
-            50% { border-radius: 8px 15px 8px 15px; }
-            75% { border-radius: 15px 8px 8px 15px; }
+            25% { border-radius: 12.3px 11.8px 12.3px 11.8px; }
+            50% { border-radius: 11.8px 12.3px 11.8px 12.3px; }
+            75% { border-radius: 12.3px 11.8px 11.8px 12.3px; }
         }
 
         /* Hover effects */
@@ -294,7 +294,7 @@ function getDisputableReports($database, $userId) {
         }
 
         .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-1px) scale(1.005);
             box-shadow:
                 0 25px 50px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -306,7 +306,7 @@ function getDisputableReports($database, $userId) {
         }
 
         .btn-animate:hover {
-            transform: translateY(-2px) scale(1.05);
+            transform: translateY(-0.3px) scale(1.01);
         }
 
         .btn-animate:active {
@@ -323,7 +323,7 @@ function getDisputableReports($database, $userId) {
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(2px);
             }
             to {
                 opacity: 1;
@@ -334,7 +334,7 @@ function getDisputableReports($database, $userId) {
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(4px);
             }
             to {
                 opacity: 1;
@@ -345,7 +345,7 @@ function getDisputableReports($database, $userId) {
         @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.99);
             }
             to {
                 opacity: 1;
@@ -356,14 +356,14 @@ function getDisputableReports($database, $userId) {
         @keyframes bounceIn {
             0% {
                 opacity: 0;
-                transform: scale(0.3);
+                transform: scale(0.97);
             }
             50% {
                 opacity: 1;
-                transform: scale(1.05);
+                transform: scale(1.005);
             }
             70% {
-                transform: scale(0.9);
+                transform: scale(0.99);
             }
             100% {
                 opacity: 1;
@@ -374,7 +374,7 @@ function getDisputableReports($database, $userId) {
         @keyframes slideInLeft {
             from {
                 opacity: 0;
-                transform: translateX(-40px);
+                transform: translateX(-4px);
             }
             to {
                 opacity: 1;
@@ -385,7 +385,7 @@ function getDisputableReports($database, $userId) {
         @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateX(40px);
+                transform: translateX(4px);
             }
             to {
                 opacity: 1;

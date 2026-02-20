@@ -4,6 +4,9 @@ $lang = $_SESSION['lang'] ?? 'en';
 $lang_file = $lang === 'bn' ? 'lang_bn.php' : 'lang_en.php';
 $L = include($lang_file);
 
+require_once 'includes/error_handler.php';
+require_once 'includes/security.php';
+
 // Include database handler
 require_once 'includes/Database.php';
 
@@ -31,7 +34,8 @@ if ($action === 'delete' && $reportId) {
             $error = "Report not found or access denied.";
         }
     } catch (Exception $e) {
-        $error = "Error deleting report: " . $e->getMessage();
+        error_log('my_reports delete error: ' . $e->getMessage());
+        $error = "Error deleting report. Please try again.";
     }
 }
 
@@ -130,7 +134,7 @@ $userStats = [
         .liquid-glass-hover:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
@@ -164,7 +168,7 @@ $userStats = [
         .stat-card:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-4px);
+            transform: translateY(-0.5px);
             box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
         }
 
@@ -199,7 +203,7 @@ $userStats = [
         .report-card:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
@@ -265,7 +269,7 @@ $userStats = [
         }
 
         .btn-liquid:hover {
-            transform: translateY(-2px);
+            transform: translateY(-0.3px);
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
         }
 
@@ -320,7 +324,7 @@ $userStats = [
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateX(-3px);
             }
             to {
                 opacity: 1;
@@ -331,7 +335,7 @@ $userStats = [
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(3px);
             }
             to {
                 opacity: 1;
@@ -342,7 +346,7 @@ $userStats = [
         @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.99);
             }
             to {
                 opacity: 1;
@@ -371,7 +375,7 @@ $userStats = [
         .page-btn:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
+            transform: translateY(-0.2px);
         }
 
         .page-btn.active {
@@ -818,5 +822,14 @@ $userStats = [
             categoryFilter.addEventListener('change', autoSubmit);
         });
     </script>
+
+    <!-- Toast notification bridge (PHP → JS) -->
+    <script src="js/toast.js"></script>
+    <?php if (!empty($message)): ?>
+    <div data-toast="<?= htmlspecialchars($message, ENT_QUOTES) ?>" data-toast-type="success" hidden></div>
+    <?php endif; ?>
+    <?php if (!empty($error)): ?>
+    <div data-toast="<?= htmlspecialchars($error, ENT_QUOTES) ?>" data-toast-type="error" hidden></div>
+    <?php endif; ?>
 </body>
 </html>

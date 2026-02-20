@@ -484,7 +484,7 @@ a {
 }
 
 .btn-view-all-reports:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
@@ -617,7 +617,7 @@ a {
 }
 
 .btn-create-alert:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
 }
 
@@ -801,7 +801,7 @@ a {
 }
 
 .alert-card__btn--edit:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
 }
 
@@ -812,7 +812,7 @@ a {
 }
 
 .alert-card__btn--delete:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
 }
 
@@ -1045,7 +1045,7 @@ a {
 .feed li:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
-  transform: translateX(2px);
+  transform: translateX(0.3px);
 }
 
 .admin-body.dark-theme .feed li:hover {
@@ -1128,7 +1128,7 @@ a {
 }
 
 .feed-btn-view:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.2px);
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 

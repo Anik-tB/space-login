@@ -4,6 +4,9 @@ $lang = $_SESSION['lang'] ?? 'en';
 $lang_file = $lang === 'bn' ? 'lang_bn.php' : 'lang_en.php';
 $L = include($lang_file);
 
+require_once 'includes/error_handler.php';
+require_once 'includes/security.php';
+
 // Include database handler
 require_once 'includes/Database.php';
 
@@ -557,35 +560,13 @@ if (!$preferences) {
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <script src="dashboard-enhanced.js"></script>
-
-    <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // Update range value display
-        const alertRadius = document.getElementById('alert-radius');
-        const radiusValue = document.getElementById('radius-value');
-        if (alertRadius && radiusValue) {
-            alertRadius.addEventListener('input', function() {
-                radiusValue.textContent = this.value + ' km';
-            });
-        }
-
-        // Auto-hide messages
-        setTimeout(() => {
-            const messages = document.querySelectorAll('.card.border-l-4');
-            messages.forEach((msg, index) => {
-                setTimeout(() => {
-                    msg.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                    msg.style.opacity = '0';
-                    msg.style.transform = 'translateY(-30px) scale(0.95)';
-                    setTimeout(() => msg.remove(), 800);
-                }, 6000 + (index * 300));
-            });
-        }, 1000);
-    </script>
+    <!-- Toast notification bridge (PHP → JS) -->
+    <script src="js/toast.js"></script>
+    <?php if (!empty($success)): ?>
+    <div data-toast="<?= htmlspecialchars($success, ENT_QUOTES) ?>" data-toast-type="success" hidden></div>
+    <?php endif; ?>
+    <?php foreach ($errors as $err): ?>
+    <div data-toast="<?= htmlspecialchars($err, ENT_QUOTES) ?>" data-toast-type="error" hidden></div>
+    <?php endforeach; ?>
 </body>
 </html>

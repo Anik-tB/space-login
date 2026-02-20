@@ -1,10 +1,18 @@
 <?php
 session_start();
 
-// Enable CORS for AJAX requests
-header('Access-Control-Allow-Origin: *');
+require_once __DIR__ . '/includes/error_handler.php';
+require_once __DIR__ . '/includes/security.php';
+
+// ─── Restrict CORS to same origin / localhost only ───────────────────────────
+$allowedOrigins = ['http://localhost', 'http://127.0.0.1', 'http://localhost:80'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+}
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
 header('Content-Type: application/json');
 
 // Handle preflight requests
@@ -84,29 +92,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Rate limiting: 5 login attempts per 5 minutes
+    if (!checkRateLimit('login_' . md5($_SERVER['REMOTE_ADDR']), 5, 300)) {
+        http_response_code(429);
+        echo json_encode([
+            'success'    => false,
+            'message'    => 'Too many login attempts. Please wait 5 minutes.',
+            'error_code' => 'RATE_LIMITED'
+        ]);
+        exit;
+    }
+
     // Sanitize inputs
-    $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+    $username = sanitizeString($username, 255);
 
     // Attempt authentication
     if (authenticateUser($username, $password)) {
         createUserSession($username);
+        // Regenerate session ID on login to prevent session fixation
+        session_regenerate_id(true);
 
         echo json_encode([
-            'success' => true,
-            'message' => 'Login successful! Welcome to the cosmos.',
-            'user' => [
-                'username' => $username,
-                'login_time' => date('Y-m-d H:i:s')
-            ],
+            'success'   => true,
+            'message'   => 'Login successful! Welcome to SafeSpace.',
+            'user'      => ['username' => $username, 'login_time' => date('Y-m-d H:i:s')],
             'redirect_url' => 'dashboard.php'
         ]);
     } else {
-        // Log failed login attempt
         error_log("Failed login attempt for username: $username from IP: " . $_SERVER['REMOTE_ADDR']);
-
+        http_response_code(401);
         echo json_encode([
-            'success' => false,
-            'message' => 'Invalid credentials. Access denied.',
+            'success'    => false,
+            'message'    => 'Invalid credentials. Access denied.',
             'error_code' => 'INVALID_CREDENTIALS'
         ]);
     }

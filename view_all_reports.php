@@ -52,11 +52,10 @@ if ($severityFilter !== 'all') {
 }
 
 if ($searchTerm !== '') {
-    $likeTerm = '%' . $searchTerm . '%';
-    $tableSql .= " AND (ir.title LIKE ? OR ir.location_name LIKE ? OR u.email LIKE ?)";
-    $tableParams[] = $likeTerm;
-    $tableParams[] = $likeTerm;
-    $tableParams[] = $likeTerm;
+    // Use FULLTEXT search index (ft_report_search)
+    // Mode: BOOLEAN MODE allows +required -exclude "exact phrase" operators
+    $tableSql .= " AND MATCH(ir.title, ir.description, ir.location_name) AGAINST(? IN BOOLEAN MODE)";
+    $tableParams[] = $searchTerm;
 }
 
 $tableSql .= " ORDER BY ir.reported_date DESC";

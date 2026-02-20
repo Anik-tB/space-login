@@ -4,6 +4,8 @@ $lang = $_SESSION['lang'] ?? 'en';
 $lang_file = $lang === 'bn' ? 'lang_bn.php' : 'lang_en.php';
 $L = include($lang_file);
 
+require_once 'includes/error_handler.php';
+require_once 'includes/security.php';
 require_once 'includes/Database.php';
 
 $database = new Database();
@@ -145,27 +147,7 @@ if (isset($_GET['edit'])) {
                 </div>
             </section>
 
-            <?php if ($message): ?>
-                <div class="mb-6 card card-glass border-l-4 border-green-500">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>
-                            <p class="text-green-300"><?= htmlspecialchars($message) ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($error): ?>
-                <div class="mb-6 card card-glass border-l-4 border-red-500">
-                    <div class="card-body">
-                        <div class="flex items-center">
-                            <i data-lucide="alert-circle" class="w-5 h-5 text-red-500 mr-3"></i>
-                            <p class="text-red-300"><?= htmlspecialchars($error) ?></p>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
+        <?php /* Messages are now rendered via toast.js after DOM load */ ?>
 
             <!-- Add/Edit Contact Form -->
             <section class="mb-8">
@@ -324,6 +306,13 @@ if (isset($_GET['edit'])) {
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="dashboard-enhanced.js"></script>
+    <script src="js/toast.js"></script>
+    <?php if ($message): ?>
+    <div data-toast="<?= htmlspecialchars($message, ENT_QUOTES) ?>" data-toast-type="success" hidden></div>
+    <?php endif; ?>
+    <?php if ($error): ?>
+    <div data-toast="<?= htmlspecialchars($error, ENT_QUOTES) ?>" data-toast-type="error" hidden></div>
+    <?php endif; ?>
     <script>
         lucide.createIcons();
     </script>
