@@ -22,28 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Database configuration (you can modify these values)
 $host = 'localhost';
-$db   = 'space-login';
+$db = 'space_login';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
 try {
-     $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-     throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    $pdo = new PDO($dsn, $user, $pass, $options);
+}
+catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
 // For demo purposes, we'll use a simple authentication
 // In production, you should use a proper database and password hashing
 
-function authenticateUser($username, $password) {
+function authenticateUser($username, $password)
+{
     global $pdo;
     // Check database for user
     $stmt = $pdo->prepare('SELECT password FROM users WHERE username = ?');
@@ -55,13 +57,15 @@ function authenticateUser($username, $password) {
     return false;
 }
 
-function createUserSession($username) {
+function createUserSession($username)
+{
     $_SESSION['user_id'] = $username;
     $_SESSION['login_time'] = time();
     $_SESSION['is_authenticated'] = true;
 }
 
-function validateSession() {
+function validateSession()
+{
     if (isset($_SESSION['is_authenticated']) && $_SESSION['is_authenticated'] === true) {
         // Check if session is not expired (24 hours)
         if (time() - $_SESSION['login_time'] < 86400) {
@@ -96,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!checkRateLimit('login_' . md5($_SERVER['REMOTE_ADDR']), 5, 300)) {
         http_response_code(429);
         echo json_encode([
-            'success'    => false,
-            'message'    => 'Too many login attempts. Please wait 5 minutes.',
+            'success' => false,
+            'message' => 'Too many login attempts. Please wait 5 minutes.',
             'error_code' => 'RATE_LIMITED'
         ]);
         exit;
@@ -113,17 +117,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         session_regenerate_id(true);
 
         echo json_encode([
-            'success'   => true,
-            'message'   => 'Login successful! Welcome to SafeSpace.',
-            'user'      => ['username' => $username, 'login_time' => date('Y-m-d H:i:s')],
+            'success' => true,
+            'message' => 'Login successful! Welcome to SafeSpace.',
+            'user' => ['username' => $username, 'login_time' => date('Y-m-d H:i:s')],
             'redirect_url' => 'dashboard.php'
         ]);
-    } else {
+    }
+    else {
         error_log("Failed login attempt for username: $username from IP: " . $_SERVER['REMOTE_ADDR']);
         http_response_code(401);
         echo json_encode([
-            'success'    => false,
-            'message'    => 'Invalid credentials. Access denied.',
+            'success' => false,
+            'message' => 'Invalid credentials. Access denied.',
             'error_code' => 'INVALID_CREDENTIALS'
         ]);
     }
@@ -150,7 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
                 'login_time' => date('Y-m-d H:i:s', $_SESSION['login_time'])
             ]
         ]);
-    } else {
+    }
+    else {
         echo json_encode([
             'success' => true,
             'authenticated' => false

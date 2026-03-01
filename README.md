@@ -6,6 +6,14 @@ A comprehensive web-based safety platform designed to empower women and public c
 
 SafeSpace is a full-stack web application that provides a secure environment for reporting safety incidents, tracking safety zones, accessing emergency services, and building community support networks. The platform combines modern web technologies with real-time communication to create a responsive and reliable safety ecosystem.
 
+## 🎬 Demo Video
+
+[![SafeSpace Demo](https://img.youtube.com/vi/4q2guKDmXN0/maxresdefault.jpg)](https://youtu.be/4q2guKDmXN0)
+
+▶️ **[Watch the full demo on YouTube](https://youtu.be/4q2guKDmXN0)**
+
+---
+
 ## ✨ Key Features
 
 ### 🔐 Authentication & User Management
