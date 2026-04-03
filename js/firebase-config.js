@@ -1,10 +1,10 @@
 const firebaseConfig = {
     apiKey: 'YOUR_FIREBASE_API_KEY_HERE',
-    authDomain: 'space-21c7e.firebaseapp.com',
-    projectId: 'space-21c7e',
-    storageBucket: 'space-21c7e.firebasestorage.app',
-    messagingSenderId: '980510379589',
-    appId: '1:980510379589:web:a65a6ffd4a97b62282dd2c',
-    measurementId: 'G-EPV8W821GK',
+    authDomain: 'YOUR_AUTH_DOMAIN_HERE',
+    projectId: 'YOUR_PROJECT_ID_HERE',
+    storageBucket: 'YOUR_STORAGE_BUCKET_HERE',
+    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID_HERE',
+    appId: 'YOUR_APP_ID_HERE',
+    measurementId: 'YOUR_MEASUREMENT_ID_HERE',
 };
 firebase.initializeApp(firebaseConfig);
